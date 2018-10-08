@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, View} from 'react-native';
+import {Button, Text, View} from 'react-native';
 import axios from 'axios';
 import MenuItem from './MenuItem';
 
@@ -22,6 +22,7 @@ class Menu extends Component {
         return (
             <View>
                 {this.renderItems()}
+                <Text>This will be the individual details of the menu item. TEST IF CAN SEE CHANGE </Text>
                 <Button
                     title = "Click into item!!"
                     onPress={() =>

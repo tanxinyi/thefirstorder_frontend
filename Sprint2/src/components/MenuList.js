@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, StyleSheet, Text, ScrollView, Image, PressRetentionOffset as right} from 'react-native';
 import axios from "axios";
-
+import { Header, Button } from 'react-native-elements';
+import "react-native-vector-icons";
 
 class MenuList extends Component {
     state = {
@@ -33,8 +34,17 @@ class MenuList extends Component {
     render() {
         const { navigate } = this.props.navigation;
         return (
-            <View>
-                <Text> MENU LIST</Text>
+
+            <View style={styles.container}>
+                <Header
+                    leftComponent={{ icon: 'menu', onPress: () => console.log('pressed') }}
+                    centerComponent={{ text: 'MENU' }}
+                    rightComponent={{icon: 'home'}}
+                />
+
+
+
+                <Text> This is where the different categories will be at. Can click into differnt categories to go into individual catgory.  </Text>
                 <Text>{this.state.table}</Text>
 
                 <Button
@@ -44,10 +54,33 @@ class MenuList extends Component {
                         )
                     }
                 />
+
             </View>
 
         );
     }
 }
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#ecf0f1',
+    },
+    paragraph: {
+        margin: 24,
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: '#34495e',
+    },
+});
+
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+
+const customTextButton = (
+    <Icon.Button name="facebook" backgroundColor="#3b5998">
+        <Text style={{fontFamily: 'Arial', fontSize: 15}}>Login with Facebook</Text>
+    </Icon.Button>
+)
 
 export default MenuList;

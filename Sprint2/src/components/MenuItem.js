@@ -5,6 +5,7 @@ import {Text, View} from 'react-native';
 const MenuItem = (props) => {
     return (
         <View>
+            <Text>This will be the individual details of the menu item.</Text>
             <Text>Item Name: {props.menuItem.itemName}</Text>
             <Text>Category: {props.menuItem.category}</Text>
             <Text></Text>
