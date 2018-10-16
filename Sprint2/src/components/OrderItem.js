@@ -28,12 +28,6 @@ class OrderItem extends Component<Props> {
     render(){
         const { navigate } = this.props.navigation;
 
-        /*
-        this.navigate("Cart", {
-            name: "Cart Screen",
-            about:"This is Cart Screen Page"
-        });
-        */
         return (
             <View style={styles.container}>
                 <Image

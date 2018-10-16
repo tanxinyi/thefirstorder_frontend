@@ -1,30 +1,59 @@
-import React from 'react';
-import {Button, View, Text, StyleSheet, Image, TextInput} from 'react-native';
+'use strict';
+import React, {Component} from 'react';
+// depending on what you need, you import such components, like text.
+import {Linking, View, Text, StyleSheet, Image, TextInput, Picker, TouchableOpacity} from 'react-native';
+// stack navigator is for pages navigation
 import { StackNavigator } from 'react-navigation';
+// import different JS classes that are used
 import MenuList from './src/components/MenuList';
 import Menu from "./src/components/Menu";
 import OrderItem from "./src/components/OrderItem";
 import Cart from "./src/components/Cart";
-
-
+import QRCodeScanner from "react-native-qrcode-scanner";
 
 class HomeScreen extends React.Component {
+
     static navigationOptions = {
-        title: "MakanNow HomePage",
+        title: "MakaNow HomePage",
     };
 
     constructor(props){
         super(props);
         this.state={
-            qrCode:''
+            qrCode:'',
         }
         this.navigate = this.props.navigation.navigate;
     };
 
     render(){
         const { navigate } = this.props.navigation;
+
         return(
-            <View>
+            /*
+            <QRCodeScanner
+
+                onRead={(e) =>
+                    navigate('MenuList', {
+                        qrCodeString : e.data
+                    })
+                }
+
+                topContent={
+                    <Text style={styles.centerText}>
+                        Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on your computer and scan the QR code.
+                    </Text>
+                }
+                bottomContent={
+                    <TouchableOpacity style={styles.buttonTouchable}>
+                        <Text style={styles.buttonText}>OK. Got it!</Text>
+                    </TouchableOpacity>
+                }
+            />
+            */
+
+
+            <View style={ {flex:1} }>
+
                 <Image source={require('./src/images/qrcode.png')} style={styles.image} />
                 <Text style = {styles.label}>Scan QR Code on the Table</Text>
                 <Text style = {styles.label}>---------------------------------- OR ----------------------------------</Text>
@@ -35,19 +64,26 @@ class HomeScreen extends React.Component {
                     placeholder = 'i.e PbJ3i8'
                     name={"qrCode"}
                     id={"qrCode"}
-                    onChangeText={(tableId) => this.setState({tableId})}
-                />
+                    value = {this.state.qrCode}
+                    onChangeText= {(tableValue ) => this.setState({qrCode: tableValue})}>
 
-                <Button
-                    title = "enter"
-                    onPress ={() =>
-                        navigate('MenuList',{ qrCode: this.state.qrCode} )
-                    }
+                </TextInput>
 
-                />
+                <TouchableOpacity onPress ={() =>
+                    navigate('MenuList', {
+                        qrCodeString: this.state.qrCode
+                    })
+                } >
+                    <Text style = {styles.button}>
+                        button name
+                    </Text>
+
+                </TouchableOpacity >
 
             </View>
-        );
+
+
+        )
     }
 }
 
@@ -86,6 +122,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
+    button: {
+        backgroundColor: "rgba(92, 99,216, 1)",
+        width: 300,
+        height: 300,
+        borderColor: "transparent",
+        borderWidth: 0,
+        borderRadius: 5
+    },
+
     container: {
         flex: 1,
         backgroundColor: '#fff',
@@ -97,6 +142,7 @@ const styles = StyleSheet.create({
     },
 
     searchInput:{
+
         top:10,
         bottom: 40,
         height: 40,
@@ -120,24 +166,18 @@ const styles = StyleSheet.create({
         marginRight: 5,
         marginTop: 10,
     },
-
+/*
     buttonText:{
         fontSize: 18,
         color: 'white',
         alignSelf:'center'
     },
-
-    button:{
-        top:30,
-        height:40,
-        backgroundColor: '#48BBEC',
-        borderColor:'#48BBEC',
-        width:120,
-        alignSelf:'center',
-        justifyContent:'center',
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 10,
+*/
+    buttonStyle:{
+        color: 'red',
+        marginTop: 20,
+        padding: 20,
+        backgroundColor: 'green'
     },
 
 
@@ -150,5 +190,24 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 5,
         marginTop: 10,
-    }
-});
+    },
+    centerText: {
+        flex: 1,
+        fontSize: 18,
+        padding: 32,
+        color: '#777',
+    },
+    textBold: {
+        fontWeight: '500',
+        color: '#000',
+    },
+    buttonText: {
+        fontSize: 21,
+        color: 'rgb(0,122,255)',
+    },
+    buttonTouchable: {
+        padding: 16,
+    },
+
+})
+

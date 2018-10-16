@@ -6,6 +6,11 @@ import MenuItem from './MenuItem';
 class Menu extends Component {
     state = {menuItems: []};
 
+    constructor(props) {
+        super(props);
+        this.params = this.props.navigation.state.params;
+    }
+
     componentWillMount() {
         // Returns a promise
         axios.get('')
@@ -13,7 +18,7 @@ class Menu extends Component {
     }
 
     renderItems() {
-        return this.state.menuItems.map(item => <MenuItem key={item.itemName} menuItem={item}/>);
+        return this.state.menuItems.map(item => <MenuItem key={item.foodId} menuItem={item}/>);
     }
 
     render() {

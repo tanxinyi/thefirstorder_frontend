@@ -6,10 +6,11 @@ const MenuItem = (props) => {
     return (
         <View>
             <Text>This will be the individual details of the menu item.</Text>
-            <Text>Item Name: {props.menuItem.itemName}</Text>
+            <Text>Item Id: {props.menuItem.foodId}</Text>
+            <Text>Name: {props.menuItem.name}</Text>
+            <Text>Description: {props.menuItem.description}</Text>
             <Text>Category: {props.menuItem.category}</Text>
-            <Text></Text>
-            <Text>Price: {props.menuItem.price}</Text>
+            <Text>Tags: {props.menuItem.tags}</Text>
         </View>
     );
 };
