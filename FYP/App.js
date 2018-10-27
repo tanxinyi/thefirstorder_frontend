@@ -28,7 +28,7 @@ class HomeScreen extends React.Component {
 
 
 
-                <TouchableOpacity onPress={()=>navigate('BillingPage')}>
+                <TouchableOpacity onPress={()=>navigate('ScanningPage')}>
                     <Image source={require('./src/images/qrcode.png')} style={styles.image}/>
                 </TouchableOpacity>
 

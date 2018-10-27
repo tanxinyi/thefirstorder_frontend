@@ -3,6 +3,7 @@ import {View, StyleSheet, Text, ScrollView, Image, PressRetentionOffset as right
 import axios from "axios";
 import { Header, Button } from 'react-native-elements';
 import "react-native-vector-icons";
+import Category from './Category';
 
 class MenuList extends Component {
     state = {
@@ -31,43 +32,6 @@ class MenuList extends Component {
         },
         categories: [],
         foodPrice: [],
-
-        /*
-        menuOverview: {
-            menuId:'',
-            restaurant: {
-                restaurantId: '',
-                name:'',
-                description:'',
-                contactNumber:'',
-                street:'',
-                postalCode:'',
-                cuisine:''
-            },
-            dateOfCreation: '',
-            foodPrices: [
-               {
-                    price: '',
-                    availability: '',
-                    foodCustomisations: [],
-                    food: {
-                        foodId: '',
-                        name: '',
-                        description: '',
-                        category: '',
-                        tags: [
-                            {
-                                foodTagId: '',
-                                description: ''
-                            }
-                        ]
-                    }
-                },
-            ]
-
-
-        }
-        */
 
     }
 
@@ -104,11 +68,20 @@ class MenuList extends Component {
                 const request = prefix + '/restaurants/' + restaurantId + '/menu'
                 axios.get(request)
                     .then(response => {
+                        //set menu based on restaurantID
+                        //response as below for R002
+                        /*
+                        {
+                            "menuId": "M002",
+                            "dateOfCreation": "2018-01-01"
+                        }
+                         */
                         this.setState({menu: response.data});
 
+                        //extract menuID
                         const menuId = response.data.menuId;
                         console.log(menuId);
-                        const request = prefix + 'menu/'+ menuId +'/categories'
+                        const request = prefix + '/menu/'+ menuId +'/categories'
                         axios.get(request)
                             .then(response =>{
                                 this.setState({categories: response.data})
@@ -116,24 +89,11 @@ class MenuList extends Component {
                             }).catch(response => console.log('request link: ' + request + '              error: ' + response));
                     }).catch(response => console.log('request link: ' + request + '              error: ' + response));
             }).catch(response => console.log('request link: ' + request + '              error: ' + response));
-
-        // here we need to make restuarnt id dyamic
-        /*
-        const request2 = 'http://' + ip + ':8080/' + 'api/restaurants/R002/menu/'
-       // const request2 = 'http://10.168.1.20:8080/api/restaurants/R002/menu'
-        axios.get(request2)
-            .then(response => {
-                this.setState({menuOverview: response.data});
-            }).catch(response => console.log('request link: ' + request2 + '              error: ' + response));
-        */
     };
-    //THIS STATEMENT GOT PROBLEM, if we remove .food, it is ok. but no items render
-    /*
-    renderItems() {
-        console.log('hello');
-        return this.state.menuOverview.foodPrices.map(item => <FoodPrices key={item.foodId} foodPrices={item}/>);
+
+    renderCategories() {
+        return this.state.categories.map(cat => <Category key={cat.categoryId} category={cat} />);
     }
-    */
     render() {
         const { navigate } = this.props.navigation;
         let console = {
@@ -161,8 +121,7 @@ class MenuList extends Component {
                 />
                 <Text>{this.state.seatingTable.restaurant.restaurantId}</Text>
                 <Text>Is there anything here</Text>
-                <Text>{this.state.menu.menuId}</Text>
-                <Text>{this.state.categories}</Text>
+                {this.renderCategories()}
             </View>
 
         );
@@ -181,19 +140,5 @@ const styles = StyleSheet.create({
         color: '#34495e',
     },
 });
-
-/*
-
-import Icon from 'react-native-vector-icons/FontAwesome';
-import MenuItem from "./MenuItem";
-import FoodDetails from "./FoodDetails";
-
-
-const customTextButton = (
-    <Icon.Button name="facebook" backgroundColor="#3b5998">
-        <Text style={{fontFamily: 'Arial', fontSize: 15}}>Login with Facebook</Text>
-    </Icon.Button>
-)
-*/
 
 export default MenuList;
