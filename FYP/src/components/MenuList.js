@@ -135,7 +135,7 @@ class MenuList extends Component {
     }
     */
     render() {
-        //const { navigate } = this.props.navigation;
+        const { navigate } = this.props.navigation;
         let console = {
             log: function(msg){
                 alert(msg);
@@ -146,10 +146,10 @@ class MenuList extends Component {
 
             <View style={styles.container}>
                 <Header
-                    placement="left"
-                    leftComponent={{ icon: 'menu', color: '#fff' }}
-                    centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-                    rightComponent={{ icon: 'home', color: '#fff' }}
+                    leftComponent={{ icon: 'menu', onPress: () => console.log('pressed') }}
+                    //centerComponent={{ text: 'MENU' }}
+                    centerComponent = {{ text: <Text> Menu </Text> }}
+                    rightComponent={{icon: 'shopping-cart'}}
                 />
                 <Text>{this.params.qrCodeString}</Text>
                 <Button
@@ -182,10 +182,10 @@ const styles = StyleSheet.create({
     },
 });
 
-
+/*
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import MenuItem from "./MenuItem";
 import FoodDetails from "./FoodDetails";
 
 
@@ -194,6 +194,6 @@ const customTextButton = (
         <Text style={{fontFamily: 'Arial', fontSize: 15}}>Login with Facebook</Text>
     </Icon.Button>
 )
-
+*/
 
 export default MenuList;

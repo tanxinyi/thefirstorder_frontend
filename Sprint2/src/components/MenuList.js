@@ -3,14 +3,14 @@ import {View, StyleSheet, Text, ScrollView, Image, PressRetentionOffset as right
 import axios from "axios";
 import { Header, Button } from 'react-native-elements';
 import "react-native-vector-icons";
-import SeatingTable from './SeatingTable'
-import MenuOverview from './MenuOverview'
-import FoodPrices from './FoodPrices'
-import FoodDetails from './FoodDetails'
 
 class MenuList extends Component {
     state = {
+        //seatingTable: {},
+        //menuOverview: {},
+
         //table: [],
+
         seatingTable: {
             qrCode:'',
             restaurant:{
@@ -25,7 +25,14 @@ class MenuList extends Component {
             capacity:''
         },
 
+        menu: {
+            menuId:'',
+            dateOfCreation: ''
+        },
+        categories: [],
+        foodPrice: [],
 
+        /*
         menuOverview: {
             menuId:'',
             restaurant: {
@@ -60,12 +67,15 @@ class MenuList extends Component {
 
 
         }
+        */
 
     }
 
+    /*
     static navigationOptions = {
         title: "MenuList",
     };
+    */
 
     constructor(props) {
         super(props);
@@ -80,43 +90,66 @@ class MenuList extends Component {
             }
         }
         const ip = '10.0.2.2'; //leave this here
-        //const ip = '10.168.1.20'
+        const prefix = 'http://' + ip + ':8080/api'
 
-        const request = 'http://' + ip + ':8080/' + 'api/seatingTables/' + this.params.qrCodeString + '/'
+        const request = prefix + '/seatingTables/' + this.params.qrCodeString + '/'
         //const request = 'https://fjchng-menuitems.herokuapp.com/api/getMenuItems'
         axios.get(request)
             .then(response => {
-                //console.log(response.data);
+                //console.log(request);
                 this.setState({seatingTable: response.data});
-                //this.setState({restaurant: this.state.seatingTable.restaurant});
+
+
+                const restaurantId = response.data.restaurant.restaurantId;
+                const request = prefix + '/restaurants/' + restaurantId + '/menu'
+                axios.get(request)
+                    .then(response => {
+                        this.setState({menu: response.data});
+
+                        const menuId = response.data.menuId;
+                        console.log(menuId);
+                        const request = prefix + 'menu/'+ menuId +'/categories'
+                        axios.get(request)
+                            .then(response =>{
+                                this.setState({categories: response.data})
+                                console.log(this.state.categories);
+                            }).catch(response => console.log('request link: ' + request + '              error: ' + response));
+                    }).catch(response => console.log('request link: ' + request + '              error: ' + response));
             }).catch(response => console.log('request link: ' + request + '              error: ' + response));
 
-// here we need to make restuarnt id dyamic
+        // here we need to make restuarnt id dyamic
+        /*
         const request2 = 'http://' + ip + ':8080/' + 'api/restaurants/R002/menu/'
        // const request2 = 'http://10.168.1.20:8080/api/restaurants/R002/menu'
         axios.get(request2)
             .then(response => {
                 this.setState({menuOverview: response.data});
             }).catch(response => console.log('request link: ' + request2 + '              error: ' + response));
-
+        */
     };
-//THIS STATEMENT GOT PROBLEM, if we remove .food, it is ok. but no items render
-/*
+    //THIS STATEMENT GOT PROBLEM, if we remove .food, it is ok. but no items render
+    /*
     renderItems() {
         console.log('hello');
         return this.state.menuOverview.foodPrices.map(item => <FoodPrices key={item.foodId} foodPrices={item}/>);
     }
-*/
+    */
     render() {
-        const { navigate } = this.props.navigation;
+        //const { navigate } = this.props.navigation;
+        let console = {
+            log: function(msg){
+                alert(msg);
+            }
+        }
+
         return (
 
             <View style={styles.container}>
                 <Header
-                    leftComponent={{ icon: 'menu', onPress: () => console.log('pressed') }}
-                    //centerComponent={{ text: 'MENU' }}
-                    centerComponent = {{ text: <Text> {this.state.seatingTable.restaurant.name} </Text> }}
-                    rightComponent={{icon: 'home'}}
+                    placement="left"
+                    leftComponent={{ icon: 'menu', color: '#fff' }}
+                    centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+                    rightComponent={{ icon: 'home', color: '#fff' }}
                 />
                 <Text>{this.params.qrCodeString}</Text>
                 <Button
@@ -128,25 +161,8 @@ class MenuList extends Component {
                 />
                 <Text>{this.state.seatingTable.restaurant.restaurantId}</Text>
                 <Text>Is there anything here</Text>
-
-                <Text> Display trying json stuff </Text>
-                <FlatList
-                    foodPrices = {this.state.foodPrices}
-                    renderItem ={({item}) =>
-                        <Text> {item.price} </Text>
-                    }
-                />
-
-
-                <Text>{this.state.menuOverview.dateOfCreation}</Text>
-                <Text>{this.state.menuOverview.foodPrices[0].price}</Text>
-                <Text>{this.state.menuOverview.foodPrices[0].food.foodId}</Text>
-                <Text>{this.state.menuOverview.foodPrices[0].food.name}</Text>
-                <Text>{this.state.menuOverview.foodPrices[0].food.tags[0].description}</Text>
-
-
-
-
+                <Text>{this.state.menu.menuId}</Text>
+                <Text>{this.state.categories}</Text>
             </View>
 
         );
@@ -166,7 +182,7 @@ const styles = StyleSheet.create({
     },
 });
 
-/*
+
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MenuItem from "./MenuItem";
@@ -178,6 +194,6 @@ const customTextButton = (
         <Text style={{fontFamily: 'Arial', fontSize: 15}}>Login with Facebook</Text>
     </Icon.Button>
 )
-*/
+
 
 export default MenuList;

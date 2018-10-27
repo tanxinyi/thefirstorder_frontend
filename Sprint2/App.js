@@ -2,84 +2,60 @@
 import React, {Component} from 'react';
 // depending on what you need, you import such components, like text.
 import {Linking, View, Text, StyleSheet, Image, TextInput, Picker, TouchableOpacity} from 'react-native';
-// stack navigator is for pages navigation
+import { SearchBar } from 'react-native-elements'
 import { StackNavigator } from 'react-navigation';
 // import different JS classes that are used
 import MenuList from './src/components/MenuList';
 import Menu from "./src/components/Menu";
 import OrderItem from "./src/components/OrderItem";
 import Cart from "./src/components/Cart";
-import QRCodeScanner from "react-native-qrcode-scanner";
-
+import ScanningPage from "./src/components/ScanningPage";
 class HomeScreen extends React.Component {
 
     static navigationOptions = {
-        title: "MakaNow HomePage",
+        title: "MakanNow Homepage",
     };
 
-    constructor(props){
-        super(props);
-        this.state={
-            qrCode:'',
-        }
-        this.navigate = this.props.navigation.navigate;
-    };
+
 
     render(){
         const { navigate } = this.props.navigation;
 
         return(
-            /*
-            <QRCodeScanner
 
-                onRead={(e) =>
-                    navigate('MenuList', {
-                        qrCodeString : e.data
-                    })
-                }
-
-                topContent={
-                    <Text style={styles.centerText}>
-                        Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on your computer and scan the QR code.
-                    </Text>
-                }
-                bottomContent={
-                    <TouchableOpacity style={styles.buttonTouchable}>
-                        <Text style={styles.buttonText}>OK. Got it!</Text>
-                    </TouchableOpacity>
-                }
-            />
-            */
+            <View style={ {flex:1, zIndex: -1} }>
 
 
-            <View style={ {flex:1} }>
 
-                <Image source={require('./src/images/qrcode.png')} style={styles.image} />
-                <Text style = {styles.label}>Scan QR Code on the Table</Text>
-                <Text style = {styles.label}>---------------------------------- OR ----------------------------------</Text>
-                <Text style = {styles.label}>Enter the Table ID</Text>
+                <TouchableOpacity onPress={()=>navigate('ScanningPage')}>
+                    <Image source={require('./src/images/qrcode.png')} style={styles.image}/>
+                </TouchableOpacity>
 
-                <TextInput
-                    style = {styles.searchInput}
-                    placeholder = 'i.e PbJ3i8'
-                    name={"qrCode"}
-                    id={"qrCode"}
-                    value = {this.state.qrCode}
-                    onChangeText= {(tableValue ) => this.setState({qrCode: tableValue})}>
 
-                </TextInput>
-
-                <TouchableOpacity onPress ={() =>
-                    navigate('MenuList', {
-                        qrCodeString: this.state.qrCode
-                    })
-                } >
-                    <Text style = {styles.button}>
-                        button name
-                    </Text>
-
-                </TouchableOpacity >
-
+                <Text  style = {styles.explore}> Scan QR HEREEEEEE </Text>
+                <SearchBar
+                    barTintColor="red"
+                    tintColor="green"
+                    textColor="black"
+                    style = {styles.explore}
+                    lightTheme
+                    searchIcon={{ size: 24 }}
+                    placeholder='Explore!'
+                />
+                <View style={styles.bottomContainer}>
+                    <View style = {styles.innerContainer}>
+                        <Image source={require('./src/images/location.jpg')} style={styles.innerImage}/>
+                        <Text  style = {styles.innerText}> Location </Text>
+                    </View>
+                    <View style = {styles.innerContainer}>
+                        <Image source={require('./src/images/food.jpg')} style={styles.innerImage}/>
+                        <Text  style = {styles.innerText}> Cuisine </Text>
+                    </View>
+                    <View style = {styles.innerContainer}>
+                        <Image source={require('./src/images/price.jpg')} style={styles.innerImage}/>
+                        <Text  style = {styles.innerText}> Price </Text>
+                    </View>
+                </View>
             </View>
 
 
@@ -106,7 +82,12 @@ export default StackNavigator({
 
     Cart: {
         screen: Cart
-    }
+    },
+
+    ScanningPage: {
+        screen: ScanningPage
+    },
+
 
 });
 
@@ -114,11 +95,51 @@ const styles = StyleSheet.create({
     profile: {
         backgroundColor: 'blue' ,
     },
+    explore: {
+        alignSelf: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        marginLeft: 5,
+        marginRight: 5,
+        marginTop: 10,
+
+    },
+
+    bottomContainer:{
+        height: 410,
+
+    },
+
+    innerContainer:{
+        height: '33.3%',
+        borderColor: 'rgb(0, 0, 0)',
+        borderWidth: 0.5,
+        padding: 10,
+
+    },
+
+    innerImage:{
+        height: '100%',
+        width: '100%',
+        opacity: 0.5,
+    },
+
+    innerText:{
+        top: -90,
+        fontSize: 50,
+        fontWeight: 'bold',
+        justifyContent: 'center',
+        fontStyle:'italic',
+        textAlign: 'center',
+        fontFamily: 'serif',
+        color: 'rgb(20, 24, 25)',
+
+    },
+
     menu: {
         top:-10,
         width: 200,
         height: 150,
-
         alignItems: 'center',
     },
 
@@ -128,7 +149,7 @@ const styles = StyleSheet.create({
         height: 300,
         borderColor: "transparent",
         borderWidth: 0,
-        borderRadius: 5
+        borderRadius: 5,
     },
 
     container: {
@@ -166,13 +187,13 @@ const styles = StyleSheet.create({
         marginRight: 5,
         marginTop: 10,
     },
-/*
-    buttonText:{
-        fontSize: 18,
-        color: 'white',
-        alignSelf:'center'
-    },
-*/
+    /*
+        buttonText:{
+            fontSize: 18,
+            color: 'white',
+            alignSelf:'center'
+        },
+    */
     buttonStyle:{
         color: 'red',
         marginTop: 20,
@@ -209,5 +230,7 @@ const styles = StyleSheet.create({
         padding: 16,
     },
 
-})
+
+
+});
 

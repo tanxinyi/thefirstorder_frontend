@@ -10,6 +10,7 @@ import Menu from "./src/components/Menu";
 import OrderItem from "./src/components/OrderItem";
 import Cart from "./src/components/Cart";
 import ScanningPage from "./src/components/ScanningPage";
+import BillingPage from "./src/components/BillingPage";
 class HomeScreen extends React.Component {
 
     static navigationOptions = {
@@ -27,7 +28,7 @@ class HomeScreen extends React.Component {
 
 
 
-                <TouchableOpacity onPress={()=>navigate('ScanningPage')}>
+                <TouchableOpacity onPress={()=>navigate('BillingPage')}>
                     <Image source={require('./src/images/qrcode.png')} style={styles.image}/>
                 </TouchableOpacity>
 
@@ -86,6 +87,10 @@ export default StackNavigator({
 
     ScanningPage: {
         screen: ScanningPage
+    },
+
+    BillingPage: {
+        screen: BillingPage
     },
 
 

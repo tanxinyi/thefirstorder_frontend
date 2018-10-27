@@ -3,6 +3,7 @@ package com.sprint2;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativenavigation.NavigationReactPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.pusherman.networkinfo.RNNetworkInfoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new NavigationReactPackage(),
             new RNCameraPackage(),
             new RNNetworkInfoPackage(),
             new VectorIconsPackage()

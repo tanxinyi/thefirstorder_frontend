@@ -55,6 +55,7 @@
 		3B83BECB497748F4BB406676 /* libRNNetworkInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AE7F086CB04273B8811873 /* libRNNetworkInfo.a */; };
 		481F265CD9384B3D832FDAD2 /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CE6C839207481697E23CA8 /* libRNCamera.a */; };
 		DABC57280AD94071B6EFF8B2 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1BE0BB15AD447C913E82AC /* libReactNativePermissions.a */; };
+		252D33C217804362A7E919E4 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 178E3995989E4053BF920ED1 /* libReactNativeNavigation.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -382,6 +383,8 @@
 		68CE6C839207481697E23CA8 /* libRNCamera.a */ = {isa = PBXFileReference; name = "libRNCamera.a"; path = "libRNCamera.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		7A52AE8A36FF48F2802568FB /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativePermissions.xcodeproj"; path = "../node_modules/react-native-permissions/ios/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		6A1BE0BB15AD447C913E82AC /* libReactNativePermissions.a */ = {isa = PBXFileReference; name = "libReactNativePermissions.a"; path = "libReactNativePermissions.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		30DA77F156A944F0849983EC /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeNavigation.xcodeproj"; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		178E3995989E4053BF920ED1 /* libReactNativeNavigation.a */ = {isa = PBXFileReference; name = "libReactNativeNavigation.a"; path = "libReactNativeNavigation.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -413,6 +416,7 @@
 				3B83BECB497748F4BB406676 /* libRNNetworkInfo.a in Frameworks */,
 				481F265CD9384B3D832FDAD2 /* libRNCamera.a in Frameworks */,
 				DABC57280AD94071B6EFF8B2 /* libReactNativePermissions.a in Frameworks */,
+				252D33C217804362A7E919E4 /* libReactNativeNavigation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +607,7 @@
 				FE0B26BAF15C4E13BDD6F0AC /* RNNetworkInfo.xcodeproj */,
 				52834D0E54C142EBB2A7AAB7 /* RNCamera.xcodeproj */,
 				7A52AE8A36FF48F2802568FB /* ReactNativePermissions.xcodeproj */,
+				30DA77F156A944F0849983EC /* ReactNativeNavigation.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1271,6 +1276,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1278,6 +1284,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-network-info\ios",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-permissions\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
 				);
 			};
 			name = Debug;
@@ -1303,6 +1310,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1310,6 +1318,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-network-info\ios",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-permissions\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
 				);
 			};
 			name = Release;
@@ -1336,6 +1345,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-network-info\ios",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-permissions\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
 				);
 			};
 			name = Debug;
@@ -1361,6 +1371,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-network-info\ios",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-permissions\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
 				);
 			};
 			name = Release;
@@ -1394,6 +1405,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1401,6 +1413,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-network-info\ios",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-permissions\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
 				);
 			};
 			name = Debug;
@@ -1434,6 +1447,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1441,6 +1455,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-network-info\ios",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-permissions\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
 				);
 			};
 			name = Release;
@@ -1473,6 +1488,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1480,6 +1496,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-network-info\ios",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-permissions\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
 				);
 			};
 			name = Debug;
@@ -1512,6 +1529,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1519,6 +1537,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-network-info\ios",
 					"$(SRCROOT)\..\node_modules\react-native-camera\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-permissions\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
 				);
 			};
 			name = Release;
