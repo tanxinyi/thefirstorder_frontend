@@ -6,6 +6,7 @@ import axios from "axios";
 class Restaurant extends React.Component{
     state = {
         menu:{},
+        orderSummary:{},
         mounted: false
     }
 
@@ -16,10 +17,15 @@ class Restaurant extends React.Component{
 
     //get restaurantID based on seatingTable
     componentWillMount() {
-        const request = this.props.prefix + "api/restaurants/" + this.props.restaurant.restaurantId + "/menu";
+        let request = this.props.prefix + "api/restaurants/" + this.props.restaurant.restaurantId + "/menu";
         console.log(request);
         axios.get(request)
-            .then(response => this.setState({menu: response.data, mounted: true}))
+            .then(response => this.setState({menu: response.data}))
+            .catch(error => console.log(error));
+        request = this.props.prefix + "api/orderSummary/new/customer/" + this.props.customer.email;
+        console.log(request);
+        axios.get(request)
+            .then(response => this.setState({orderSummary: response.data, mounted: true}))
             .catch(error => console.log(error));
     };
 
@@ -32,6 +38,8 @@ class Restaurant extends React.Component{
                     seatingTable = {this.props.seatingTable}
                     restaurant = {this.props.restaurant}
                     menu = {this.state.menu}
+                    orderSummary = {this.state.orderSummary}
+                    navigate = {this.props.navigation}
                 />
             )
         }

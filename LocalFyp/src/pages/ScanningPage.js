@@ -71,7 +71,8 @@ class ScanningPage extends Component {
 
                             <TouchableOpacity onPress ={() =>
                                 navigate('OrderMainPage', {
-                                    qrCodeString: this.state.qrCode
+                                    qrCodeString: this.state.qrCode,
+                                    navigation: this.props.navigation
                                 })
                             } style = {styles.button}>
                                 <Text >

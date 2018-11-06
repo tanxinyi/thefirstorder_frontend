@@ -6,11 +6,15 @@ import axios from "axios";
 
 class OrderMainPage extends React.Component{
     state = {
-        prefix:'http://29d8b376.ngrok.io/',
+        prefix:'https://70767486.ngrok.io/' +
+            '',
         seatingTable:{},
         restaurant:{},
         mounted: false,
         menu:{},
+        customer:{
+            email:'CUS004@makanow.com',
+        },
     }
 
 
@@ -21,7 +25,8 @@ class OrderMainPage extends React.Component{
 
     //get restaurantID based on seatingTable
     componentWillMount() {
-        const request = this.state.prefix + "api/seatingTables/" + this.params.qrCodeString;
+        //const request = this.state.prefix + "api/seatingTables/" + this.params.qrCodeString;
+        const request = this.state.prefix + "api/seatingTables/T001";
         console.log(request);
         axios.get(request)
             .then(response =>
@@ -38,11 +43,12 @@ class OrderMainPage extends React.Component{
         if(this.state.mounted){
             return(
                 <View>
-                    <Text>{JSON.stringify(this.state.menu)}</Text>
                     <Restaurant
                         prefix={this.state.prefix}
                         seatingTable = {this.state.seatingTable}
                         restaurant = {this.state.restaurant}
+                        customer = {this.state.customer}
+                        navigate = {this.props.navigation}
                     />
                 </View>
             )
