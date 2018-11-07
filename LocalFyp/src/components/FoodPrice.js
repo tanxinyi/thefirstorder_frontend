@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 
 class FoodPrice extends Component{
 
@@ -11,7 +11,8 @@ class FoodPrice extends Component{
         }
     }
     render(){
-        console.log("test5");
+        console.log("test13: FoodPrice");
+        console.log(JSON.stringify(this.props.foodPrice));
         return(
             <TouchableOpacity onPress={() =>
                 this.props.navigation.navigate('FoodCustomisationPage',
@@ -21,7 +22,7 @@ class FoodPrice extends Component{
                         price : this.props.foodPrice.price,
                         addToCart : this.props.addToCart,
                         orderId: this.props.orderId,
-                        navigation: this.props.navigation
+                        navigation: this.props.navigation,
                     })}>
                 <Text>Food Name: {this.props.foodPrice.food.name}</Text>
                 <Text>Description: {this.props.foodPrice.food.description}</Text>

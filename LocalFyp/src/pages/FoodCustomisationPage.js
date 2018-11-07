@@ -13,6 +13,7 @@ class FoodCustomisationPage extends React.Component{
             text: '',
             quantity:1,
         }
+        this.params = this.props.navigation.state.params;
     }
 
     increaseCount(){
@@ -25,12 +26,14 @@ class FoodCustomisationPage extends React.Component{
     }
 
     render(){
+        console.log("test14: Food Customisation Page");
+        console.log(JSON.stringify(this.params));
         return(
             <View>
                 <Text> FoodCustomisation Page is here! </Text>
-                <Text> Food Image: {this.props.food.img_Path}</Text>
-                <Text> Food Name: {this.props.food.name}</Text>
-                <Text> Description: {this.props.food.description}</Text>
+                <Text> Food Image: {this.params.food.img_Path}</Text>
+                <Text> Food Name: {this.params.food.name}</Text>
+                <Text> Description: {this.params.food.description}</Text>
                 <Button onPress={()=>{this.increaseCount()}}>
                     <Text>Increase Quantity</Text>
                 </Button>
@@ -43,16 +46,16 @@ class FoodCustomisationPage extends React.Component{
                     value={this.state.text}
                 />
                 <Button onPress={()=>{
-                    this.addToCart({
+                    this.params.addToCart({
                         quantity:this.state.quantity,
-                        orderId: this.props.orderId,
-                        foodId: this.props.food.foodId,
-                        food: this.food,
+                        orderId: this.params.orderId,
+                        foodId: this.params.food.foodId,
+                        food: this.params.food,
                         remarks:this.state.text,
-                        price: this.props.price
-                    })
-                    this.props.navigation.navigate('Menu',{
-                        navigation: this.props.navigation
+                        price: this.params.price
+                    });
+                    this.props.navigation.navigate('Categories',{
+                        navigation: this.params.navigation
                     })
                 }}>
                     <Text>Add to Cart</Text>

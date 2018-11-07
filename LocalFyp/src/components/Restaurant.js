@@ -30,8 +30,9 @@ class Restaurant extends React.Component{
     };
 
     render() {
-        console.log("test2");
+        console.log("test1: Restaurant Unmounted");
         if(this.state.mounted){
+            console.log("test2: Restaurant Mounted")
             return(
                 <Menu
                     prefix ={this.props.prefix}
@@ -39,7 +40,7 @@ class Restaurant extends React.Component{
                     restaurant = {this.props.restaurant}
                     menu = {this.state.menu}
                     orderSummary = {this.state.orderSummary}
-                    navigate = {this.props.navigation}
+                    navigation = {this.props.navigation}
                 />
             )
         }

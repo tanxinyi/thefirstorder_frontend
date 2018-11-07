@@ -19,47 +19,24 @@ class Category extends React.Component{
         }
     }
 
-    componentWillMount(){
-        const request = this.props.prefix + "api/menu/" + this.props.menuId + "/category/" + this.props.category.categoryId;
-        console.log(request);
-        axios.get(request)
-            .then(response=>
-                this.setState({foodPrice:response.data,
-                    category: this.props.category,
-                    prefix: this.props.prefix,
-                    menuId: this.props.menuId,
-                    orderId: this.props.orderId,
-                    mounted: true
-                }))
-            .catch(error=> console.log(error));
-    }
-
     render(){
-        console.log("test5");
-        if(this.state.mounted){
-            console.log("test6");
-
-            return (
-                <TouchableOpacity onPress={()=>{
-                    this.props.navigation.navigate('FoodPrices', {
-                        categoryId: this.state.category.categoryId,
-                        menuId: this.state.menuId,
-                        prefix: this.state.prefix,
-                        addToCart: this.addToCart,
-                        orderId: this.state.orderId,
-                    })
-                }}>
-                    <Text>CategoryID: {this.props.category.categoryId}</Text>
-                    <Text>CategoryName: {this.props.category.categoryName}</Text>
-                    <Text>CatImg: {this.props.category.catImg}</Text>
-                </TouchableOpacity>
-            );
-        }
-        return(
-            <Tab heading="Loading...">
-                <Text>Loading...</Text>
-            </Tab>
-        )
+        console.log("test9: Category");
+        console.log(JSON.stringify(this.props.category))
+        return (
+            <TouchableOpacity onPress={()=>{
+                this.props.navigation.navigate('FoodPrices', {
+                    category: this.props.category,
+                    menuId: this.props.menuId,
+                    prefix: this.props.prefix,
+                    addToCart: this.props.addToCart,
+                    orderId: this.props.orderId,
+                })
+            }}>
+                <Text>CategoryID: {this.props.category.categoryId}</Text>
+                <Text>CategoryName: {this.props.category.categoryName}</Text>
+                <Text>CatImg: {this.props.category.catImg}</Text>
+            </TouchableOpacity>
+        );
     }
 };
 

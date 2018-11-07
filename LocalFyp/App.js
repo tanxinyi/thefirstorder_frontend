@@ -22,6 +22,10 @@ export default createBottomTabNavigator({
     User:{
         screen: AccountStack
     },
-
+},{
+    navigationOptions:{
+        animationEnabled:false,
+        swipeEnabled: false,
+    }
 });
 
