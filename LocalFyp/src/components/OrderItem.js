@@ -16,6 +16,8 @@ class OrderItem extends Component{
     }
 
     render(){
+        console.log("Render Order Item")
+        console.log(JSON.stringify(this.props))
         if(!this.props.removable){
             return(
                 <Card>
@@ -33,7 +35,7 @@ class OrderItem extends Component{
                     <Text>Quantity: {this.props.orderItem.quantity}</Text>
                     <Text>Remarks: {this.props.orderItem.remarks}</Text>
                     <Text>Remarks: {this.props.orderItem.remarks}</Text>
-                    <Button onPress={()=> this.remove()}>
+                    <Button onPress={()=> this.remove()} title='X'>
                         <Icon name="cross"/>
                     </Button>
                 </Card>

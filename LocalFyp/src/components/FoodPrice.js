@@ -18,11 +18,16 @@ class FoodPrice extends Component{
                 this.props.navigation.navigate('FoodCustomisationPage',
                     {
                         food : this.props.foodPrice.food,
-                        menuId : this.props.foodPrice.menuFoodId.menuId,
                         price : this.props.foodPrice.price,
-                        addToCart : this.props.addToCart,
+                        cart: this.props.cart,
+                        bill: this.props.bill,
                         orderId: this.props.orderId,
-                        navigation: this.props.navigation,
+                        orderSummaryId: this.props.orderSummaryId,
+                        qrCode: this.props.qrCode,
+                        restaurantId: this.props.restaurantId,
+                        prefix: this.props.prefix,
+                        menuId: this.props.menuId,
+                        navigation: this.props.navigation
                     })}>
                 <Text>Food Name: {this.props.foodPrice.food.name}</Text>
                 <Text>Description: {this.props.foodPrice.food.description}</Text>

@@ -1,11 +1,8 @@
-import {createStackNavigator, createSwitchNavigator} from 'react-navigation';
+import {createBottomTabNavigator, createStackNavigator, createSwitchNavigator} from 'react-navigation';
 import ExploreMainPage from "./src/pages/ExploreMainPage";
 import ScanningPage from "./src/pages/ScanningPage";
 import AccountMainPage from "./src/pages/AccountMainPage";
 import Menu from "./src/components/Menu";
-import Category from "./src/components/Category";
-import Categories from "./src/components/Categories";
-import FoodPrice from "./src/components/FoodPrice";
 import FoodPrices from "./src/components/FoodPrices";
 import CartPage from "./src/pages/CartPage";
 import BillPage from "./src/pages/BillPage";
@@ -23,18 +20,6 @@ export const ExploreStack = createStackNavigator({
         animationEnabled:false
     }
 });
-export const MenuStack = createStackNavigator({
-    Categories: Categories,
-    FoodPrices: FoodPrices,
-    FoodCustomisationPage: FoodCustomisationPage,
-},{
-    headerMode: 'none',
-    navigationOptions:{
-        gesturesEnabled: false,
-        swipeEnabled: false,
-        animationEnabled:false
-    }
-});
 
 export const OrderStack = createStackNavigator({
     ScanningPage: ScanningPage,
@@ -42,6 +27,8 @@ export const OrderStack = createStackNavigator({
     Menu: Menu,
     CartPage: CartPage,
     BillPage: BillPage,
+    FoodPrices: FoodPrices,
+    FoodCustomisationPage: FoodCustomisationPage,
 },{
     headerMode: 'none',
     navigationOptions:{
@@ -61,5 +48,22 @@ export const AccountStack = createStackNavigator({
         gesturesEnabled: false,
         swipeEnabled: false,
         animationEnabled: false
+    }
+});
+
+export const RootTabNav = createBottomTabNavigator({
+    Dine: {
+        screen: OrderStack
+    },
+    Explore: {
+        screen: ExploreStack
+    },
+    User:{
+        screen: AccountStack
+    },
+},{
+    navigationOptions:{
+        animationEnabled:false,
+        swipeEnabled: false,
     }
 });

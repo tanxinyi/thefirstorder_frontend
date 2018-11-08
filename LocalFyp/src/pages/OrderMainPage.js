@@ -6,15 +6,12 @@ import axios from "axios";
 
 class OrderMainPage extends React.Component{
     state = {
-        prefix:'http://ec9c97a3.ngrok.io/' +
-            '',
+        prefix:'https://makanow.herokuapp.com/',
         seatingTable:{},
         restaurant:{},
+        email:'',
         mounted: false,
         menu:{},
-        customer:{
-            email:'CUS004@makanow.com',
-        },
     }
 
 
@@ -25,28 +22,42 @@ class OrderMainPage extends React.Component{
 
     //get restaurantID based on seatingTable
     componentWillMount() {
+        console.log("QRCODE: " + this.params.qrCodeString);
+        if(this.params.qrCodeString == ''){
+            this.props.navigation.navigate('ScanningPage',
+                {
+                    error: 'No QR Code detected'
+                })
+        }
         const request = this.state.prefix + "api/seatingTables/" + this.params.qrCodeString;
-        //const request = this.state.prefix + "api/seatingTables/T001";
         console.log(request);
         axios.get(request)
             .then(response =>
                 this.setState({
                     seatingTable: response.data,
                     restaurant: response.data.restaurant,
+                    email: this.params.email,
                     mounted: true
                 })
-            )
-            .catch(error => console.log(error));
+            ).catch(error => {
+                console.log(error);
+                this.props.navigation.navigate('ScanningPage',
+                    {
+                        error: error
+                    })
+            });
     };
 
     render() {
+        console.log("Order Main Page");
+        console.log(JSON.stringify(this.state));
         if(this.state.mounted){
             return(
                 <Restaurant
                     prefix={this.state.prefix}
                     seatingTable = {this.state.seatingTable}
                     restaurant = {this.state.restaurant}
-                    customer = {this.state.customer}
+                    email = {this.state.email}
                     navigation = {this.props.navigation}
                 />
             )

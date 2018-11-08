@@ -10,12 +10,7 @@ class Category extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            mounted: false,
-            foodPrices: [],
-            category: {},
-            menuId: '',
-            prefix: '',
-            orderId: ''
+
         }
     }
 
@@ -26,10 +21,16 @@ class Category extends React.Component{
             <TouchableOpacity onPress={()=>{
                 this.props.navigation.navigate('FoodPrices', {
                     category: this.props.category,
-                    menuId: this.props.menuId,
                     prefix: this.props.prefix,
-                    addToCart: this.props.addToCart,
+                    qrCode: this.props.qrCode,
+                    restaurantId: this.props.restaurantId,
+                    menuId: this.props.menuId,
+                    orderSummaryId: this.props.orderSummaryId,
+                    cart: this.props.cart,
+                    bill: this.props.bill,
                     orderId: this.props.orderId,
+                    navigation:this.props.navigation,
+                    categoryName: this.props.category.categoryName
                 })
             }}>
                 <Text>CategoryID: {this.props.category.categoryId}</Text>

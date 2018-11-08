@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import {Toast} from 'native-base';
 import {View, Dimensions, Text, TextInput, TouchableOpacity, Vibration, PermissionsAndroid} from "react-native";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -12,19 +12,34 @@ class ScanningPage extends Component {
     constructor(props){
         super(props);
         this.state={
-            qrCode:'',
+            qrCode:'T001',
+            email:''
         }
         this.navigate = this.props.navigation.navigate;
     };
 
+    componentWillMount(){
+        if(this.state.email == ''){
+            this.setState({email: this.props.screenProps.email})
+        }
+    }
 
     render() {
+        console.log("Scanning Page Render");
+        if(this.props.navigation.state.params != null && this.props.navigation.state.error != null){
+            Toast.show({
+                text:"Unable to register table",
+                buttonText:"Okay",
+                duration: 3000
+            })
+        }
         const { navigate } = this.props.navigation;
         return (
             <QRCodeScanner
                 onRead={(e) =>
                     navigate('OrderMainPage', {
-                        qrCodeString : e.data
+                        qrCodeString : e.data,
+                        email : this.state.email
                     })
                 }
                 showMarker
@@ -72,6 +87,7 @@ class ScanningPage extends Component {
                             <TouchableOpacity onPress ={() =>
                                 navigate('OrderMainPage', {
                                     qrCodeString: this.state.qrCode,
+                                    email : this.state.email,
                                     navigation: this.props.navigation
                                 })
                             } style = {styles.button}>
