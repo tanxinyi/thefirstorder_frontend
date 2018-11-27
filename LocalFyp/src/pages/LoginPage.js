@@ -61,7 +61,7 @@ class LoginPage extends Component {
         return (
             <View style={styles.container}>
 
-                <Image source={require('../images/makanowLogo.jpg')} style={styles.image}/>
+                <Image source={require('../images/MakaNowLogo.png')} style={styles.image}/>
 
                 <View style={styles.inputContainer}>
                     <Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/message/ultraviolet/50/3498db'}}/>
