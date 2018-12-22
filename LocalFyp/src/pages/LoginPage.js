@@ -49,8 +49,9 @@ class LoginPage extends Component {
             .then(response=>{
                 this.props.navigation.navigate('SignedInPage', {
                     email: response.data.email
-            })
+                })
             }).catch(error=>{
+                console.log(error);
                 this.setState({loginStatus: 'Invalid email/password'});
         })
     }
