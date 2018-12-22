@@ -4,18 +4,47 @@ import {
     Text,
     StyleSheet
 } from "react-native";
+import CartItems from "../components/CartItems";
+import {connect} from 'react-redux';
 
 class CartScreen extends Component {
+    static navigationOption = ({navigation}) => {
+        return {
+            headerTitle:'Cart'
+        }
+    }
     render() {
         return (
             <View style={styles.container}>
-                <Text>CartScreen</Text>
+                {this.props.cartItems.length > 0 ?
+                        <CartItems
+                            cartItems={this.props.cartItems}
+                            onPress={this.props.removeItem}
+                        />
+                    :
+                    <Text>No items in your cart</Text>
+                }
             </View>
         );
     }
 }
 
-export default CartScreen;
+const mapStateToProps = (state) => {
+    return {
+        cartItems: state
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        removeItem: (product) => dispatch ({
+            type:'REMOVE_FROM_CART',
+            payload: product
+        })
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(CartScreen);
 
 const styles = StyleSheet.create({
     container: {

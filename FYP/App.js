@@ -5,11 +5,16 @@ import {
     StyleSheet
 } from "react-native";
 import {OrderStackNav} from "./Routes";
+import {Provider} from 'react-redux';
+import cartStore from './src/store';
+
 
 export default class App extends Component {
     render() {
         return (
-            <OrderStackNav />
+            <Provider store={cartStore}>
+                <OrderStackNav />
+            </Provider>
         );
     }
 }

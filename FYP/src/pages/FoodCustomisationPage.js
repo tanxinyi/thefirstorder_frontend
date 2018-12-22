@@ -5,9 +5,11 @@ import {
     StyleSheet,
     Button,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from "react-native";
 import CartIcon from "../components/CartIcon";
+import {connect} from 'react-redux';
 
 class FoodCustomisationPage extends Component {
     constructor(props){
@@ -63,19 +65,32 @@ class FoodCustomisationPage extends Component {
                 <Button
                     title='Add to Cart!'
                     onPress={()=>{
-                        alert('Item added to cart!')
                         let cartItem = {
+                            id: '' + this.params.foodPrice.food.foodId + this.state.quantity + this.state.remarks,
                             orderId:'',
                             foodId:this.params.foodPrice.food.foodId,
-                            quantity:this.state.quantity
+                            name:this.params.foodPrice.food.name,
+                            quantity:this.state.quantity,
+                            remarks: this.state.remarks
                         }
-                        console.log(cartItem)
-                        this.props.navigation.navigate('Categories', {
-                            prefix:this.params.prefix,
-                            seatingTable:this.params.seatingTable,
-                            restaurant:this.params.restaurant,
-                            menu:this.params.menu
-                        })
+                        Alert.alert(
+                            'Add to cart',
+                            'Add (' + this.state.quantity + ') ' +
+                            this.params.foodPrice.food.name + ' to cart?',
+                            [
+                                {text: 'Yes', onPress: () => {
+                                        this.props.addItemToCart(cartItem)
+                                        this.props.navigation.navigate('Categories', {
+                                            prefix:this.params.prefix,
+                                            seatingTable:this.params.seatingTable,
+                                            restaurant:this.params.restaurant,
+                                            menu:this.params.menu
+                                        })
+                                    }},
+                                {text: 'No', style:'cancel'}
+                            ]
+                        )
+
                     }}
                 />
             </View>
@@ -83,7 +98,22 @@ class FoodCustomisationPage extends Component {
     }
 }
 
-export default FoodCustomisationPage;
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return{
+        addItemToCart:(product) => dispatch({
+            type: 'ADD_TO_CART',
+            payload: product
+        }),
+        foodPrice: ownProps.foodPrice,
+        prefix: ownProps.prefix,
+        menu:ownProps.menu,
+        seatingTable:ownProps.seatingTable,
+        restaurant:ownProps.restaurant,
+        navigation:ownProps.navigation
+    }
+}
+
+export default connect(null, mapDispatchToProps)(FoodCustomisationPage);
 
 const styles = StyleSheet.create({
     container: {

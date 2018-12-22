@@ -5,19 +5,26 @@ import {
     StyleSheet
 } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
+import {connect} from 'react-redux';
 
 const CartIcon = (props) => (
     <View style={{padding:5}}>
         <View style={styles.container}>
             <Text style={styles.counter}>
-                0
+                {props.cartItems.length}
             </Text>
         </View>
         <Icon name='ios-cart' size={30}/>
     </View>
 );
 
-export default CartIcon;
+const mapStateToProps = (state) => {
+    return {
+        cartItems: state
+    }
+}
+
+export default connect(mapStateToProps)(CartIcon);
 
 const styles = StyleSheet.create({
     container: {
