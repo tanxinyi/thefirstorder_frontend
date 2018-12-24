@@ -6,6 +6,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import Categories from "./Categories";
+import {connect} from "react-redux";
 
 class OrderMainPage extends Component {
     constructor(props){
@@ -40,6 +41,8 @@ class OrderMainPage extends Component {
                     seatingTable: response.data,
                     restaurant: response.data.restaurant
                 })
+                this.props.updateSeatingTable(response.data)
+                this.props.updateRestaurant(response.data.restaurant)
                 let request = this.state.prefix + "restaurants/" + response.data.restaurant.restaurantId + "/menu";
                 console.log('Request: ' + request);
                 axios.get(request)
@@ -48,6 +51,7 @@ class OrderMainPage extends Component {
                             menu: response.data,
                             mounted: true
                         })
+                        this.props.updateMenu(response.data)
                     }).catch(error => console.log(error))
             }).catch(error => {
             console.log(error);
@@ -68,10 +72,7 @@ class OrderMainPage extends Component {
             return(
                 <View>
                     {this.props.navigation.navigate('Categories', {
-                        prefix:this.state.prefix,
-                        seatingTable:this.state.seatingTable,
-                        restaurant:this.state.restaurant,
-                        menu:this.state.menu
+                        prefix:this.state.prefix
                     })}
                 </View>
             )
@@ -84,7 +85,40 @@ class OrderMainPage extends Component {
     }
 }
 
-export default OrderMainPage;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        seatingInformation: state.seatingInformation,
+        navigation: ownProps.navigation
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        updateSeatingTable: (seatingTable) => dispatch({
+            type: 'UPDATE_SEATING_TABLE',
+            payload: seatingTable
+        }),
+        updateRestaurant: (restaurant) => dispatch({
+            type: 'UPDATE_RESTAURANT',
+            payload: restaurant
+        }),
+        updateMenu: (menu) => dispatch({
+            type: 'UPDATE_MENU',
+            payload: menu
+        }),
+        updateOrderId: (orderId) => dispatch({
+            type: 'UPDATE_ORDER_ID',
+            payload: orderId
+        }),
+        updateOrderSummaryId: (orderSummaryId) => dispatch({
+            type: 'UPDATE_ORDER_SUMMARY_ID',
+            payload: orderSummaryId
+        }),
+        navigation: ownProps.navigation
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderMainPage);
 
 const styles = StyleSheet.create({
     container: {

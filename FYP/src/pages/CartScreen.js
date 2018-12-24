@@ -31,7 +31,8 @@ class CartScreen extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        cartItems: state
+        cartItems: state.cartItems,
+        billItems: state.billItems
     }
 }
 
@@ -40,6 +41,14 @@ const mapDispatchToProps = (dispatch) => {
         removeItem: (product) => dispatch ({
             type:'REMOVE_FROM_CART',
             payload: product
+        }),
+        clearItems: () => dispatch ({
+            type: 'CLEAR_CART',
+            payload: null
+        }),
+        addToBill: (order) => dispatch ({
+            type: 'ADD_TO_BILL',
+            payload: order
         })
     }
 }

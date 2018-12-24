@@ -10,10 +10,7 @@ const Component = (props) => (
     <TouchableOpacity
         onPress={()=> props.navigation.navigate('FoodPrices',{
             prefix:props.prefix,
-            categoryId:props.category.categoryId,
-            menu:props.menu,
-            seatingTable:props.seatingTable,
-            restaurant:props.restaurant,
+            categoryId:props.category.categoryId
         })}>
         <Text>Category ID = {props.category.categoryId}</Text>
         <Text>Category Name = {props.category.categoryName}</Text>

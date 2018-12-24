@@ -6,13 +6,13 @@ import {
 } from "react-native";
 import {OrderStackNav} from "./Routes";
 import {Provider} from 'react-redux';
-import cartStore from './src/store';
+import orderStore from './src/store/index';
 
 
 export default class App extends Component {
     render() {
         return (
-            <Provider store={cartStore}>
+            <Provider store={orderStore}>
                 <OrderStackNav />
             </Provider>
         );

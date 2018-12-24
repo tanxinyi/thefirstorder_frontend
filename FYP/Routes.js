@@ -9,8 +9,8 @@ import Categories from "./src/pages/Categories";
 import FoodPrices from "./src/pages/FoodPrices";
 import ScanningPage from "./src/pages/ScanningPage";
 import FoodCustomisationPage from "./src/pages/FoodCustomisationPage";
-import CartIcon from "./src/components/CartIcon";
 import CartScreen from "./src/pages/CartScreen";
+import BillScreen from "./src/pages/BillScreen";
 
 export const OrderStackNav = createStackNavigator({
     ScanningPage: ScanningPage,
@@ -18,7 +18,8 @@ export const OrderStackNav = createStackNavigator({
     Categories: Categories,
     FoodPrices: FoodPrices,
     FoodCustomisation: FoodCustomisationPage,
-    Cart: CartScreen
+    Cart: CartScreen,
+    Bill: BillScreen
 },{
     navigationOptions:{
         headerTitle: 'Dine-in',

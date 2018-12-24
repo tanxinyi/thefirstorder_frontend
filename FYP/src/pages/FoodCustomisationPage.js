@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import CartIcon from "../components/CartIcon";
 import {connect} from 'react-redux';
+import BillIcon from "../components/BillIcon";
 
 class FoodCustomisationPage extends Component {
     constructor(props){
@@ -25,9 +26,14 @@ class FoodCustomisationPage extends Component {
         return {
             headerTitle: 'Food Customisation Page',
             headerRight:
-                <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
-                    <CartIcon />
-                </TouchableOpacity>
+                <View>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
+                        <CartIcon />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Bill')}>
+                        <BillIcon />
+                    </TouchableOpacity>
+                </View>
         }
     }
 
@@ -82,9 +88,6 @@ class FoodCustomisationPage extends Component {
                                         this.props.addItemToCart(cartItem)
                                         this.props.navigation.navigate('Categories', {
                                             prefix:this.params.prefix,
-                                            seatingTable:this.params.seatingTable,
-                                            restaurant:this.params.restaurant,
-                                            menu:this.params.menu
                                         })
                                     }},
                                 {text: 'No', style:'cancel'}
@@ -98,22 +101,24 @@ class FoodCustomisationPage extends Component {
     }
 }
 
+const mapStateToProps =(state, ownProps) => {
+    return {
+        seatingInformation: state.seatingInformation,
+        navigation: ownProps.navigation
+    }
+}
+
 const mapDispatchToProps = (dispatch, ownProps) => {
     return{
         addItemToCart:(product) => dispatch({
             type: 'ADD_TO_CART',
             payload: product
         }),
-        foodPrice: ownProps.foodPrice,
-        prefix: ownProps.prefix,
-        menu:ownProps.menu,
-        seatingTable:ownProps.seatingTable,
-        restaurant:ownProps.restaurant,
         navigation:ownProps.navigation
     }
 }
 
-export default connect(null, mapDispatchToProps)(FoodCustomisationPage);
+export default connect(mapStateToProps, mapDispatchToProps)(FoodCustomisationPage);
 
 const styles = StyleSheet.create({
     container: {

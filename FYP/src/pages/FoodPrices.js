@@ -8,6 +8,8 @@ import {
 import FoodPrice from "../components/FoodPrice";
 import axios from 'axios';
 import CartIcon from "../components/CartIcon";
+import BillIcon from "../components/BillIcon";
+import {connect} from "react-redux";
 
 class FoodPrices extends Component {
     constructor(props){
@@ -23,15 +25,20 @@ class FoodPrices extends Component {
         return {
             headerTitle: 'Food Prices',
             headerRight:
-                <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
-                    <CartIcon />
-                </TouchableOpacity>
+                <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
+                        <CartIcon />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Bill')}>
+                        <BillIcon />
+                    </TouchableOpacity>
+                </View>
         }
     }
 
     componentWillMount(){
         console.log(this.params);
-        let request = this.params.prefix + "menu/" + this.params.menu.menuId + "/category/" + this.params.categoryId;
+        let request = this.params.prefix + "menu/" + this.props.seatingInformation.menu.menuId + "/category/" + this.params.categoryId;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response=>{
@@ -51,9 +58,6 @@ class FoodPrices extends Component {
                 foodPrice={foodPrice}
                 prefix={this.params.prefix}
                 navigation={this.props.navigation}
-                seatingTable={this.params.seatingTable}
-                restaurant={this.params.restaurant}
-                menu={this.params.menu}
             />
         )
     }
@@ -80,7 +84,14 @@ class FoodPrices extends Component {
     }
 }
 
-export default FoodPrices;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        seatingInformation: state.seatingInformation,
+        navigation: ownProps.navigation
+    }
+}
+
+export default connect(mapStateToProps)(FoodPrices);
 
 const styles = StyleSheet.create({
     container: {

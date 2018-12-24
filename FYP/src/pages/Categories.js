@@ -3,11 +3,15 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from "react-native";
 import axios from "axios";
 import Category from "../components/Category";
 import CartIcon from "../components/CartIcon";
+import BillIcon from "../components/BillIcon";
+import Icon from "react-native-vector-icons/Entypo";
+import { connect } from "react-redux";
 
 class Categories extends Component {
     constructor(props){
@@ -22,15 +26,35 @@ class Categories extends Component {
     static navigationOptions = ({navigation}) => {
         return {
             headerTitle: 'Categories',
+            headerLeft:
+                <TouchableOpacity
+                    onPress={()=>{
+                        Alert.alert(
+                            'Confirm exit Dine-in?',
+                            'Cart and bill information will not be retained',
+                            [
+                                {text: 'Exit', onPress: () => navigation.navigate('ScanningPage')},
+                                {text:'Cancel', style:'cancel'}
+                            ]
+                        )
+                    }}
+                >
+                    <Icon name='cross' size={30}/>
+                </TouchableOpacity>,
             headerRight:
-                <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
-                    <CartIcon />
-                </TouchableOpacity>
+                <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
+                        <CartIcon />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Bill')}>
+                        <BillIcon />
+                    </TouchableOpacity>
+                </View>
         }
     }
 
     componentWillMount(){
-        let request = this.params.prefix + "menu/" + this.params.menu.menuId + "/categories";
+        let request = this.params.prefix + "menu/" + this.props.seatingInformation.menu.menuId + "/categories";
         console.log('Request: ' + request);
         axios.get(request)
             .then(response => {
@@ -50,9 +74,6 @@ class Categories extends Component {
                 category={category}
                 navigation={this.props.navigation}
                 prefix={this.params.prefix}
-                menu={this.params.menu}
-                restaurant={this.params.restaurant}
-                seatingTable={this.params.seatingTable}
             />
         );
     }
@@ -79,7 +100,14 @@ class Categories extends Component {
     }
 }
 
-export default Categories;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        seatingInformation: state.seatingInformation,
+        navigation: ownProps.navigation
+    }
+}
+
+export default connect(mapStateToProps)(Categories);
 
 const styles = StyleSheet.create({
     container: {
