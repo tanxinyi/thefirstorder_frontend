@@ -11,8 +11,10 @@ import ScanningPage from "./src/pages/ScanningPage";
 import FoodCustomisationPage from "./src/pages/FoodCustomisationPage";
 import CartScreen from "./src/pages/CartScreen";
 import BillScreen from "./src/pages/BillScreen";
+import HomePage from "./src/pages/HomePage";
 
 export const OrderStackNav = createStackNavigator({
+    HomePage: HomePage,
     ScanningPage: ScanningPage,
     OrderMain: OrderMainPage,
     Categories: Categories,
@@ -21,8 +23,10 @@ export const OrderStackNav = createStackNavigator({
     Cart: CartScreen,
     Bill: BillScreen
 },{
+    headerMode: 'none',
     navigationOptions:{
-        headerTitle: 'Dine-in',
-        headerRight: null
+        // headerTitle: 'Dine-in',
+        // headerRight: null,
+        headerVisible: false,
     }
 })
