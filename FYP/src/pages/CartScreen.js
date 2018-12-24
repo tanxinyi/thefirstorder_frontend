@@ -2,10 +2,12 @@ import React, {Component} from "react";
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Button
 } from "react-native";
 import CartItems from "../components/CartItems";
 import {connect} from 'react-redux';
+import axios from "axios";
 
 class CartScreen extends Component {
     static navigationOption = ({navigation}) => {
@@ -13,6 +15,15 @@ class CartScreen extends Component {
             headerTitle:'Cart'
         }
     }
+
+    getNewOrderId(){
+        let request = "https://makanow.herokuapp.com/api/orders/new/orderSummary/" + this.props.seatingInformation.orderSummaryId + "/seatingTable/" + this.props.seatingInformation.seatingTable.qrCode;
+        axios.get(request)
+            .then(response=> {
+                this.props.updateOrderId(response.data.orderId)
+            })
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -24,6 +35,10 @@ class CartScreen extends Component {
                     :
                     <Text>No items in your cart</Text>
                 }
+                <Button
+                    title='Send to Kitchen!'
+                    onPress={()=> this.getNewOrderId()}
+                />
             </View>
         );
     }

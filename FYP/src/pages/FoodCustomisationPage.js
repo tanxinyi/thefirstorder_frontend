@@ -26,7 +26,7 @@ class FoodCustomisationPage extends Component {
         return {
             headerTitle: 'Food Customisation Page',
             headerRight:
-                <View>
+                <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
                         <CartIcon />
                     </TouchableOpacity>
@@ -73,7 +73,7 @@ class FoodCustomisationPage extends Component {
                     onPress={()=>{
                         let cartItem = {
                             id: '' + this.params.foodPrice.food.foodId + this.state.quantity + this.state.remarks,
-                            orderId:'',
+                            orderId:this.props.seatingInformation.orderId,
                             foodId:this.params.foodPrice.food.foodId,
                             name:this.params.foodPrice.food.name,
                             quantity:this.state.quantity,

@@ -13,13 +13,15 @@ class OrderMainPage extends Component {
         super(props)
         this.params = this.props.navigation.state.params;
         this.state={
-            qrCode: this.params.qrCodeString,
-            //qrCode: 'T001',
+            email: 'CUS004@makanow.com',
             prefix: 'https://makanow.herokuapp.com/api/',
             seatingTable: {},
             restaurant: {},
             menu:{},
-            mounted: false
+            orderSummary:{},
+            order:{},
+            mounted1: false,
+            mounted2: false
         }
     }
 
@@ -33,7 +35,7 @@ class OrderMainPage extends Component {
                 })
         }
 
-        const request = this.state.prefix + "seatingTables/" + qrCode;
+        let request = this.state.prefix + "seatingTables/" + qrCode;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response => {
@@ -41,18 +43,19 @@ class OrderMainPage extends Component {
                     seatingTable: response.data,
                     restaurant: response.data.restaurant
                 })
-                this.props.updateSeatingTable(response.data)
-                this.props.updateRestaurant(response.data.restaurant)
+
+                // Get Menu
                 let request = this.state.prefix + "restaurants/" + response.data.restaurant.restaurantId + "/menu";
                 console.log('Request: ' + request);
                 axios.get(request)
                     .then(response => {
                         this.setState({
                             menu: response.data,
-                            mounted: true
+                            mounted1: true
                         })
-                        this.props.updateMenu(response.data)
                     }).catch(error => console.log(error))
+
+
             }).catch(error => {
             console.log(error);
             this.props.navigation.navigate('ScanningPage',
@@ -60,6 +63,35 @@ class OrderMainPage extends Component {
                     error: error
                 })
         });
+
+        //Get OrderID and OrderSummary
+        request = this.state.prefix + "orderSummary/new/customer/" + this.state.email;
+        console.log('Request: ' + request);
+        axios.get(request)
+            .then(response => {
+                this.setState({
+                    orderSummary: response.data
+                });
+
+                //Get Order
+                let request = this.state.prefix + "orders/new/orderSummary/" + response.data.orderSummaryId + "/seatingTable/" + qrCode;
+                console.log('Request: ' + request);
+                axios.get(request)
+                    .then(response => {
+                        this.setState({
+                            order: response.data,
+                            mounted2: true
+                        })
+                    })
+            }).catch(error => console.log(error))
+    }
+
+    updateReducers(){
+        this.props.updateSeatingTable(this.state.seatingTable);
+        this.props.updateRestaurant(this.state.restaurant);
+        this.props.updateMenu(this.state.menu);
+        this.props.updateOrderId(this.state.order.orderId);
+        this.props.updateOrderSummaryId(this.state.orderSummary.orderSummaryId);
     }
 
     render() {
@@ -68,7 +100,8 @@ class OrderMainPage extends Component {
         console.log(this.state);
         console.log('PROPS');
         console.log(this.props);
-        if(this.state.mounted){
+        if(this.state.mounted1 && this.state.mounted2){
+            this.updateReducers()
             return(
                 <View>
                     {this.props.navigation.navigate('Categories', {

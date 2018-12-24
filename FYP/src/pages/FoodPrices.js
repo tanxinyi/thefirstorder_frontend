@@ -36,7 +36,7 @@ class FoodPrices extends Component {
         }
     }
 
-    componentWillMount(){
+    componentDidMount(){
         console.log(this.params);
         let request = this.params.prefix + "menu/" + this.props.seatingInformation.menu.menuId + "/category/" + this.params.categoryId;
         console.log('Request: ' + request);

@@ -15,11 +15,8 @@ const Component = (props) => (
                 categoryId:props.category.categoryId,
             })}>
                 <Text>Category Name = {props.category.categoryName}</Text>
-
-                 /*
                 <Text>Category ID = {props.category.categoryId}</Text>
                 <Text>Category Image = {props.category.categoryImage}</Text>
-                */
         </TouchableOpacity>
     </View>
 

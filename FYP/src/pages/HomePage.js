@@ -30,6 +30,12 @@ import FitImage from 'react-native-fit-image';
 
 
 class HomePage extends Component {
+    static navigationOption = ({navigation}) => {
+        return {
+            headerVisible:false
+        }
+    }
+
     render() {
         console.log('Home Page');
         return (
