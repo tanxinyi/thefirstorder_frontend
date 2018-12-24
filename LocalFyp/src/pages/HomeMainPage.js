@@ -25,7 +25,7 @@ class HomeMainPage extends React.Component{
 }
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: '#D8412F',
+        backgroundColor: '#000000',
 
     },
     headerText: {
