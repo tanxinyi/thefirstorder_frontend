@@ -30,17 +30,13 @@ import FitImage from 'react-native-fit-image';
 
 
 class HomePage extends Component {
-    static navigationOption = ({navigation}) => {
-        return {
-            headerVisible:false
-        }
-    }
+    static headerMode = 'none'
 
     render() {
         console.log('Home Page');
         return (
             <View style = {styles.backgroundContainer}>
-                <Header style = {styles.header}>
+                <Header style = {styles.hesader}>
                     <Body style = {styles.headerTitle}>
                     <Title>HOMEPAGE</Title>
                     </Body>

@@ -5,6 +5,7 @@ import {
     StyleSheet
 } from "react-native";
 import {connect} from "react-redux";
+import BillItems from "../components/BillItems";
 
 class BillScreen extends Component {
     static navigationOption = ({navigation}) => {
@@ -16,7 +17,13 @@ class BillScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Bill Screen</Text>
+                {this.props.billItems.length > 0 ?
+                    <BillItems
+                        billItems={this.props.billItems}
+                    />
+                    :
+                    <Text>No items in your bill</Text>
+                }
             </View>
         );
     }

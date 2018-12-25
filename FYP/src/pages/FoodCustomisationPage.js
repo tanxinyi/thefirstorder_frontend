@@ -52,6 +52,7 @@ class FoodCustomisationPage extends Component {
         console.log(this.state);
         console.log('PROPS');
         console.log(this.props);
+        var date = new Date();
         return (
             <View style={styles.container}>
                 <Text>Food Customisation Page</Text>
@@ -72,10 +73,11 @@ class FoodCustomisationPage extends Component {
                     title='Add to Cart!'
                     onPress={()=>{
                         let cartItem = {
-                            id: '' + this.params.foodPrice.food.foodId + this.state.quantity + this.state.remarks,
+                            id: this.props.seatingInformation.orderId + date.getTime(),
                             orderId:this.props.seatingInformation.orderId,
                             foodId:this.params.foodPrice.food.foodId,
                             name:this.params.foodPrice.food.name,
+                            price: this.params.foodPrice.price,
                             quantity:this.state.quantity,
                             remarks: this.state.remarks
                         }
@@ -86,9 +88,7 @@ class FoodCustomisationPage extends Component {
                             [
                                 {text: 'Yes', onPress: () => {
                                         this.props.addItemToCart(cartItem)
-                                        this.props.navigation.navigate('Categories', {
-                                            prefix:this.params.prefix,
-                                        })
+                                        this.props.navigation.goBack()
                                     }},
                                 {text: 'No', style:'cancel'}
                             ]
