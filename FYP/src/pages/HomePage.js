@@ -30,30 +30,17 @@ import FitImage from 'react-native-fit-image';
 
 
 class HomePage extends Component {
-    static navigationOptions = ({navigation}) => {
-        return {
-            headerStyle: styles.header,
-            headerTitleStyle: styles.headerTitle,
-            headerTitle: 'HOMEPAGE'
-        }
-    }
+    static headerMode = 'none'
 
-    /*
-    OLD HEADER:
-    ==================
-
-    <Header style = {styles.header}>
-        <Body style = {styles.headerTitle}>
-        <Title>HOMEPAGE</Title>
-        </Body>
-    </Header>
-
-    ===================
-     */
     render() {
         console.log('Home Page');
         return (
             <View style = {styles.backgroundContainer}>
+                <Header style = {styles.hesader}>
+                    <Body style = {styles.headerTitle}>
+                    <Title>HOMEPAGE</Title>
+                    </Body>
+                </Header>
 
                 <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                     <View style = {styles.overlay}>
@@ -113,11 +100,9 @@ const styles = StyleSheet.create({
     },
 
     headerTitle: {
-        textAlign:"center",
-        flex:1,
-        //alignItems: 'center',
-        //justifyContent: 'center',
-        color: 'white'
+        alignItems: 'center',
+        justifyContent: 'center',
+
     },
 
     logoPlaceholder:{
