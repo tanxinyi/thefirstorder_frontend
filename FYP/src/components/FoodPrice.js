@@ -15,9 +15,9 @@ const FoodPrice = (props) => (
             seatingTable:props.seatingTable,
             restaurant:props.restaurant,
         })}>
-        <Text>Food Name = {props.foodPrice.food.name}</Text>
-        <Text>Food Description = {props.foodPrice.food.description}</Text>
-        <Text>Food Price = {props.foodPrice.price}</Text>
+        <Text>Food Name = {props.foodPrice.food.foodName}</Text>
+        <Text>Food Description = {props.foodPrice.food.foodDescription}</Text>
+        <Text>Food Price = {props.foodPrice.foodPrice}</Text>
         <Text>{props.foodPrice.availability ? '' : 'Sold Out'}</Text>
     </TouchableOpacity>
 );

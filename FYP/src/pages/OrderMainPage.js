@@ -11,10 +11,10 @@ import {connect} from "react-redux";
 class OrderMainPage extends Component {
     constructor(props){
         super(props)
-        this.params = this.props.navigation.state.params;
+        this.params = this.props.navigation.state.params
         this.state={
-            email: 'CUS004@makanow.com',
-            prefix: 'https://makanow.herokuapp.com/api/',
+            email: 'CUS001@makanow.com',
+            prefix: 'https://ad140f21.ngrok.io/api/',
             seatingTable: {},
             restaurant: {},
             menu:{},

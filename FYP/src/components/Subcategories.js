@@ -7,26 +7,26 @@ import {
 } from "react-native";
 import FoodPrice from "../components/FoodPrice";
 import axios from 'axios';
-import Icon from "react-native-vector-icons/MaterialIcons";
+import Icon from "react-native-vector-icons";
 import CartIcon from "../components/CartIcon";
 import BillIcon from "../components/BillIcon";
 import {connect} from "react-redux";
 import Category from "../components/Category";
 
-class FoodPrices extends Component {
+class Subcategories extends Component {
     constructor(props){
         super(props)
         this.params = this.props.navigation.state.params
         this.state={
-            foodPrices:[],
+            subCategories:[],
             mounted:false,
-            subCategories: false
+            hasSubCategories: false
         }
     }
 
     static navigationOptions = ({navigation}) => {
         return {
-            headerTitle: 'FoodPrices',
+            headerTitle: 'Sub Categories',
             headerRight:
                 <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
@@ -46,39 +46,61 @@ class FoodPrices extends Component {
         axios.get(request)
             .then(response=>{
                 this.setState({
-                    foodPrices: response.data,
+                    subCategories: response.data,
                     mounted:true,
-                    subCategories: typeof(response.data[0].foodCategoryId) != "undefined"
+                    hasSubCategories: typeof(response.data[0].foodCategoryId) != "undefined"
                 })
             }).catch(error=>{
-                console.log(error)
-            });
+            console.log(error)
+        });
     }
 
-    renderFoodPrice(){
-        console.log('Render Food Price');
-        return this.state.foodPrices.map((foodPrice,i) =>
-            <FoodPrice
+    renderSubCategories(){
+        console.log('Render Sub Categories');
+        return this.state.subCategories.map((subCategory,i) =>
+            <Category
                 key={i}
-                foodPrice={foodPrice}
+                category={subCategory}
                 prefix={this.params.prefix}
                 navigation={this.props.navigation}
+                navigatedPage='FoodPrices'
             />
         )
     }
 
     render() {
-        console.log('FoodPrices');
+        console.log('Subcategories');
         console.log('STATE:');
         console.log(this.state);
         console.log('PROPS');
         console.log(this.props);
         if(this.state.mounted){
-            return (
-                <View style={styles.container}>
-                    {this.renderFoodPrice()}
-                </View>
-            )
+            if(!this.state.hasSubCategories){
+                return (
+                    <View style={styles.container}>
+                        <TouchableOpacity
+                            onPress={()=> this.props.navigation.navigate('FoodPrices',{
+                                categoryId: this.params.categoryId,
+                                prefix: this.params.prefix
+                            })}>
+                            <Text>Category Name = {this.params.categoryName}</Text>
+                            <Text>Category ID = {this.params.categoryId}</Text>
+                            <Text>Category Image = {this.params.categoryImg}</Text>
+                        </TouchableOpacity>
+                        {this.props.navigation.navigate('FoodPrices', {
+                            categoryId: this.params.categoryId,
+                            prefix: this.params.prefix
+                        })}
+                    </View>
+                )
+
+            }else{
+                return (
+                    <View style={styles.container}>
+                        {this.renderSubCategories()}
+                    </View>
+                )
+            }
         }else {
             return (
                 <View style={styles.container}>
@@ -96,7 +118,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps)(FoodPrices);
+export default connect(mapStateToProps)(Subcategories);
 
 const styles = StyleSheet.create({
     container: {

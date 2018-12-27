@@ -74,6 +74,7 @@ class Categories extends Component {
                 category={category}
                 navigation={this.props.navigation}
                 prefix={this.params.prefix}
+                navigatedPage='Subcategories'
             />
         );
     }

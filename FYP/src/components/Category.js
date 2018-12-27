@@ -10,13 +10,16 @@ const Component = (props) => (
 
     <View style = {styles.container}>
         <TouchableOpacity
-            onPress={()=> props.navigation.navigate('FoodPrices',{
+            onPress={()=> props.navigation.navigate(props.navigatedPage,{
                 prefix:props.prefix,
-                categoryId:props.category.categoryId,
+                categoryId:props.category.foodCategoryId,
+                categoryName: props.category.foodCategoryName,
+                categoryImg: props.category.foodCategoryImgPath,
+                prevPage: 'Subcategories'
             })}>
-                <Text>Category Name = {props.category.categoryName}</Text>
-                <Text>Category ID = {props.category.categoryId}</Text>
-                <Text>Category Image = {props.category.categoryImage}</Text>
+                <Text>Category Name = {props.category.foodCategoryName}</Text>
+                <Text>Category ID = {props.category.foodCategoryId}</Text>
+                <Text>Category Image = {props.category.foodCategoryImgPath}</Text>
         </TouchableOpacity>
     </View>
 

@@ -12,12 +12,14 @@ import FoodCustomisationPage from "./src/pages/FoodCustomisationPage";
 import CartScreen from "./src/pages/CartScreen";
 import BillScreen from "./src/pages/BillScreen";
 import HomePage from "./src/pages/HomePage";
+import Subcategories from "./src/components/Subcategories";
 
 export const OrderStackNav = createStackNavigator({
     HomePage: HomePage,
     ScanningPage: ScanningPage,
     OrderMain: OrderMainPage,
     Categories: Categories,
+    Subcategories: Subcategories,
     FoodPrices: FoodPrices,
     FoodCustomisation: FoodCustomisationPage,
     Cart: CartScreen,
