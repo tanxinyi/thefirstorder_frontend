@@ -4,8 +4,12 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    Alert
+    Alert,
+    Image,
+    ImageBackground
 } from "react-native";
+import GridView from 'react-native-super-grid';
+
 import axios from "axios";
 import Category from "../components/Category";
 import CartIcon from "../components/CartIcon";
@@ -79,6 +83,26 @@ class Categories extends Component {
         );
     }
 
+
+    /* added this */
+    _onPressItem = (item) => {
+        this.props.navigation.navigate('FoodPrices', {
+            prefix: this.props.navigation.state.params.prefix,
+            categoryId: item.categoryId,
+            categoryName: item.categoryName,
+        })
+    };
+
+    renderItem = ({ item, index }) => {
+        return (
+            <TouchableOpacity onPress={()=>{this._onPressItem(item)}}>
+                <View style = {styles.itemContainer}>
+                    <Text> {item.categoryName}</Text>
+                </View>
+            </TouchableOpacity>
+        );
+    };
+
     render() {
         console.log("Categories");
         console.log('STATE:');
@@ -87,14 +111,35 @@ class Categories extends Component {
         console.log(this.props);
         if(this.state.mounted){
             return (
-                <View style={styles.container}>
-                    {this.renderCategory()}
+                <View style = {styles.backgroundContainer}>
+                    <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
+                        <View style = {styles.overlay}>
+                            <View style = {styles.promotion}>
+                                <Text style = {styles.itemName}> PROMOTIONS </Text>
+                            </View>
+                            <GridView
+                                itemDimension={130}
+                                items={this.state.categories}
+                                style={styles.gridView}
+                                renderItem={item => (
+                                    <TouchableOpacity onPress={()=>{this._onPressItem(item)}}>
+                                        <View style={styles.itemContainer}>
+                                            <Image source={require('../images/explore.jpg')} style={styles.image} />
+                                            <View style = {styles.overlayInner}>
+                                                <Text style={styles.itemName}>{item.categoryName}</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                )}
+                            />
+                        </View>
+                    </ImageBackground>
                 </View>
             )
         }else {
             return (
-                <View style={styles.container}>
-                    <Text>Loading Categories Screen</Text>
+                <View>
+                    <Text> Loading </Text>
                 </View>
             );
         }
@@ -112,8 +157,75 @@ export default connect(mapStateToProps)(Categories);
 
 const styles = StyleSheet.create({
     container: {
+        flex:1,
+        marginVertical: 20,
+
+    },
+
+    gridView: {
+        paddingTop: 25,
         flex: 1,
+    },
+    itemContainer: {
+        justifyContent: 'flex-end',
+        borderRadius: 5,
+        padding: 5,
+        height: 150,
+        backgroundColor: 'rgba(246, 112, 117, 0.65))',
+    },
+    itemName: {
+        fontSize: 23,
+        color: '#fff',
+        fontWeight: '600',
+    },
+
+    image: {
+        flex: 1,
+        width: undefined,
+        height: undefined,
+    },
+
+    overlayInner: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(38, 12, 12, 0.32)',
         alignItems: 'center',
-        justifyContent: 'center'
-    }
+        justifyContent: 'center',
+        height: '50%',
+        marginBottom: '25%',
+        marginTop: '25%',
+
+    },
+    backgroundImage: {
+        flex:1,
+        width: null,
+        height: null,
+
+    },
+
+    overlay: {
+        backgroundColor:'rgba(255, 255, 255, 0.6)',
+        flex:1,
+    },
+
+    backgroundContainer: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+
+    promotion: {
+        height: 140,
+        backgroundColor:'rgba(255, 255, 255, 0.6)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '2.5%',
+        marginLeft: '2.5%',
+        marginRight: '2.5%',
+        borderRadius: 5,
+        shadowRadius: 10,
+        elevation: 100,
+    },
+
 });

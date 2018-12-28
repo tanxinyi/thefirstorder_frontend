@@ -28,5 +28,6 @@ export const OrderStackNav = createStackNavigator({
     navigationOptions:{
         headerTitle: 'Dine-in',
         headerRight: null,
+        headerMode: 'none'
     }
 })

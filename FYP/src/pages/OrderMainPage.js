@@ -2,10 +2,15 @@ import React, {Component} from "react";
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    ImageBackground,
+    Image,
+    ActivityIndicator,
+
 } from "react-native";
 import axios from "axios";
 import Categories from "./Categories";
+
 import {connect} from "react-redux";
 
 class OrderMainPage extends Component {
@@ -14,7 +19,7 @@ class OrderMainPage extends Component {
         this.params = this.props.navigation.state.params
         this.state={
             email: 'CUS001@makanow.com',
-            prefix: 'https://ad140f21.ngrok.io/api/',
+            prefix: 'https://2c0a12c7.ngrok.io/api/',
             seatingTable: {},
             restaurant: {},
             menu:{},
@@ -111,10 +116,16 @@ class OrderMainPage extends Component {
             )
         }
         return(
-            <View style={styles.container}>
-                <Text>Loading...</Text>
+            <View style = {styles.container}>
+                <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
+                    <View style = {styles.overlay}>
+                        <View style={styles.itemContainer}>
+                            <ActivityIndicator size="large" color="#0000ff" />
+                        </View>
+                    </View>
+                </ImageBackground>
             </View>
-        )
+    )
     }
 }
 
@@ -155,8 +166,49 @@ export default connect(mapStateToProps, mapDispatchToProps)(OrderMainPage);
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+
+    backgroundImage: {
+        flex:1,
+        width: null,
+        height: null,
+
+    },
+
+    overlay:{
+        backgroundColor:'rgba(255, 255, 255, 0.6)',
+        flex:1,
         alignItems: 'center',
-        justifyContent: 'center'
-    }
+        justifyContent: 'center',
+    },
+
+    logo: {
+        flex:1,
+        height: 200,
+        width: 200,
+    },
+
+    logoPlaceholder:{
+        flex:1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 30,
+        width: 30,
+    },
+
+    itemContainer: {
+        alignItems:'center',
+        justifyContent: 'center',
+    },
+
+    itemName: {
+        fontSize: 23,
+        color: '#fff',
+        fontWeight: '600',
+    },
 });

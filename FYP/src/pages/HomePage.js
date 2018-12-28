@@ -9,28 +9,14 @@ import {
 
 } from "react-native";
 
-import {
-    Header,
-    Body,
-    Right,
-    Icon,
-    Title,
-    Container,
-    Content,
-    Card,
-    CardItem,
-
-} from 'native-base';
-
+import {Container, Header, Left, Body, Right, Title } from 'native-base'
 import RF from "react-native-responsive-fontsize"
 import EmptyCard from "../components/EmptyCard";
-import FitImage from 'react-native-fit-image';
-
-
-
 
 class HomePage extends Component {
     static headerMode = 'none'
+
+
 
     static navigationOptions = ({navigation}) => {
         return {
@@ -39,6 +25,7 @@ class HomePage extends Component {
             headerTitleStyle: styles.headerTitle
         }
     }
+
 
     /*
     OLD HEADER
@@ -117,8 +104,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         flex:1,
         color: 'white',
-        //alignItems: 'center',
-        //justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
 
     },
 
@@ -173,6 +160,10 @@ const styles = StyleSheet.create({
         color: 'white',
         alignSelf: 'center',
         justifyContent: 'center',
+    },
+
+    containerHeader: {
+        backgroundColor: "#FFF"
     }
 
 

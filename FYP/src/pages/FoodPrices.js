@@ -3,7 +3,10 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    Image,
+    ImageBackground,
+
 } from "react-native";
 import FoodPrice from "../components/FoodPrice";
 import axios from 'axios';
@@ -12,6 +15,8 @@ import CartIcon from "../components/CartIcon";
 import BillIcon from "../components/BillIcon";
 import {connect} from "react-redux";
 import Category from "../components/Category";
+import GridView from "react-native-super-grid";
+
 
 class FoodPrices extends Component {
     constructor(props){
@@ -67,6 +72,17 @@ class FoodPrices extends Component {
         )
     }
 
+    /* added this */
+
+
+    _onPressItem = (item) => {
+        this.props.navigation.navigate('FoodCustomisation', {
+            prefix: this.props.navigation.state.params.prefix,
+            foodPrice: item,
+
+        })
+    };
+
     render() {
         console.log('FoodPrices');
         console.log('STATE:');
@@ -75,8 +91,34 @@ class FoodPrices extends Component {
         console.log(this.props);
         if(this.state.mounted){
             return (
-                <View style={styles.container}>
-                    {this.renderFoodPrice()}
+                <View style = {styles.backgroundContainer}>
+                    <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
+                        <View style = {styles.overlay}>
+                            <View style = {styles.promotion}>
+                                <Text style = {styles.itemName}> CATEGORY NAME </Text>
+                            </View>
+                            <GridView
+                                itemDimension={130}
+                                items={this.state.foodPrices}
+                                style={styles.gridView}
+                                renderItem={item => (
+                                    <TouchableOpacity onPress={()=>{this._onPressItem(item)}}>
+                                        <View style={styles.itemContainer}>
+                                            <View style = {styles.imageContainer}>
+                                                <Image source={require('../images/explore.jpg')} style={styles.image} />
+                                            </View>
+                                            <View style = {styles.captionContainer}>
+                                                <Text style={styles.itemName}>{item.food.name}</Text>
+                                                <Text style={styles.itemName}>{item.food.price}</Text>
+                                                <Text style={styles.price}>$12</Text>
+
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                )}
+                            />
+                        </View>
+                    </ImageBackground>
                 </View>
             )
         }else {
@@ -100,8 +142,89 @@ export default connect(mapStateToProps)(FoodPrices);
 
 const styles = StyleSheet.create({
     container: {
+        flex:1,
+        marginVertical: 20,
+
+    },
+
+    gridView: {
+        paddingTop: 25,
         flex: 1,
+    },
+    itemContainer: {
+        justifyContent: 'flex-end',
+        borderRadius: 5,
+        height: 200,
+        backgroundColor: 'rgba(246, 112, 117, 0.65))',
+    },
+    itemName: {
+        fontSize: 16,
+        color: 'black',
+    },
+
+    image: {
+        flex: 1,
+        width: undefined,
+        height: undefined,
+    },
+
+    overlayInner: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(38, 12, 12, 0.32)',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        height: '50%',
+        marginBottom: '25%',
+        marginTop: '25%',
+
+    },
+    backgroundImage: {
+        flex:1,
+        width: null,
+        height: null,
+
+    },
+
+    overlay: {
+        backgroundColor:'rgba(255, 255, 255, 0.6)',
+        flex:1,
+    },
+
+    backgroundContainer: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+
+    promotion: {
+        height: 140,
+        backgroundColor:'rgba(255, 255, 255, 0.6)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '2.5%',
+        marginLeft: '2.5%',
+        marginRight: '2.5%',
+        borderRadius: 5,
+        shadowRadius: 10,
+        elevation: 100,
+    },
+
+    imageContainer:{
+        flex:2,
+    },
+
+    captionContainer: {
+        flex:1,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+
+    price: {
+        fontSize: 14,
+        color: 'black',
     }
 });
