@@ -3,15 +3,14 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity, ImageBackground, Image
 } from "react-native";
-import FoodPrice from "../components/FoodPrice";
 import axios from 'axios';
-import Icon from "react-native-vector-icons";
 import CartIcon from "../components/CartIcon";
 import BillIcon from "../components/BillIcon";
 import {connect} from "react-redux";
-import Category from "../components/Category";
+import GridView from "react-native-super-grid";
+import OrderHeader from "./OrderHeader";
 
 class Subcategories extends Component {
     constructor(props){
@@ -55,18 +54,26 @@ class Subcategories extends Component {
         });
     }
 
-    renderSubCategories(){
-        console.log('Render Sub Categories');
-        return this.state.subCategories.map((subCategory,i) =>
-            <Category
-                key={i}
-                category={subCategory}
-                prefix={this.params.prefix}
-                navigation={this.props.navigation}
-                navigatedPage='FoodPrices'
-            />
-        )
-    }
+    /* added this */
+    _onPressItem = (item) => {
+        console.log(item)
+        this.props.navigation.navigate('FoodPrices', {
+            prefix: this.props.navigation.state.params.prefix,
+            categoryId: item.foodCategoryId,
+            categoryName: item.foodCategoryName,
+            prevPage: 'Subcategories'
+        })
+    };
+
+    renderItem = ({ item, index }) => {
+        return (
+            <TouchableOpacity onPress={()=>{this._onPressItem(item)}}>
+                <View style = {styles.itemContainer}>
+                    <Text> {item.categoryName}</Text>
+                </View>
+            </TouchableOpacity>
+        );
+    };
 
     render() {
         console.log('Subcategories');
@@ -81,7 +88,9 @@ class Subcategories extends Component {
                         <TouchableOpacity
                             onPress={()=> this.props.navigation.navigate('FoodPrices',{
                                 categoryId: this.params.categoryId,
-                                prefix: this.params.prefix
+                                categoryName: this.params.categoryName,
+                                prefix: this.params.prefix,
+                                prevPage: 'Categories'
                             })}>
                             <Text>Category Name = {this.params.categoryName}</Text>
                             <Text>Category ID = {this.params.categoryId}</Text>
@@ -89,15 +98,44 @@ class Subcategories extends Component {
                         </TouchableOpacity>
                         {this.props.navigation.navigate('FoodPrices', {
                             categoryId: this.params.categoryId,
-                            prefix: this.params.prefix
+                            categoryName: this.params.categoryName,
+                            prefix: this.params.prefix,
+                            prevPage: 'Categories'
                         })}
                     </View>
                 )
 
             }else{
                 return (
-                    <View style={styles.container}>
-                        {this.renderSubCategories()}
+                    <View style = {styles.backgroundContainer}>
+                        <OrderHeader
+                            navigation={this.props.navigation}
+                            title={this.props.seatingInformation.restaurant.restaurantName}
+                            enableBack={true}
+                            onPress={this.props.navigation.goBack}
+                        />
+                        <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
+                            <View style = {styles.overlay}>
+                                <View style = {styles.promotion}>
+                                    <Text style = {styles.itemName}> {this.params.categoryName} </Text>
+                                </View>
+                                <GridView
+                                    itemDimension={130}
+                                    items={this.state.subCategories}
+                                    style={styles.gridView}
+                                    renderItem={item => (
+                                        <TouchableOpacity onPress={()=>{this._onPressItem(item)}}>
+                                            <View style={styles.itemContainer}>
+                                                <Image source={require('../images/explore.jpg')} style={styles.image} />
+                                                <View style = {styles.overlayInner}>
+                                                    <Text style={styles.itemName}>{item.foodCategoryName}</Text>
+                                                </View>
+                                            </View>
+                                        </TouchableOpacity>
+                                    )}
+                                />
+                            </View>
+                        </ImageBackground>
                     </View>
                 )
             }
@@ -122,8 +160,75 @@ export default connect(mapStateToProps)(Subcategories);
 
 const styles = StyleSheet.create({
     container: {
+        flex:1,
+        marginVertical: 20,
+
+    },
+
+    gridView: {
+        paddingTop: 25,
         flex: 1,
+    },
+    itemContainer: {
+        justifyContent: 'flex-end',
+        borderRadius: 5,
+        padding: 5,
+        height: 150,
+        backgroundColor: 'rgba(246, 112, 117, 0.65))',
+    },
+    itemName: {
+        fontSize: 23,
+        color: '#fff',
+        fontWeight: '600',
+    },
+
+    image: {
+        flex: 1,
+        width: undefined,
+        height: undefined,
+    },
+
+    overlayInner: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(38, 12, 12, 0.32)',
         alignItems: 'center',
-        justifyContent: 'center'
-    }
+        justifyContent: 'center',
+        height: '50%',
+        marginBottom: '25%',
+        marginTop: '25%',
+
+    },
+    backgroundImage: {
+        flex:1,
+        width: null,
+        height: null,
+
+    },
+
+    overlay: {
+        backgroundColor:'rgba(255, 255, 255, 0.6)',
+        flex:1,
+    },
+
+    backgroundContainer: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+
+    promotion: {
+        height: 140,
+        backgroundColor:'rgba(255, 255, 255, 0.6)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '2.5%',
+        marginLeft: '2.5%',
+        marginRight: '2.5%',
+        borderRadius: 5,
+        shadowRadius: 10,
+        elevation: 100,
+    },
+
 });

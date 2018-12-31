@@ -8,14 +8,12 @@ import {
     ImageBackground,
 
 } from "react-native";
-import FoodPrice from "../components/FoodPrice";
 import axios from 'axios';
-import Icon from "react-native-vector-icons/MaterialIcons";
 import CartIcon from "../components/CartIcon";
 import BillIcon from "../components/BillIcon";
 import {connect} from "react-redux";
-import Category from "../components/Category";
 import GridView from "react-native-super-grid";
+import OrderHeader from "../components/OrderHeader";
 
 
 class FoodPrices extends Component {
@@ -60,18 +58,6 @@ class FoodPrices extends Component {
             });
     }
 
-    renderFoodPrice(){
-        console.log('Render Food Price');
-        return this.state.foodPrices.map((foodPrice,i) =>
-            <FoodPrice
-                key={i}
-                foodPrice={foodPrice}
-                prefix={this.params.prefix}
-                navigation={this.props.navigation}
-            />
-        )
-    }
-
     /* added this */
 
 
@@ -83,6 +69,10 @@ class FoodPrices extends Component {
         })
     };
 
+    onPress(){
+        this.props.navigation.navigate(this.params.prevPage)
+    }
+
     render() {
         console.log('FoodPrices');
         console.log('STATE:');
@@ -92,10 +82,16 @@ class FoodPrices extends Component {
         if(this.state.mounted){
             return (
                 <View style = {styles.backgroundContainer}>
+                    <OrderHeader
+                        navigation={this.props.navigation}
+                        title={this.props.seatingInformation.restaurant.restaurantName}
+                        enableBack={true}
+                        onPress={this.onPress.bind(this)}
+                    />
                     <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                         <View style = {styles.overlay}>
                             <View style = {styles.promotion}>
-                                <Text style = {styles.itemName}> CATEGORY NAME </Text>
+                                <Text style = {styles.itemName}> {this.params.categoryName} </Text>
                             </View>
                             <GridView
                                 itemDimension={130}
@@ -108,9 +104,8 @@ class FoodPrices extends Component {
                                                 <Image source={require('../images/explore.jpg')} style={styles.image} />
                                             </View>
                                             <View style = {styles.captionContainer}>
-                                                <Text style={styles.itemName}>{item.food.name}</Text>
-                                                <Text style={styles.itemName}>{item.food.price}</Text>
-                                                <Text style={styles.price}>$12</Text>
+                                                <Text style={styles.itemName}>{item.food.foodName}</Text>
+                                                <Text style={styles.itemName}>{item.foodPrice}</Text>
 
                                             </View>
                                         </View>

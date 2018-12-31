@@ -19,7 +19,7 @@ class OrderMainPage extends Component {
         this.params = this.props.navigation.state.params
         this.state={
             email: 'CUS001@makanow.com',
-            prefix: 'https://2c0a12c7.ngrok.io/api/',
+            prefix: 'http://02d25928.ngrok.io/api/',
             seatingTable: {},
             restaurant: {},
             menu:{},

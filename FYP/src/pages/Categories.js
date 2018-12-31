@@ -9,13 +9,13 @@ import {
     ImageBackground
 } from "react-native";
 import GridView from 'react-native-super-grid';
-
+import { Header } from 'native-base';
 import axios from "axios";
-import Category from "../components/Category";
 import CartIcon from "../components/CartIcon";
 import BillIcon from "../components/BillIcon";
 import Icon from "react-native-vector-icons/Entypo";
 import { connect } from "react-redux";
+import OrderHeader from "../components/OrderHeader";
 
 class Categories extends Component {
     constructor(props){
@@ -71,25 +71,14 @@ class Categories extends Component {
             })
     }
 
-    renderCategory(){
-        return this.state.categories.map(category =>
-            <Category
-                key={category.categoryId}
-                category={category}
-                navigation={this.props.navigation}
-                prefix={this.params.prefix}
-                navigatedPage='Subcategories'
-            />
-        );
-    }
-
 
     /* added this */
     _onPressItem = (item) => {
-        this.props.navigation.navigate('FoodPrices', {
+        console.log(item)
+        this.props.navigation.navigate('Subcategories', {
             prefix: this.props.navigation.state.params.prefix,
-            categoryId: item.categoryId,
-            categoryName: item.categoryName,
+            categoryId: item.foodCategoryId,
+            categoryName: item.foodCategoryName,
         })
     };
 
@@ -112,6 +101,11 @@ class Categories extends Component {
         if(this.state.mounted){
             return (
                 <View style = {styles.backgroundContainer}>
+                    <OrderHeader
+                        navigation={this.props.navigation}
+                        title={this.props.seatingInformation.restaurant.restaurantName}
+                        enableBack={false}
+                    />
                     <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                         <View style = {styles.overlay}>
                             <View style = {styles.promotion}>
@@ -126,7 +120,7 @@ class Categories extends Component {
                                         <View style={styles.itemContainer}>
                                             <Image source={require('../images/explore.jpg')} style={styles.image} />
                                             <View style = {styles.overlayInner}>
-                                                <Text style={styles.itemName}>{item.categoryName}</Text>
+                                                <Text style={styles.itemName}>{item.foodCategoryName}</Text>
                                             </View>
                                         </View>
                                     </TouchableOpacity>
