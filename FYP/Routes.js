@@ -25,5 +25,10 @@ export const OrderStackNav = createStackNavigator({
     Cart: CartScreen,
     Bill: BillScreen
 },{
-    headerMode: 'none'
+    headerMode: 'none',
+    navigationOptions:{
+        headerTitle: 'Dine-in',
+        headerRight: null,
+        headerMode: 'none'
+    }
 })
