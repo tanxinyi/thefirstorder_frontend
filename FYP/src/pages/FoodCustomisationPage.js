@@ -56,9 +56,9 @@ class FoodCustomisationPage extends Component {
         return (
             <View style={styles.container}>
                 <Text>Food Customisation Page</Text>
-                <Text>Food Name = {this.params.foodPrice.food.name}</Text>
-                <Text>Food Description = {this.params.foodPrice.food.description}</Text>
-                <Text>Food Price = {this.params.foodPrice.price}</Text>
+                <Text>Food Name = {this.params.foodPrice.food.foodName}</Text>
+                <Text>Food Description = {this.params.foodPrice.food.foodDescription}</Text>
+                <Text>Food Price = {this.params.foodPrice.foodPrice}</Text>
                 <Text>{this.params.foodPrice.availability ? '' : 'Sold Out'}</Text>
                 <View>
                     <Button title='+' onPress={()=>{this.increaseCount()}} />
@@ -76,8 +76,8 @@ class FoodCustomisationPage extends Component {
                             id: this.props.seatingInformation.orderId + date.getTime(),
                             orderId:this.props.seatingInformation.orderId,
                             foodId:this.params.foodPrice.food.foodId,
-                            name:this.params.foodPrice.food.name,
-                            price: this.params.foodPrice.price,
+                            name:this.params.foodPrice.food.foodName,
+                            price: this.params.foodPrice.foodPrice,
                             quantity:this.state.quantity,
                             remarks: this.state.remarks
                         }

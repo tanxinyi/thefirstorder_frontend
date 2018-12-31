@@ -13,6 +13,8 @@ import CartScreen from "./src/pages/CartScreen";
 import BillScreen from "./src/pages/BillScreen";
 import HomePage from "./src/pages/HomePage";
 import Subcategories from "./src/components/Subcategories";
+import PaymentDetailsScreen from "./src/pages/PaymentDetailsScreen";
+import PaymentConfirmationScreen from "./src/pages/PaymentConfirmationScreen";
 
 export const OrderStackNav = createStackNavigator({
     HomePage: HomePage,
@@ -23,9 +25,11 @@ export const OrderStackNav = createStackNavigator({
     FoodPrices: FoodPrices,
     FoodCustomisation: FoodCustomisationPage,
     Cart: CartScreen,
-    Bill: BillScreen
+    Bill: BillScreen,
+    PaymentDetails: PaymentDetailsScreen,
+    Confirmation: PaymentConfirmationScreen
 },{
-    headerMode: 'none',
+    //headerMode: 'none',
     navigationOptions:{
         headerTitle: 'Dine-in',
         headerRight: null,

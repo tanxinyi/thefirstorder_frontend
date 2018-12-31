@@ -8,8 +8,8 @@ import {
     Image,
     ImageBackground
 } from "react-native";
+
 import GridView from 'react-native-super-grid';
-import { Header } from 'native-base';
 import axios from "axios";
 import CartIcon from "../components/CartIcon";
 import BillIcon from "../components/BillIcon";
@@ -99,13 +99,16 @@ class Categories extends Component {
         console.log('PROPS');
         console.log(this.props);
         if(this.state.mounted){
-            return (
-                <View style = {styles.backgroundContainer}>
+            /*
                     <OrderHeader
                         navigation={this.props.navigation}
                         title={this.props.seatingInformation.restaurant.restaurantName}
                         enableBack={false}
                     />
+             */
+            return (
+                <View style = {styles.backgroundContainer}>
+
                     <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                         <View style = {styles.overlay}>
                             <View style = {styles.promotion}>

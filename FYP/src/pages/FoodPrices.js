@@ -80,14 +80,16 @@ class FoodPrices extends Component {
         console.log('PROPS');
         console.log(this.props);
         if(this.state.mounted){
-            return (
-                <View style = {styles.backgroundContainer}>
+            /*
                     <OrderHeader
                         navigation={this.props.navigation}
                         title={this.props.seatingInformation.restaurant.restaurantName}
                         enableBack={true}
                         onPress={this.onPress.bind(this)}
                     />
+             */
+            return (
+                <View style = {styles.backgroundContainer}>
                     <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                         <View style = {styles.overlay}>
                             <View style = {styles.promotion}>

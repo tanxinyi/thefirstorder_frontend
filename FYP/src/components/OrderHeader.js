@@ -6,9 +6,7 @@ import {
     TouchableOpacity,
     Alert
 } from "react-native";
-import {
-    Header
-} from "react-native-elements";
+import { Header } from 'react-native-elements';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import CartIcon from "./CartIcon";
 import BillIcon from "./BillIcon";
@@ -20,9 +18,9 @@ const OrderHeader = (props) => (
                 <TouchableOpacity onPress={()=> props.onPress()}>
                     <Icon name='arrow-back' size={30}/>
                 </TouchableOpacity>
-                : <View></View>
+                : <Container></Container>
             }
-            <!--
+
             <TouchableOpacity onPress={()=> {
                 Alert.alert(
                     'Side Menu pressed',
@@ -32,7 +30,7 @@ const OrderHeader = (props) => (
             }}>
                 <Icon name='menu' size={30} />
             </TouchableOpacity>
-            -->
+
         </View>
         <Text>
             {props.title}
