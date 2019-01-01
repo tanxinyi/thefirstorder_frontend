@@ -18,7 +18,7 @@ class BillScreen extends Component {
     calculatePrice(items){
         let subTotal = 0.0;
         for(var i = 0; i < items.length; i++){
-            subTotal += items[i].price * items[i].quantity;
+            subTotal += items[i].customerOrderPrice * items[i].customerOrderQuantity;
         }
 
         let serviceCharge = subTotal * 0.1;
@@ -55,7 +55,8 @@ class BillScreen extends Component {
                         <Button
                             title='Pay'
                             onPress={()=> this.props.navigation.navigate('PaymentDetails', {
-                                prices: prices
+                                prices: prices,
+                                prefix: this.props.prefix
                             })}
                         />
                     </View>
@@ -67,9 +68,11 @@ class BillScreen extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
-        billItems: state.billItems
+        billItems: state.billItems,
+        prefix: state.prefix,
+        navigation: ownProps.navigation
     }
 }
 

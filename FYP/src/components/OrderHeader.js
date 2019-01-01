@@ -18,7 +18,7 @@ const OrderHeader = (props) => (
                 <TouchableOpacity onPress={()=> props.onPress()}>
                     <Icon name='arrow-back' size={30}/>
                 </TouchableOpacity>
-                : <Container></Container>
+                : <Text></Text>
             }
 
             <TouchableOpacity onPress={()=> {

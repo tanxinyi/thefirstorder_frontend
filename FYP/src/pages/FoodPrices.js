@@ -38,13 +38,13 @@ class FoodPrices extends Component {
                     <TouchableOpacity onPress={()=> navigation.navigate('Bill')}>
                         <BillIcon />
                     </TouchableOpacity>
-                </View>,
+                </View>
         }
     }
 
     componentWillMount(){
         console.log(this.params);
-        let request = this.params.prefix + "foodPrices/menu/" + this.props.seatingInformation.menu.menuId + "/category/" + this.params.categoryId;
+        let request = this.props.prefix + "foodPrices/menu/" + this.props.seatingInformation.menu.menuId + "/category/" + this.params.categoryId;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response=>{
@@ -63,7 +63,6 @@ class FoodPrices extends Component {
 
     _onPressItem = (item) => {
         this.props.navigation.navigate('FoodCustomisation', {
-            prefix: this.params.prefix,
             foodPrice: item,
 
         })
@@ -131,6 +130,7 @@ class FoodPrices extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         seatingInformation: state.seatingInformation,
+        prefix: state.prefix,
         navigation: ownProps.navigation,
     }
 }

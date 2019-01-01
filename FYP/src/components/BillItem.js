@@ -10,8 +10,8 @@ import {
 const BillItem = (props) => (
     <View>
         <Text>Item Name: {props.billItem.name}</Text>
-        <Text>Quantity: {props.billItem.quantity}</Text>
-        <Text>Price: $ {props.round2DP(props.billItem.price * props.billItem.quantity)}</Text>
+        <Text>Quantity: {props.billItem.customerOrderQuantity}</Text>
+        <Text>Price: $ {props.round2DP(props.billItem.customerOrderPrice * props.billItem.customerOrderQuantity)}</Text>
     </View>
 );
 

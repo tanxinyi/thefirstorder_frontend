@@ -19,6 +19,7 @@ class CartScreen extends Component {
 
     constructor(props){
         super(props)
+        this.params = this.props.navigation.state.params
         this.state ={
             mounted1: false,
             mounted2: false
@@ -49,7 +50,7 @@ class CartScreen extends Component {
 
     getNewOrderId(){
         console.log('Get New Order Id');
-        let request = "https://makanow.herokuapp.com/api/orders/new/orderSummary/" + this.props.seatingInformation.orderSummaryId;
+        let request = this.props.prefix + "/orders/new/orderSummary/" + this.props.seatingInformation.orderSummaryId;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response=> {
@@ -62,7 +63,7 @@ class CartScreen extends Component {
 
     sendToBackEnd(orders){
         console.log('Sending orders to backend');
-        let request = "http://makanow.herokuapp.com/api/" + "customerOrders";
+        let request = this.props.prefix + "/customerOrders";
         console.log('Request: ' + request);
         console.log('Body:');
         console.log(orders);
@@ -78,7 +79,12 @@ class CartScreen extends Component {
     }
 
     render() {
+        console.log('Cart Screen');
         console.log('OrderID: ' + this.props.seatingInformation.orderId);
+        console.log('STATE:');
+        console.log(this.state);
+        console.log('PROPS');
+        console.log(this.props);
         if(this.state.mounted1 && this.state.mounted2){
             Alert.alert(
                 'Sent!',
@@ -131,6 +137,7 @@ const mapStateToProps = (state, ownProps) => {
         cartItems: state.cartItems,
         billItems: state.billItems,
         seatingInformation: state.seatingInformation,
+        prefix: state.prefix,
         navigation: ownProps.navigation
     }
 }

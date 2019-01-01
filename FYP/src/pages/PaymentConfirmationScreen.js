@@ -6,6 +6,7 @@ import {
     Button
 } from "react-native";
 import axios from 'axios';
+import {connect} from 'react-redux';
 
 class PaymentConfirmationScreen extends Component {
     constructor(props){
@@ -35,6 +36,7 @@ class PaymentConfirmationScreen extends Component {
                 console.log(response)
                 this.stripeChargeCall(response.data.id)
             }).catch(error => {
+                console.log("Token Call Failed");
                 console.log(error);
                 this.setState({
                     rejected: true
@@ -52,6 +54,7 @@ class PaymentConfirmationScreen extends Component {
                 console.log(response)
                 this.updatePaymentStatus()
             }).catch(error => {
+                console.log("Charges Call Failed");
                 console.log(error);
                 this.setState({
                     rejected: true
@@ -61,7 +64,16 @@ class PaymentConfirmationScreen extends Component {
 
     updatePaymentStatus(){
         //To update db status with order summary id
-        this.setState({accepted: true})
+        let request = this.props.prefix + "/orderSummary/" + this.props.seatingInformation.orderSummaryId + "/paymentStatus/Paid"
+        console.log('REQUEST:');
+        console.log(request);
+        axios.put(request)
+            .then(response=> this.setState({accepted: true}))
+            .catch(error=> {
+                console.log("Update Payment failed");
+                console.log(error)
+            })
+
     }
 
     addTokenParams(){
@@ -132,7 +144,15 @@ class PaymentConfirmationScreen extends Component {
     }
 }
 
-export default PaymentConfirmationScreen;
+const mapStateToProps =(state, ownProps) => {
+    return {
+        seatingInformation: state.seatingInformation,
+        prefix: state.prefix,
+        navigation: ownProps.navigation
+    }
+}
+
+export default connect(mapStateToProps)(PaymentConfirmationScreen);
 
 const styles = StyleSheet.create({
     container: {

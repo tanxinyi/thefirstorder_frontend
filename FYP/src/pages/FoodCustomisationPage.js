@@ -9,6 +9,11 @@ import {
     Alert,
     ScrollView
 } from "react-native";
+import RadioForm, {
+    RadioButton,
+    RadioButtonInput,
+    RadioButtonLabel
+} from "react-native-simple-radio-button";
 import CartIcon from "../components/CartIcon";
 import {connect} from 'react-redux';
 import BillIcon from "../components/BillIcon";
@@ -23,7 +28,7 @@ class FoodCustomisationPage extends Component {
             mounted: false,
             quantity: 1,
             remarks: '',
-            selectedCustomisation: []
+            selected: []
         }
     }
 
@@ -43,13 +48,14 @@ class FoodCustomisationPage extends Component {
     }
 
     componentWillMount(){
-        let request = this.params.prefix + "customisation/menu/" + this.params.foodPrice.menuFoodCatId.menuId
+        let request = this.props.prefix + "customisation/menu/" + this.params.foodPrice.menuFoodCatId.menuId
             + "/food/" + this.params.foodPrice.menuFoodCatId.foodId
             + "/category/" + this.params.foodPrice.menuFoodCatId.foodCategoryId;
         console.log("REQUEST: " + request);
         axios.get(request)
             .then(response => {
                 console.log(response);
+                this.initialiseSelected(response.data);
                 this.setState({
                     customisations : response.data,
                     mounted: true
@@ -63,7 +69,89 @@ class FoodCustomisationPage extends Component {
 
     decreaseCount(){
         if(this.state.quantity == 1){return}
-        this.setState({quantity: this.state.quantity -1})
+y
+    }
+
+    initialiseSelected(customisations){
+        console.log("Initialise selected");
+        var selected = [];
+        for(var i = 0; i < customisations.length; i ++){
+            var customisationOptions = customisations[i].customisationOptions;
+            var defaultCOID = '';
+            var defaultPrice = 0;
+            var defaultName = ''
+            inner:
+            for(var j = 0; j < customisationOptions.length; j++){
+                if(customisationOptions[j].optionDescription === 'Normal'){
+                    defaultCOID = customisationOptions[j].customisationOptionId;
+                    defaultPrice = customisationOptions[j].optionPrice;
+                    defaultName = customisations[i].customisationName + ': Normal';
+                    break inner;
+                }
+            }
+
+            selected = [...selected, {customisationOptionId: defaultCOID, name: defaultName, optionPrice: defaultPrice}];
+        }
+        console.log(selected);
+        this.setState({selected: selected});
+    }
+
+    renderOptions(options, index, name){
+        console.log("Render Options");
+        console.log(options)
+        return options.map((option) => (
+            <RadioButton
+                key={option.customisationOptionId}
+                obj={{
+                    label: option.optionDescription + "(+ $" + option.optionPrice + ")",
+                    value: option.customisationOptionId
+                }}
+                onPress={()=> this.onPress(index, option, name)}
+                isSelected={
+                    this.state.selected[index] !== {} &&
+                    this.state.selected[index].customisationOptionId === option.customisationOptionId
+                }
+            />
+        ))
+    }
+
+    onPress(index, option, name){
+        console.log("Update Selected")
+        let selected = this.state.selected;
+        selected[index] = {
+            customisationOptionId: option.customisationOptionId,
+            name: name + ": " + option.optionDescription,
+            optionPrice: option.optionPrice
+        }
+        this.setState({selected: selected})
+    }
+
+    renderCustomisations(customisations){
+
+        console.log("Render Customisation");
+        return customisations.map((customisation, i) => (
+            <View
+                key={customisation.customisationId}
+            >
+                <Text>{customisation.customisationName} :</Text>
+                <RadioForm
+                    formHorizontal={true}
+                    animation={true}
+                    labelHorixontal={false}
+                >
+                    {this.renderOptions(customisation.customisationOptions, i, customisation.customisationName)}
+                </RadioForm>
+            </View>
+        ))
+    }
+
+    calculatePrice(selected){
+        let price = this.params.foodPrice.foodPrice;
+        if(selected == undefined) return price
+        for(var i = 0; i < selected.length; i++){
+            price += selected[i].optionPrice;
+        }
+        return price;
     }
 
     render() {
@@ -73,6 +161,11 @@ class FoodCustomisationPage extends Component {
         console.log('PROPS');
         console.log(this.props);
         var date = new Date();
+        if(this.state.selected != undefined) {
+            var selected = this.state.selected.filter(option => option.customisationOptionId !== '');
+        }else{
+            var selected = {}
+        }
         return (
             <View style={styles.container}>
                 <ScrollView>
@@ -85,6 +178,7 @@ class FoodCustomisationPage extends Component {
                         onChangeText={(text)=> this.setState({remark:text})}
                         value={this.state.remark}
                     />
+                    {this.state.mounted? this.renderCustomisations(this.state.customisations) : <View></View>}
                 </ScrollView>
                 <View style={styles.floatingContainer}>
                     <View style={{flexDirection: 'row', flex:1}}>
@@ -100,11 +194,12 @@ class FoodCustomisationPage extends Component {
                             let cartItem = {
                                 id: this.props.seatingInformation.orderId + date.getTime(),
                                 orderId:this.props.seatingInformation.orderId,
-                                foodId:this.params.foodPrice.food.foodId,
+                                menuFoodCatId: this.params.foodPrice.menuFoodCatId,
                                 name:this.params.foodPrice.food.foodName,
-                                price: this.params.foodPrice.foodPrice,
-                                quantity:this.state.quantity,
-                                remarks: this.state.remarks
+                                customerOrderPrice: this.calculatePrice(selected),
+                                customerOrderQuantity:this.state.quantity,
+                                customerOrderRemarks: this.state.remarks,
+                                customisationOptions: selected
                             }
                             Alert.alert(
                                 'Add to cart',
@@ -130,6 +225,7 @@ class FoodCustomisationPage extends Component {
 const mapStateToProps =(state, ownProps) => {
     return {
         seatingInformation: state.seatingInformation,
+        prefix: state.prefix,
         navigation: ownProps.navigation
     }
 }

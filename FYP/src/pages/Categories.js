@@ -47,10 +47,14 @@ class Categories extends Component {
                 </TouchableOpacity>,
             headerRight:
                 <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Cart', {
+                        prefix: this.params.prefix
+                    })}>
                         <CartIcon />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Bill')}>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Bill', {
+                        prefix: this.params.prefix
+                    })}>
                         <BillIcon />
                     </TouchableOpacity>
                 </View>
@@ -58,7 +62,7 @@ class Categories extends Component {
     }
 
     componentWillMount(){
-        let request = this.params.prefix + "menu/" + this.props.seatingInformation.menu.menuId + "/categories";
+        let request = this.props.prefix + "menu/" + this.props.seatingInformation.menu.menuId + "/categories";
         console.log('Request: ' + request);
         axios.get(request)
             .then(response => {
@@ -76,7 +80,6 @@ class Categories extends Component {
     _onPressItem = (item) => {
         console.log(item)
         this.props.navigation.navigate('Subcategories', {
-            prefix: this.props.navigation.state.params.prefix,
             categoryId: item.foodCategoryId,
             categoryName: item.foodCategoryName,
         })
@@ -136,6 +139,7 @@ class Categories extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         seatingInformation: state.seatingInformation,
+        prefix: state.prefix,
         navigation: ownProps.navigation
     }
 }

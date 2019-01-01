@@ -10,7 +10,10 @@ import {
 const CartItem = (props) => (
     <View>
         <Text>Item Name: {props.cartItem.name}</Text>
-        <Text>Quantity: {props.cartItem.quantity}</Text>
+        <Text>Quantity: {props.cartItem.customerOrderQuantity}</Text>
+        {props.cartItem.customisationOptions.map((option) => (
+            <Text key={option.customisationOptionId}>{option.name}</Text>
+        ))}
         <Button
             title='X'
             onPress={()=> {

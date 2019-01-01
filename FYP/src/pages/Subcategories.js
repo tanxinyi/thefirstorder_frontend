@@ -28,19 +28,23 @@ class Subcategories extends Component {
             headerTitle: 'Sub Categories',
             headerRight:
                 <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Cart', {
+                        prefix: this.params.prefix
+                    })}>
                         <CartIcon />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Bill')}>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Bill', {
+                        prefix: this.params.prefix
+                    })}>
                         <BillIcon />
                     </TouchableOpacity>
-                </View>,
+                </View>
         }
     }
 
     componentWillMount(){
         console.log(this.params);
-        let request = this.params.prefix + "subCategories/menu/" + this.props.seatingInformation.menu.menuId + "/category/" + this.params.categoryId;
+        let request = this.props.prefix + "subCategories/menu/" + this.props.seatingInformation.menu.menuId + "/category/" + this.params.categoryId;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response=>{
@@ -145,6 +149,7 @@ class Subcategories extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         seatingInformation: state.seatingInformation,
+        prefix: state.prefix,
         navigation: ownProps.navigation,
     }
 }

@@ -67,7 +67,7 @@ class PaymentDetailsScreen extends Component {
                             cardExpMth: this.state.cardExpMth,
                             cardExpYr: this.state.cardExpYr,
                             cardCVC: this.state.cardCVC,
-                            pkToken: this.state.pkToken
+                            pkToken: this.state.pkToken,
                         })
                     }}
                 />

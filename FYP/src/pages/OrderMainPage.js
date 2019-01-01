@@ -19,7 +19,6 @@ class OrderMainPage extends Component {
         this.params = this.props.navigation.state.params
         this.state={
             email: 'CUS001@makanow.com',
-            prefix: 'https://844f8c36.ngrok.io/api/',
             seatingTable: {},
             restaurant: {},
             menu:{},
@@ -40,7 +39,7 @@ class OrderMainPage extends Component {
                 })
         }
 
-        let request = this.state.prefix + "seatingTables/" + qrCode;
+        let request = this.props.prefix + "seatingTables/" + qrCode;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response => {
@@ -50,7 +49,7 @@ class OrderMainPage extends Component {
                 })
 
                 // Get Menu
-                let request = this.state.prefix + "restaurants/" + response.data.restaurant.restaurantId + "/menu";
+                let request = this.props.prefix + "restaurants/" + response.data.restaurant.restaurantId + "/menu";
                 console.log('Request: ' + request);
                 axios.get(request)
                     .then(response => {
@@ -70,7 +69,7 @@ class OrderMainPage extends Component {
         });
 
         //Get OrderID and OrderSummary
-        request = this.state.prefix + "orderSummary/new/customer/" + this.state.email + "/seatingTable/" + qrCode;
+        request = this.props.prefix + "orderSummary/new/customer/" + this.state.email + "/seatingTable/" + qrCode;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response => {
@@ -79,7 +78,7 @@ class OrderMainPage extends Component {
                 });
 
                 //Get Order
-                let request = this.state.prefix + "orders/new/orderSummary/" + response.data.orderSummaryId ;
+                let request = this.props.prefix + "orders/new/orderSummary/" + response.data.orderSummaryId ;
                 console.log('Request: ' + request);
                 axios.get(request)
                     .then(response => {
@@ -109,9 +108,7 @@ class OrderMainPage extends Component {
             this.updateReducers()
             return(
                 <View>
-                    {this.props.navigation.navigate('Categories', {
-                        prefix:this.state.prefix
-                    })}
+                    {this.props.navigation.navigate('Categories')}
                 </View>
             )
         }
@@ -132,6 +129,7 @@ class OrderMainPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         seatingInformation: state.seatingInformation,
+        prefix: state.prefix,
         navigation: ownProps.navigation
     }
 }
