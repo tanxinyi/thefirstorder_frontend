@@ -44,7 +44,7 @@ class FoodPrices extends Component {
 
     componentWillMount(){
         console.log(this.params);
-        let request = this.params.prefix + "menu/" + this.props.seatingInformation.menu.menuId + "/category/" + this.params.categoryId;
+        let request = this.params.prefix + "foodPrices/menu/" + this.props.seatingInformation.menu.menuId + "/category/" + this.params.categoryId;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response=>{
@@ -63,7 +63,7 @@ class FoodPrices extends Component {
 
     _onPressItem = (item) => {
         this.props.navigation.navigate('FoodCustomisation', {
-            prefix: this.props.navigation.state.params.prefix,
+            prefix: this.params.prefix,
             foodPrice: item,
 
         })
@@ -107,7 +107,7 @@ class FoodPrices extends Component {
                                             </View>
                                             <View style = {styles.captionContainer}>
                                                 <Text style={styles.itemName}>{item.food.foodName}</Text>
-                                                <Text style={styles.itemName}>{item.foodPrice}</Text>
+                                                <Text style={styles.itemName}>${item.foodPrice}</Text>
 
                                             </View>
                                         </View>

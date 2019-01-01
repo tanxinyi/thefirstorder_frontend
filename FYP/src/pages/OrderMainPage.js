@@ -19,7 +19,7 @@ class OrderMainPage extends Component {
         this.params = this.props.navigation.state.params
         this.state={
             email: 'CUS001@makanow.com',
-            prefix: 'https://90e23dcf.ngrok.io/api/',
+            prefix: 'https://844f8c36.ngrok.io/api/',
             seatingTable: {},
             restaurant: {},
             menu:{},
@@ -70,7 +70,7 @@ class OrderMainPage extends Component {
         });
 
         //Get OrderID and OrderSummary
-        request = this.state.prefix + "orderSummary/new/customer/" + this.state.email;
+        request = this.state.prefix + "orderSummary/new/customer/" + this.state.email + "/seatingTable/" + qrCode;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response => {
@@ -79,7 +79,7 @@ class OrderMainPage extends Component {
                 });
 
                 //Get Order
-                let request = this.state.prefix + "orders/new/orderSummary/" + response.data.orderSummaryId + "/seatingTable/" + qrCode;
+                let request = this.state.prefix + "orders/new/orderSummary/" + response.data.orderSummaryId ;
                 console.log('Request: ' + request);
                 axios.get(request)
                     .then(response => {

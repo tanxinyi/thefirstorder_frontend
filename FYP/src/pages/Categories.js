@@ -82,16 +82,6 @@ class Categories extends Component {
         })
     };
 
-    renderItem = ({ item, index }) => {
-        return (
-            <TouchableOpacity onPress={()=>{this._onPressItem(item)}}>
-                <View style = {styles.itemContainer}>
-                    <Text> {item.categoryName}</Text>
-                </View>
-            </TouchableOpacity>
-        );
-    };
-
     render() {
         console.log("Categories");
         console.log('STATE:');

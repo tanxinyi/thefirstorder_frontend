@@ -10,7 +10,7 @@ import CartIcon from "../components/CartIcon";
 import BillIcon from "../components/BillIcon";
 import {connect} from "react-redux";
 import GridView from "react-native-super-grid";
-import OrderHeader from "./OrderHeader";
+import OrderHeader from "../components/OrderHeader";
 
 class Subcategories extends Component {
     constructor(props){
@@ -40,14 +40,15 @@ class Subcategories extends Component {
 
     componentWillMount(){
         console.log(this.params);
-        let request = this.params.prefix + "menu/" + this.props.seatingInformation.menu.menuId + "/category/" + this.params.categoryId;
+        let request = this.params.prefix + "subCategories/menu/" + this.props.seatingInformation.menu.menuId + "/category/" + this.params.categoryId;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response=>{
+                console.log(response.data);
                 this.setState({
                     subCategories: response.data,
                     mounted:true,
-                    hasSubCategories: typeof(response.data[0].foodCategoryId) != "undefined"
+                    hasSubCategories: response.data.length !== 0
                 })
             }).catch(error=>{
             console.log(error)
@@ -59,20 +60,10 @@ class Subcategories extends Component {
         console.log(item)
         this.props.navigation.navigate('FoodPrices', {
             prefix: this.props.navigation.state.params.prefix,
-            categoryId: item.foodCategoryId,
-            categoryName: item.foodCategoryName,
+            categoryId: item.subCategoryId,
+            categoryName: item.subCategoryName,
             prevPage: 'Subcategories'
         })
-    };
-
-    renderItem = ({ item, index }) => {
-        return (
-            <TouchableOpacity onPress={()=>{this._onPressItem(item)}}>
-                <View style = {styles.itemContainer}>
-                    <Text> {item.categoryName}</Text>
-                </View>
-            </TouchableOpacity>
-        );
     };
 
     render() {
@@ -130,7 +121,7 @@ class Subcategories extends Component {
                                             <View style={styles.itemContainer}>
                                                 <Image source={require('../images/explore.jpg')} style={styles.image} />
                                                 <View style = {styles.overlayInner}>
-                                                    <Text style={styles.itemName}>{item.foodCategoryName}</Text>
+                                                    <Text style={styles.itemName}>{item.subCategoryName}</Text>
                                                 </View>
                                             </View>
                                         </TouchableOpacity>

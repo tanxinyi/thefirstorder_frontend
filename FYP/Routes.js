@@ -12,7 +12,7 @@ import FoodCustomisationPage from "./src/pages/FoodCustomisationPage";
 import CartScreen from "./src/pages/CartScreen";
 import BillScreen from "./src/pages/BillScreen";
 import HomePage from "./src/pages/HomePage";
-import Subcategories from "./src/components/Subcategories";
+import Subcategories from "./src/pages/Subcategories";
 import PaymentDetailsScreen from "./src/pages/PaymentDetailsScreen";
 import PaymentConfirmationScreen from "./src/pages/PaymentConfirmationScreen";
 

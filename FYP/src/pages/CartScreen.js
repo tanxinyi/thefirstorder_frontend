@@ -49,7 +49,7 @@ class CartScreen extends Component {
 
     getNewOrderId(){
         console.log('Get New Order Id');
-        let request = "https://makanow.herokuapp.com/api/orders/new/orderSummary/" + this.props.seatingInformation.orderSummaryId + "/seatingTable/" + this.props.seatingInformation.seatingTable.qrCode;
+        let request = "https://makanow.herokuapp.com/api/orders/new/orderSummary/" + this.props.seatingInformation.orderSummaryId;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response=> {

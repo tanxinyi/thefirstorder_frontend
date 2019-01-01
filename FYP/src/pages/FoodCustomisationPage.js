@@ -6,19 +6,24 @@ import {
     Button,
     TextInput,
     TouchableOpacity,
-    Alert
+    Alert,
+    ScrollView
 } from "react-native";
 import CartIcon from "../components/CartIcon";
 import {connect} from 'react-redux';
 import BillIcon from "../components/BillIcon";
+import axios from "axios";
 
 class FoodCustomisationPage extends Component {
     constructor(props){
         super(props)
         this.params = this.props.navigation.state.params
         this.state={
+            customisations: [],
+            mounted: false,
             quantity: 1,
-            remarks: ''
+            remarks: '',
+            selectedCustomisation: []
         }
     }
 
@@ -35,6 +40,21 @@ class FoodCustomisationPage extends Component {
                     </TouchableOpacity>
                 </View>
         }
+    }
+
+    componentWillMount(){
+        let request = this.params.prefix + "customisation/menu/" + this.params.foodPrice.menuFoodCatId.menuId
+            + "/food/" + this.params.foodPrice.menuFoodCatId.foodId
+            + "/category/" + this.params.foodPrice.menuFoodCatId.foodCategoryId;
+        console.log("REQUEST: " + request);
+        axios.get(request)
+            .then(response => {
+                console.log(response);
+                this.setState({
+                    customisations : response.data,
+                    mounted: true
+                });
+            }).catch(error => console.log(error))
     }
 
     increaseCount(){
@@ -55,47 +75,53 @@ class FoodCustomisationPage extends Component {
         var date = new Date();
         return (
             <View style={styles.container}>
-                <Text>Food Customisation Page</Text>
-                <Text>Food Name = {this.params.foodPrice.food.foodName}</Text>
-                <Text>Food Description = {this.params.foodPrice.food.foodDescription}</Text>
-                <Text>Food Price = {this.params.foodPrice.foodPrice}</Text>
-                <Text>{this.params.foodPrice.availability ? '' : 'Sold Out'}</Text>
-                <View>
-                    <Button title='+' onPress={()=>{this.increaseCount()}} />
-                    <Text>{this.state.quantity}</Text>
-                    <Button title='-' onPress={()=>{this.decreaseCount()}} />
+                <ScrollView>
+                    <Text>Food Name = {this.params.foodPrice.food.foodName}</Text>
+                    <Text>Food Description = {this.params.foodPrice.food.foodDescription}</Text>
+                    <Text>Food Price = ${this.params.foodPrice.foodPrice}</Text>
+                    <Text>{this.params.foodPrice.availability ? '' : 'Sold Out'}</Text>
+                    <Text> Any special remarks: </Text>
                     <TextInput
                         onChangeText={(text)=> this.setState({remark:text})}
                         value={this.state.remark}
                     />
-                </View>
-                <Button
-                    title='Add to Cart!'
-                    onPress={()=>{
-                        let cartItem = {
-                            id: this.props.seatingInformation.orderId + date.getTime(),
-                            orderId:this.props.seatingInformation.orderId,
-                            foodId:this.params.foodPrice.food.foodId,
-                            name:this.params.foodPrice.food.foodName,
-                            price: this.params.foodPrice.foodPrice,
-                            quantity:this.state.quantity,
-                            remarks: this.state.remarks
-                        }
-                        Alert.alert(
-                            'Add to cart',
-                            'Add (' + this.state.quantity + ') ' +
-                            this.params.foodPrice.food.name + ' to cart?',
-                            [
-                                {text: 'Yes', onPress: () => {
-                                        this.props.addItemToCart(cartItem)
-                                        this.props.navigation.goBack()
-                                    }},
-                                {text: 'No', style:'cancel'}
-                            ]
-                        )
+                </ScrollView>
+                <View style={styles.floatingContainer}>
+                    <View style={{flexDirection: 'row', flex:1}}>
+                        <Button title='+' onPress={()=>{this.increaseCount()}} />
+                        <Text>{this.state.quantity}</Text>
+                        <Button title='-' onPress={()=>{this.decreaseCount()}} />
 
-                    }}
-                />
+                    </View>
+                    <Button
+                        title='Add to Cart!'
+                        disabled={!this.params.foodPrice.availability}
+                        onPress={()=>{
+                            let cartItem = {
+                                id: this.props.seatingInformation.orderId + date.getTime(),
+                                orderId:this.props.seatingInformation.orderId,
+                                foodId:this.params.foodPrice.food.foodId,
+                                name:this.params.foodPrice.food.foodName,
+                                price: this.params.foodPrice.foodPrice,
+                                quantity:this.state.quantity,
+                                remarks: this.state.remarks
+                            }
+                            Alert.alert(
+                                'Add to cart',
+                                'Add (' + this.state.quantity + ') ' +
+                                this.params.foodPrice.food.foodName + ' to cart?',
+                                [
+                                    {text: 'Yes', onPress: () => {
+                                            this.props.addItemToCart(cartItem)
+                                            this.props.navigation.goBack()
+                                        }},
+                                    {text: 'No', style:'cancel'}
+                                ]
+                            )
+
+                        }}
+                    />
+                </View>
             </View>
         );
     }
@@ -125,5 +151,11 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    floatingContainer: {
+        backgroundColor: 'white',
+        position: 'absolute',
+        bottom: 10,
+        alignItems: 'center'
     }
 });
