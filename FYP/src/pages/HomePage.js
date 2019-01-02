@@ -62,7 +62,7 @@ class HomePage extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style = {styles.options}>
-                            <TouchableOpacity onPress={()=> this.props.navigation.navigate('ScanningPage')} >
+                            <TouchableOpacity onPress={()=> this.props.navigation.navigate('tempCartScreen')} >
                                 <EmptyCard>
                                     <ImageBackground source = {require('../images/explore.jpg')} style = {styles.optionsPic}>
                                         <View style = {styles.overlayInner}>

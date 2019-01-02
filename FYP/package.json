@@ -13,6 +13,7 @@
     "react-native": "0.57.8",
     "react-native-elements": "^0.19.1",
     "react-native-fit-image": "^1.5.4",
+    "react-native-gesture-handler": "^1.0.12",
     "react-native-responsive-fontsize": "^0.1.6",
     "react-native-simple-radio-button": "^2.7.3",
     "react-native-super-grid": "^2.4.4",

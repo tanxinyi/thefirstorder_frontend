@@ -47,14 +47,10 @@ class Categories extends Component {
                 </TouchableOpacity>,
             headerRight:
                 <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Cart', {
-                        prefix: this.params.prefix
-                    })}>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
                         <CartIcon />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Bill', {
-                        prefix: this.params.prefix
-                    })}>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Bill')}>
                         <BillIcon />
                     </TouchableOpacity>
                 </View>
