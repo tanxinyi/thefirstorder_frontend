@@ -7,8 +7,9 @@ import {
     TextInput,
     TouchableOpacity,
     Alert,
-    ScrollView
+    ScrollView, Dimensions, ImageBackground,
 } from "react-native";
+import {Card} from 'react-native-elements'
 import RadioForm, {
     RadioButton,
     RadioButtonInput,
@@ -18,6 +19,7 @@ import CartIcon from "../components/CartIcon";
 import {connect} from 'react-redux';
 import BillIcon from "../components/BillIcon";
 import axios from "axios";
+import RF from "react-native-responsive-fontsize/index";
 
 class FoodCustomisationPage extends Component {
     constructor(props){
@@ -169,9 +171,23 @@ y
         return (
             <View style={styles.container}>
                 <ScrollView>
-                    <Text>Food Name = {this.params.foodPrice.food.foodName}</Text>
-                    <Text>Food Description = {this.params.foodPrice.food.foodDescription}</Text>
-                    <Text>Food Price = ${this.params.foodPrice.foodPrice}</Text>
+                    <View style = {styles.imageContainer}>
+                        <ImageBackground source={require('../images/dessert.jpg')} style={styles.image}>
+                            <View style = {styles.overlay}>
+                                <Card
+                                    containerStyle={styles.cardContainer}
+                                >
+                                    <Text style = {styles.titleStyle}> {this.params.foodPrice.food.foodName} </Text>
+                                    <Text style = {styles.description}>${this.params.foodPrice.foodPrice}</Text>
+                                    <Text style = {styles.description}> {this.params.foodPrice.food.foodDescription}</Text>
+
+                                </Card>
+                            </View>
+                        </ImageBackground>
+
+                    </View>
+
+
                     <Text>{this.params.foodPrice.availability ? '' : 'Sold Out'}</Text>
                     <Text> Any special remarks: </Text>
                     <TextInput
@@ -253,5 +269,44 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         alignItems: 'center'
-    }
+    },
+    imageContainer: {
+        width: Dimensions.get('window').width,
+        height: (Dimensions.get('window').height)*0.30,
+
+    },
+    image: {
+        flex: 1,
+        width: undefined,
+        height: undefined,
+    },
+    card: {
+        width: 10,
+        height: (Dimensions.get('window').height)*0.30,
+    },
+    overlay: {
+        backgroundColor: 'rgba(255, 0, 0, 0);',
+        alignItems: 'center',
+        justifyContent: 'center',
+        top: '40%',
+    },
+    itemDetailsContainer:{
+        backgroundColor: 'red',
+    },
+    description: {
+        fontStyle: 'italic',
+        textAlign: 'center',
+        fontSize: RF(2.5),
+        paddingTop: 15,
+    },
+    titleStyle: {
+        fontStyle: 'italic',
+        textAlign: 'center',
+        fontSize: RF(3),
+        color: 'black',
+    },
+    cardContainer: {
+        width: (Dimensions.get('window').width)*0.75,
+        minHeight: (Dimensions.get('window').height)*0.20,
+    },
 });

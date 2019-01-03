@@ -5,7 +5,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    ImageBackground,
+    ImageBackground, Dimensions,
 
 } from "react-native";
 import axios from 'axios';
@@ -14,6 +14,7 @@ import BillIcon from "../components/BillIcon";
 import {connect} from "react-redux";
 import GridView from "react-native-super-grid";
 import OrderHeader from "../components/OrderHeader";
+import RF from "react-native-responsive-fontsize/index";
 
 
 class FoodPrices extends Component {
@@ -91,8 +92,12 @@ class FoodPrices extends Component {
                 <View style = {styles.backgroundContainer}>
                     <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                         <View style = {styles.overlay}>
-                            <View style = {styles.promotion}>
-                                <Text style = {styles.itemName}> {this.params.categoryName} </Text>
+                            <View style = {styles.topContainer}>
+                                <ImageBackground source = {require('../images/dineIn.jpg')} style = {styles.image}>
+                                    <View style = {styles.overlayInner2}>
+                                        <Text style = {styles.caption}> {this.params.categoryName} </Text>
+                                    </View>
+                                </ImageBackground>
                             </View>
                             <GridView
                                 itemDimension={130}
@@ -223,5 +228,28 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 14,
         color: 'black',
-    }
+    },
+
+    caption: {
+        fontSize: RF(7),
+        color: 'white',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        fontWeight: '600',
+    },
+
+
+    overlayInner2: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(38, 12, 12, 0.32)',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    topContainer: {
+        width: Dimensions.get('window').width,
+        height: (Dimensions.get('window').height)*0.20,
+
+    },
+
 });

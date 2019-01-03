@@ -3,7 +3,7 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity, ImageBackground, Image
+    TouchableOpacity, ImageBackground, Image, Dimensions
 } from "react-native";
 import axios from 'axios';
 import CartIcon from "../components/CartIcon";
@@ -11,6 +11,8 @@ import BillIcon from "../components/BillIcon";
 import {connect} from "react-redux";
 import GridView from "react-native-super-grid";
 import OrderHeader from "../components/OrderHeader";
+import RF from "react-native-responsive-fontsize/index";
+import EmptyCard from "../components/EmptyCard";
 
 class Subcategories extends Component {
     constructor(props){
@@ -109,8 +111,13 @@ class Subcategories extends Component {
                     <View style = {styles.backgroundContainer}>
                         <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                             <View style = {styles.overlay}>
-                                <View style = {styles.promotion}>
-                                    <Text style = {styles.itemName}> {this.params.categoryName} </Text>
+                                <View style = {styles.topContainer}>
+                                    <ImageBackground source = {require('../images/dineIn.jpg')} style = {styles.image}>
+                                        <View style = {styles.overlayInner2}>
+                                            <Text style = {styles.caption}> {this.params.categoryName} </Text>
+                                        </View>
+                                    </ImageBackground>
+
                                 </View>
                                 <GridView
                                     itemDimension={130}
@@ -212,7 +219,8 @@ const styles = StyleSheet.create({
         right: 0,
     },
 
-    promotion: {
+    topContainer: {
+        /*
         height: 140,
         backgroundColor:'rgba(255, 255, 255, 0.6)',
         alignItems: 'center',
@@ -223,6 +231,47 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         shadowRadius: 10,
         elevation: 100,
+        */
+        width: Dimensions.get('window').width,
+        height: (Dimensions.get('window').height)*0.20,
+
     },
+
+    topOverlay: {
+        backgroundColor:'rgba(191, 116, 63, 0)',
+    },
+
+    topWording: {
+        fontSize: RF(4),
+        color: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    topWordsContainer:{
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+
+    caption: {
+        fontSize: RF(7),
+        color: 'white',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        fontWeight: '600',
+    },
+
+
+    overlayInner2: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(38, 12, 12, 0.32)',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+
+    },
+
+
 
 });
