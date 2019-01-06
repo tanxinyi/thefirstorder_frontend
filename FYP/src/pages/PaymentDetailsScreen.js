@@ -13,10 +13,10 @@ class PaymentDetailsScreen extends Component {
         this.params=this.props.navigation.state.params;
         this.state={
             pkToken: 'sk_test_bvm02IkJVl9ZWLYFMCTBaRTL',
-            cardNumber: 'XXXX XXXX XXXX XXXX (without spacing)',
-            cardExpMth: 'MM',
-            cardExpYr: 'YYYY',
-            cardCVC: ''
+            cardNumber: '4242424242424242',
+            cardExpMth: '12',
+            cardExpYr: '2019',
+            cardCVC: '123'
         }
     }
 

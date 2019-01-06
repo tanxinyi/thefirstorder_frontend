@@ -1,4 +1,4 @@
-const prefix = (state = 'https://6c082a46.ngrok.io/api/', action) =>{
+const prefix = (state = 'https://makanow.herokuapp.com/api/', action) =>{
     return state
 }
 

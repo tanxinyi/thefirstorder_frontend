@@ -88,7 +88,7 @@ class PaymentConfirmationScreen extends Component {
 
     addChargesParams(token){
         let output = '';
-        output += 'amount=' + this.params.amount*100;
+        output += 'amount=' + parseInt(this.params.amount*100, 10);
         output += '&currency=' + 'sgd';
         output += '&source=' + token;
         output += '&description=' + '';
