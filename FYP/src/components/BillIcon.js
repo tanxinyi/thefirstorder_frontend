@@ -5,10 +5,15 @@ import {
     StyleSheet,
     TouchableOpacity
 } from "react-native";
+import {Icon} from "react-native-elements";
 
 const BillIcon = (props) => (
     <View style={styles.container}>
-        <Text>BillIcon</Text>
+        <Icon
+            name='payment'
+            color='#517fa4'
+        />
+
     </View>
 );
 

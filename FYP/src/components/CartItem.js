@@ -13,7 +13,7 @@ const CartItem = (props) => (
     <Card containerStyle={{width: Dimensions.get('window').width}}>
         <View style = {styles.container}>
             <View style = {styles.imageContainer}>
-               <Image source = {require('../images/explore.jpg')} style = {styles.logo}/>
+                <Image source = {require('../images/explore.jpg')} style = {styles.logo}/>
             </View>
             <View style = {styles.itemDetailsContainer}>
                 <Text style = {styles.itemName}>{props.cartItem.name}</Text>
@@ -22,14 +22,18 @@ const CartItem = (props) => (
                 ))}
             </View>
             <View style = {styles.itemCountContainer}>
+                <Icon name='chevron-up' type='font-awesome' onPress={()=>{this.increaseCount()}} />
                 <Text style = {styles.itemName}>{props.cartItem.customerOrderQuantity}</Text>
+                <Icon name='chevron-down' type='font-awesome' onPress={()=>{this.decreaseCount()}} />
             </View>
             <View style = {styles.itemPriceContainer}>
-                <Text style = {styles.itemName}> $12 </Text>
+                <Text style = {styles.price}> ${props.cartItem.customerOrderPrice} </Text>
             </View>
             <Icon
                 style = {styles.delete}
-                name='minus-circle'
+                name='delete'
+                type='AntDesign'
+                raised={false}
                 onPress={()=> {
                     Alert.alert(
                         'Remove Item',
@@ -70,12 +74,12 @@ const styles = StyleSheet.create({
     itemCountContainer:{
         flex: 1,
         alignItems:'center',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
+        flexDirection: 'column',
     },
 
     itemPriceContainer: {
         flex: 1,
-        backgroundColor: 'pink',
         alignItems:'center',
         justifyContent: 'center',
     },
@@ -98,5 +102,10 @@ const styles = StyleSheet.create({
     delete:{
         alignSelf: 'flex-end',
         marginTop: -5,
+    },
+    price: {
+        fontSize: RF(2.5),
+        color: 'black',
+        textAlign: 'center',
     }
 })

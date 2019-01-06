@@ -47,7 +47,7 @@ class HomePage extends Component {
                     <View style = {styles.overlay}>
                         <View style = {styles.logoPlaceholder}>
                             <Image source = {require('../images/makanow.jpg')} style = {styles.logo}/>
-                                <Text style = {styles.logoName}>MAKANOW</Text>
+                            <Text style = {styles.logoName}>MAKANOW</Text>
                         </View>
                         <View style = {styles.options1}>
                             <TouchableOpacity onPress={()=> this.props.navigation.navigate('ScanningPage')} >
@@ -75,6 +75,7 @@ class HomePage extends Component {
                     </View>
 
                 </ImageBackground>
+
             </View>
         );
     }
@@ -131,8 +132,12 @@ const styles = StyleSheet.create({
     },
 
     logoName: {
-        fontSize: RF(4),
+        fontSize: RF(4.5),
         color: 'black',
+        fontWeight: '900',
+        fontStyle: 'italic',
+
+
     },
 
     optionsPic: {
@@ -161,11 +166,13 @@ const styles = StyleSheet.create({
         color: 'white',
         alignSelf: 'center',
         justifyContent: 'center',
+        fontWeight: '900',
     },
 
     containerHeader: {
         backgroundColor: "#FFF"
-    }
+    },
+
 
 
 });

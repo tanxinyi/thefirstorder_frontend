@@ -3,10 +3,11 @@ import {
     View,
     Text,
     StyleSheet,
-    Button
+    Button, Dimensions, TouchableOpacity
 } from "react-native";
 import {connect} from "react-redux";
 import BillItems from "../components/BillItems";
+import RF from "react-native-responsive-fontsize/index";
 
 class BillScreen extends Component {
     static navigationOption = ({navigation}) => {
@@ -44,21 +45,24 @@ class BillScreen extends Component {
             <View style={styles.container}>
                 {this.props.billItems.length > 0 ?
                     <View>
-                        <BillItems
-                            billItems={this.props.billItems}
-                            round2DP={this.round2DP}
-                        />
-                        <Text>Subtotal: $ {prices.subTotal}</Text>
-                        <Text>Service Charge: $ {prices.serviceCharge}</Text>
-                        <Text>GST: $ {prices.gst_w_serviceCharge}</Text>
-                        <Text>Total: $ {prices.total_w_serviceCharge}</Text>
-                        <Button
-                            title='Pay'
+                            <BillItems
+                                billItems={this.props.billItems}
+                                round2DP={this.round2DP}
+                            />
+                            <Text>Subtotal: $ {prices.subTotal}</Text>
+                            <Text>Service Charge: $ {prices.serviceCharge}</Text>
+                            <Text>GST: $ {prices.gst_w_serviceCharge}</Text>
+                            <Text>Total: $ {prices.total_w_serviceCharge}</Text>
+
+                        <TouchableOpacity
+                            style={ styles.button}
                             onPress={()=> this.props.navigation.navigate('PaymentDetails', {
                                 prices: prices,
                                 prefix: this.props.prefix
                             })}
-                        />
+                        >
+                            <Text style = {styles.text}>PAYMENT</Text>
+                        </TouchableOpacity>
                     </View>
                     :
                     <Text>No items in your bill</Text>
@@ -83,5 +87,24 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    button:{
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: (Dimensions.get('window').width)*0.40,
+        borderRadius: 30,
+        bottom: '0%',
+        backgroundColor: "#F67075",
+        alignSelf:'center',
+    },
+    text:{
+        fontSize: RF(2.5),
+        color: 'white',
+    },
+    totalContainer:{
+        position:'absolute',
+        right: '10%',
     }
+
 });

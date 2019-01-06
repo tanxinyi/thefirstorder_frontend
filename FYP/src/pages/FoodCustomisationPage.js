@@ -9,7 +9,7 @@ import {
     Alert,
     ScrollView, Dimensions, ImageBackground,
 } from "react-native";
-import {Card} from 'react-native-elements'
+import {Card, Icon} from 'react-native-elements'
 import RadioForm, {
     RadioButton,
     RadioButtonInput,
@@ -71,7 +71,7 @@ class FoodCustomisationPage extends Component {
 
     decreaseCount(){
         if(this.state.quantity == 1){return}
-y
+        y
     }
 
     initialiseSelected(customisations){
@@ -83,14 +83,14 @@ y
             var defaultPrice = 0;
             var defaultName = ''
             inner:
-            for(var j = 0; j < customisationOptions.length; j++){
-                if(customisationOptions[j].optionDescription === 'Normal'){
-                    defaultCOID = customisationOptions[j].customisationOptionId;
-                    defaultPrice = customisationOptions[j].optionPrice;
-                    defaultName = customisations[i].customisationName + ': Normal';
-                    break inner;
+                for(var j = 0; j < customisationOptions.length; j++){
+                    if(customisationOptions[j].optionDescription === 'Normal'){
+                        defaultCOID = customisationOptions[j].customisationOptionId;
+                        defaultPrice = customisationOptions[j].optionPrice;
+                        defaultName = customisations[i].customisationName + ': Normal';
+                        break inner;
+                    }
                 }
-            }
 
             selected = [...selected, {customisationOptionId: defaultCOID, name: defaultName, optionPrice: defaultPrice}];
         }
@@ -140,6 +140,7 @@ y
                     formHorizontal={true}
                     animation={true}
                     labelHorixontal={false}
+                    selectedButtonColor= {'red'}
                 >
                     {this.renderOptions(customisation.customisationOptions, i, customisation.customisationName)}
                 </RadioForm>
@@ -180,7 +181,6 @@ y
                                     <Text style = {styles.titleStyle}> {this.params.foodPrice.food.foodName} </Text>
                                     <Text style = {styles.description}>${this.params.foodPrice.foodPrice}</Text>
                                     <Text style = {styles.description}> {this.params.foodPrice.food.foodDescription}</Text>
-
                                 </Card>
                             </View>
                         </ImageBackground>
@@ -189,49 +189,57 @@ y
 
 
                     <Text>{this.params.foodPrice.availability ? '' : 'Sold Out'}</Text>
-                    <Text> Any special remarks: </Text>
+
+                    {this.state.mounted? this.renderCustomisations(this.state.customisations) : <View style ={styles.customisations}></View>}
+                    <Text style = {styles.remarksQn}> Any special remarks: </Text>
                     <TextInput
+                        style = {styles.remarks}
                         onChangeText={(text)=> this.setState({remark:text})}
                         value={this.state.remark}
                     />
-                    {this.state.mounted? this.renderCustomisations(this.state.customisations) : <View></View>}
                 </ScrollView>
                 <View style={styles.floatingContainer}>
-                    <View style={{flexDirection: 'row', flex:1}}>
-                        <Button title='+' onPress={()=>{this.increaseCount()}} />
-                        <Text>{this.state.quantity}</Text>
-                        <Button title='-' onPress={()=>{this.decreaseCount()}} />
-
+                    <View style ={styles.cancelContainer}>
+                        <Text style = {styles.cancelText}> CANCEL </Text>
                     </View>
-                    <Button
-                        title='Add to Cart!'
-                        disabled={!this.params.foodPrice.availability}
-                        onPress={()=>{
-                            let cartItem = {
-                                id: this.props.seatingInformation.orderId + date.getTime(),
-                                orderId:this.props.seatingInformation.orderId,
-                                menuFoodCatId: this.params.foodPrice.menuFoodCatId,
-                                name:this.params.foodPrice.food.foodName,
-                                customerOrderPrice: this.calculatePrice(selected),
-                                customerOrderQuantity:this.state.quantity,
-                                customerOrderRemarks: this.state.remarks,
-                                customisationOptions: selected
-                            }
-                            Alert.alert(
-                                'Add to cart',
-                                'Add (' + this.state.quantity + ') ' +
-                                this.params.foodPrice.food.foodName + ' to cart?',
-                                [
-                                    {text: 'Yes', onPress: () => {
-                                            this.props.addItemToCart(cartItem)
-                                            this.props.navigation.goBack()
-                                        }},
-                                    {text: 'No', style:'cancel'}
-                                ]
-                            )
+                    <View style={styles.counter}>
+                        <Icon name='minus' type='font-awesome' onPress={()=>{this.decreaseCount()}} />
+                        <Text style = {styles.quantity}>{this.state.quantity}</Text>
+                        <Icon name='plus' type='font-awesome'onPress={()=>{this.increaseCount()}} />
+                    </View>
+                    <View style = {styles.addCart}>
+                        <TouchableOpacity
+                            style={styles.buttonContainer}
+                            disabled={!this.params.foodPrice.availability}
+                            onPress={()=>{
+                                let cartItem = {
+                                    id: this.props.seatingInformation.orderId + date.getTime(),
+                                    orderId:this.props.seatingInformation.orderId,
+                                    menuFoodCatId: this.params.foodPrice.menuFoodCatId,
+                                    name:this.params.foodPrice.food.foodName,
+                                    customerOrderPrice: this.calculatePrice(selected),
+                                    customerOrderQuantity:this.state.quantity,
+                                    customerOrderRemarks: this.state.remarks,
+                                    customisationOptions: selected
+                                }
+                                Alert.alert(
+                                    'Add to cart',
+                                    'Add (' + this.state.quantity + ') ' +
+                                    this.params.foodPrice.food.foodName + ' to cart?',
+                                    [
+                                        {text: 'Yes', onPress: () => {
+                                                this.props.addItemToCart(cartItem)
+                                                this.props.navigation.goBack()
+                                            }},
+                                        {text: 'No', style:'cancel'}
+                                    ]
+                                )
 
-                        }}
-                    />
+                            }}
+                        >
+                            <Text style = {styles.buttonText}>ADD TO CART!</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         );
@@ -262,13 +270,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: 'white',
     },
     floatingContainer: {
-        backgroundColor: 'white',
+        flex:1,
         position: 'absolute',
-        bottom: 10,
-        alignItems: 'center'
+        bottom: '2%',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     imageContainer: {
         width: Dimensions.get('window').width,
@@ -302,11 +312,83 @@ const styles = StyleSheet.create({
     titleStyle: {
         fontStyle: 'italic',
         textAlign: 'center',
-        fontSize: RF(3),
+        fontSize: RF(3.5),
         color: 'black',
+        textTransform: 'uppercase',
     },
     cardContainer: {
         width: (Dimensions.get('window').width)*0.75,
         minHeight: (Dimensions.get('window').height)*0.20,
     },
+    buttonContainer: {
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: (Dimensions.get('window').width)*0.28,
+        borderRadius: 30,
+        bottom: '0%',
+        backgroundColor: "#F67075",
+    },
+
+
+    counter:{
+        flexDirection: 'row',
+        borderRadius: 30,
+        backgroundColor: 'white',
+        height: 45,
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: (Dimensions.get('window').width)*0.28,
+        borderWidth: 0.5,
+        borderColor: 'black',
+
+
+    },
+    addCart:{
+        flex: 1,
+
+    },
+    remarks: {
+        height: 40,
+        borderBottomWidth: 1,
+        borderBottomColor:'gray',
+        marginLeft: '10%',
+        marginRight:'10%',
+    },
+
+    remarksQn: {
+        marginLeft: '10%',
+        marginTop: '3%',
+
+    },
+    customisations: {
+        marginLeft: '10%',
+        marginRight: '10%',
+    },
+    quantity: {
+        fontSize: RF(3),
+        color: 'black',
+        fontWeight: 'bold',
+
+    },
+    buttonText: {
+        fontSize: RF(2.5),
+        color: 'white',
+    },
+    cancelContainer: {
+        flexDirection: 'row',
+        borderRadius: 30,
+        backgroundColor: 'white',
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: (Dimensions.get('window').width)*0.25,
+        borderWidth: 0.5,
+        borderColor: 'black',
+    },
+    cancelText: {
+        fontSize: RF(2.5),
+        color: 'grey',
+    }
+
 });

@@ -4,11 +4,12 @@ import {
     Text,
     StyleSheet,
     Button,
-    Alert
+    Alert, Dimensions, TouchableOpacity
 } from "react-native";
 import CartItems from "../components/CartItems";
 import {connect} from 'react-redux';
 import axios from "axios";
+import RF from "react-native-responsive-fontsize/index";
 
 class CartScreen extends Component {
     static navigationOption = ({navigation}) => {
@@ -104,24 +105,30 @@ class CartScreen extends Component {
                             cartItems={this.props.cartItems}
                             onPress={this.props.removeItem}
                         />
-                        <Button
-                            title='Send to Kitchen!'
-                            onPress={()=> {
-                                Alert.alert(
-                                    'Sent orders to kitchen?',
-                                    'Action cannot be reversed',
-                                    [
-                                        {text: 'Yes', onPress: () => {
-                                            this.getNewOrderId();
-                                            this.sendToBill();
-                                            this.sendToBackEnd(this.props.cartItems);
-                                            this.clearCart();
-                                        }},
-                                        {text: 'No', style:'cancel'}
-                                    ]
-                                )
-                            }}
-                        />
+                        <View style = {styles.bottomContainer}>
+                            <TouchableOpacity style = {styles.clearCartContainer}>
+                                <Text style = {styles.clearCartText}>CLEAR CART</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {styles.button}
+                                              onPress={()=> {
+                                                  Alert.alert(
+                                                      'Sent orders to kitchen?',
+                                                      'Action cannot be reversed',
+                                                      [
+                                                          {text: 'Yes', onPress: () => {
+                                                                  this.getNewOrderId();
+                                                                  this.sendToBill();
+                                                                  this.sendToBackEnd(this.props.cartItems);
+                                                                  this.clearCart();
+                                                              }},
+                                                          {text: 'No', style:'cancel'}
+                                                      ]
+                                                  )
+                                              }}
+                            >
+                                <Text>CONFIRM ORDER</Text>
+                            </TouchableOpacity >
+                        </View>
                     </View>
                     :
                     <Text>No items in your cart</Text>
@@ -171,8 +178,37 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-
-
-
+    },
+    button: {
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: (Dimensions.get('window').width)*0.40,
+        borderRadius: 30,
+        bottom: '0%',
+        backgroundColor: "#F67075",
+    },
+    clearCartContainer:{
+        flexDirection: 'row',
+        borderRadius: 30,
+        backgroundColor: 'white',
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: (Dimensions.get('window').width)*0.40,
+        borderWidth: 0.5,
+        borderColor: 'black',
+    },
+    clearCartText:{
+        fontSize: RF(2.5),
+        color: 'grey',
+    },
+    bottomContainer: {
+        position: 'absolute',
+        bottom: '2%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        flex:1,
     }
+
 });
