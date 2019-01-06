@@ -7,6 +7,12 @@ import {
 import CartItem from "./CartItem";
 
 class CartItems extends Component {
+    constructor(props){
+        super(props)
+        this.state={
+            cartItems: this.props.cartItems
+        }
+    }
     renderCartItem(items){
         console.log('Render cart items');
         console.log(items);
@@ -21,6 +27,8 @@ class CartItems extends Component {
     }
     render() {
         console.log('CartItems');
+        console.log('STATE');
+        console.log(this.state);
         console.log('PROPS');
         console.log(this.props);
         return (

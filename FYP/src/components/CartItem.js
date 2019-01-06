@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
     View,
     Text,
@@ -8,49 +8,84 @@ import {
 } from "react-native";
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import RF from "react-native-responsive-fontsize/index";
+import {connect} from 'react-redux';
 
-const CartItem = (props) => (
-    <Card containerStyle={{width: Dimensions.get('window').width}}>
-        <View style = {styles.container}>
-            <View style = {styles.imageContainer}>
-                <Image source = {require('../images/explore.jpg')} style = {styles.logo}/>
-            </View>
-            <View style = {styles.itemDetailsContainer}>
-                <Text style = {styles.itemName}>{props.cartItem.name}</Text>
-                {props.cartItem.customisationOptions.map((option) => (
-                    <Text style = {styles.itemCustomisation}key={option.customisationOptionId}>{option.name}</Text>
-                ))}
-            </View>
-            <View style = {styles.itemCountContainer}>
-                <Icon name='chevron-up' type='font-awesome' onPress={()=>{this.increaseCount()}} />
-                <Text style = {styles.itemName}>{props.cartItem.customerOrderQuantity}</Text>
-                <Icon name='chevron-down' type='font-awesome' onPress={()=>{this.decreaseCount()}} />
-            </View>
-            <View style = {styles.itemPriceContainer}>
-                <Text style = {styles.price}> ${props.cartItem.customerOrderPrice} </Text>
-            </View>
-            <Icon
-                style = {styles.delete}
-                name='delete'
-                type='AntDesign'
-                raised={false}
-                onPress={()=> {
-                    Alert.alert(
-                        'Remove Item',
-                        'Remove ' + props.cartItem.name + ' from cart?',
-                        [
-                            {text: 'Yes', onPress: () => props.onPress(props.cartItem)},
-                            {text: 'No', style:'cancel'}
-                        ]
-                    )
-                }}
-            />
-        </View>
+class CartItem extends Component {
+    constructor(props){
+        super(props)
+        this.state={
+            cartItem: this.props.cartItem
+        }
+    }
 
-    </Card>
-);
+    render(){
+        return (
+            <Card containerStyle={{width: Dimensions.get('window').width}}>
+                <View style = {styles.container}>
+                    <View style = {styles.imageContainer}>
+                        <Image source = {require('../images/explore.jpg')} style = {styles.logo}/>
+                    </View>
+                    <View style = {styles.itemDetailsContainer}>
+                        <Text style = {styles.itemName}>{this.props.cartItem.name}</Text>
+                        {this.props.cartItem.customisationOptions.map((option) => (
+                            <Text style = {styles.itemCustomisation}key={option.customisationOptionId}>{option.name}</Text>
+                        ))}
+                    </View>
+                    <View style = {styles.itemCountContainer}>
+                        <Icon name='chevron-up' type='font-awesome' onPress={()=>{
+                            this.props.increaseCount(this.props.cartItem);
+                            this.setState({cartItem: this.state.cartItem});
+                            console.log('Increase Count');
+                        }} />
+                        <Text style = {styles.itemName}>{this.state.cartItem.customerOrderQuantity}</Text>
+                        <Icon name='chevron-down' type='font-awesome' onPress={()=>{
+                            this.props.decreaseCount(this.props.cartItem);
+                            this.setState({cartItem: this.state.cartItem});
+                            console.log('Decrease Count')
+                        }} />
+                    </View>
+                    <View style = {styles.itemPriceContainer}>
+                        <Text style = {styles.price}> ${this.props.cartItem.customerOrderPrice} </Text>
+                    </View>
+                    <Icon
+                        style = {styles.delete}
+                        name='delete'
+                        type='AntDesign'
+                        raised={false}
+                        onPress={()=> {
+                            Alert.alert(
+                                'Remove Item',
+                                'Remove ' + this.props.cartItem.name + ' from cart?',
+                                [
+                                    {text: 'Yes', onPress: () => this.props.onPress(this.props.cartItem)},
+                                    {text: 'No', style:'cancel'}
+                                ]
+                            )
+                        }}
+                    />
+                </View>
 
-export default CartItem;
+            </Card>
+        )
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        cartItem: ownProps.cartItem,
+        onPress: ownProps.onPress,
+        increaseCount: (cartItem) => dispatch({
+            type: 'INCREASE_QUANTITY',
+            payload: cartItem
+        }),
+        decreaseCount: (cartItem) => dispatch({
+            type: 'DECREASE_QUANTITY',
+            payload: cartItem
+        })
+    }
+}
+
+export default connect(null, mapDispatchToProps)(CartItem);
 
 const styles = StyleSheet.create({
     container: {

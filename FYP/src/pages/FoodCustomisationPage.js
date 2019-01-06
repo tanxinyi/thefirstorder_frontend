@@ -79,11 +79,11 @@ class FoodCustomisationPage extends Component {
         var selected = [];
         for(var i = 0; i < customisations.length; i ++){
             var customisationOptions = customisations[i].customisationOptions;
-            var defaultCOID = '';
-            var defaultPrice = 0;
-            var defaultName = ''
+            var defaultCOID = customisationOptions[0].customisationOptionId;
+            var defaultPrice = customisationOptions[0].optionPrice;
+            var defaultName = customisations[i].customisationName + ': ' + customisationOptions[0].optionDescription;
             inner:
-                for(var j = 0; j < customisationOptions.length; j++){
+                for(var j = 1; j < customisationOptions.length; j++){
                     if(customisationOptions[j].optionDescription === 'Normal'){
                         defaultCOID = customisationOptions[j].customisationOptionId;
                         defaultPrice = customisationOptions[j].optionPrice;
@@ -169,6 +169,10 @@ class FoodCustomisationPage extends Component {
         }else{
             var selected = {}
         }
+        //{this.params.foodPrice.food.foodName}
+        //{this.params.foodPrice.foodPrice}
+        //{this.params.foodPrice.food.foodDescription}
+        //containerStyle={styles.cardContainer}
         return (
             <View style={styles.container}>
                 <ScrollView>
@@ -178,9 +182,9 @@ class FoodCustomisationPage extends Component {
                                 <Card
                                     containerStyle={styles.cardContainer}
                                 >
-                                    <Text style = {styles.titleStyle}> {this.params.foodPrice.food.foodName} </Text>
-                                    <Text style = {styles.description}>${this.params.foodPrice.foodPrice}</Text>
-                                    <Text style = {styles.description}> {this.params.foodPrice.food.foodDescription}</Text>
+                                    <Text style = {styles.titleStyle}>{this.params.foodPrice.food.foodName.toUpperCase()} </Text>
+                                    <Text style = {styles.description}>$ {this.params.foodPrice.foodPrice}</Text>
+                                    <Text style = {styles.description}>{this.params.foodPrice.food.foodDescription}</Text>
                                 </Card>
                             </View>
                         </ImageBackground>
@@ -314,7 +318,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: RF(3.5),
         color: 'black',
-        textTransform: 'uppercase',
+        paddingTop: 15,
     },
     cardContainer: {
         width: (Dimensions.get('window').width)*0.75,
