@@ -64,7 +64,7 @@ class PaymentConfirmationScreen extends Component {
 
     updatePaymentStatus(){
         //To update db status with order summary id
-        let request = this.props.prefix + "/orderSummary/" + this.props.seatingInformation.orderSummaryId + "/paymentStatus/Paid"
+        let request = this.props.prefix + "/orderSummary/" + this.props.seatingInformation.orderSummaryId + this.addUpdatePaymentParams();
         console.log('REQUEST:');
         console.log(request);
         axios.put(request)
@@ -74,6 +74,14 @@ class PaymentConfirmationScreen extends Component {
                 console.log(error)
             })
 
+    }
+
+    addUpdatePaymentParams(){
+        let output = '?';
+        output += 'status=' + "Paid";
+        output += '&amount=' + parseInt(this.params.amount*100, 10);
+
+        return output;
     }
 
     addTokenParams(){

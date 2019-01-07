@@ -12,7 +12,7 @@ class PaymentDetailsScreen extends Component {
         super(props)
         this.params=this.props.navigation.state.params;
         this.state={
-            pkToken: 'sk_test_bvm02IkJVl9ZWLYFMCTBaRTL',
+            pkToken: 'sk_test_MvX8jEh7TbvLfYk6VqJzVEDM',
             cardNumber: '4242424242424242',
             cardExpMth: '12',
             cardExpYr: '2019',
