@@ -23,9 +23,10 @@ import AuthPage from "./src/pages/AuthPage";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import ProfilePage from "./src/pages/ProfilePage";
 import ProfileEditPage from "./src/pages/ProfileEditPage";
+import TransactionsPage from "./src/pages/TransactionsPage";
+import TransactionDetailPage from "./src/pages/TransactionsDetailPage";
 
 export const OrderStackNav = createStackNavigator({
-    HomePage: HomePage,
     ScanningPage: ScanningPage,
     OrderMain: OrderMainPage,
     Categories: Categories,
@@ -42,21 +43,38 @@ export const OrderStackNav = createStackNavigator({
 
 export const ExploreStackNav = createStackNavigator({
     Explore: ExploreScreen
+},{
+    headerMode: 'none',
 })
 
 export const ProfileStackNav = createStackNavigator({
     Profile: ProfilePage,
     EditProfile: ProfileEditPage,
+    Transaction: TransactionsPage,
+    TransactionDetails: TransactionDetailPage
+},{
+    headerMode: 'none',
 })
 
 
 export const SignedInNav = createStackNavigator({
     LogIn: LoginPage,
     Register: RegisterPage
+},{
+    headerMode: 'none',
 })
 
 
 export const DrawerNav = createDrawerNavigator({
+    "Home": {
+        screen: HomePage,
+        navigationOptions:{
+            drawerIcon:({tintColor})=>(
+                <Icon name='home'
+                      style={{fontSize:24, color:tintColor}}/>
+            )
+        }
+    },
     "Dine-in": {
         screen: OrderStackNav,
         navigationOptions:{
@@ -64,15 +82,6 @@ export const DrawerNav = createDrawerNavigator({
                 <Icon name='local-dining'
                       style={{fontSize:24, color:tintColor}}/>
             )
-        }
-    },
-    "My Account": {
-        screen: ProfileStackNav,
-        navigationOptions:{
-            drawerIcon: ({tintColor}) => {
-                <Icon name="face"
-                      style={{fontSize:24, color:tintColor}}/>
-            }
         }
     },
     "Explore": {
@@ -83,7 +92,16 @@ export const DrawerNav = createDrawerNavigator({
                       style={{fontSize:24, color:tintColor}}/>
             )
         }
-    }
+    },
+    "My Account": {
+        screen: ProfileStackNav,
+        navigationOptions:{
+            drawerIcon: ({tintColor}) => (
+                <Icon name="account-circle"
+                      style={{fontSize:24, color:tintColor}}/>
+            )
+        }
+    },
 },{
     contentComponent: DrawerComponent,
     contentOptions:{

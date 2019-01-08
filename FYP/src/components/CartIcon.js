@@ -14,7 +14,11 @@ const CartIcon = (props) => (
                 {props.cartItems.length}
             </Text>
         </View>
-        <Icon name='ios-cart' size={30}/>
+        <Icon
+            name='ios-cart'
+            size={30}
+            color='white'
+        />
     </View>
 );
 

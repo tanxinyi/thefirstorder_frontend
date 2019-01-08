@@ -8,15 +8,11 @@ import {
     TouchableHighlight,
     AsyncStorage
 } from "react-native";
-import React from "react";
-import {Button} from 'react-native-elements';
+import React, {Component} from "react";
+import {connect} from 'react-redux';
 import axios from "axios";
 
-export default class LoginPage extends React.Component {
-
-    static navigationOptions = {
-        header: null
-    };
+class LoginPage extends Component {
 
     constructor(props){
         super(props);
@@ -28,15 +24,16 @@ export default class LoginPage extends React.Component {
     }
 
     authenticateUser = () =>{
-        let request = 'https://makanow.herokuapp.com/api/authenticate' + this.addParams();
+        let request = this.props.prefix + '/authenticate' + this.addParams();
         console.log('REQUEST');
         console.log(request);
         axios.get(request)
-            .then(res =>{
+            .then(response =>{
+                this.props.logIn(response.data);
                 this._signInAsync();
             }).catch(error=> {
-            this.setState({loginStatus: 'Invalid email/password'})
-        });
+                this.setState({loginStatus: 'Invalid email/password'})
+            });
     }
 
     addParams(){
@@ -96,7 +93,9 @@ export default class LoginPage extends React.Component {
                         <TouchableHighlight style={styles.buttonContainer}
                                             onPress={() => {
                                                 console.log("Sign Up");
-                                                this.props.navigation.navigate('Register')
+                                                this.props.navigation.navigate('Register', {
+                                                    _signInAsync: this._signInAsync.bind(this)
+                                                })
                                             }}>
                             <Text>Don't Have An Account? Sign up</Text>
                         </TouchableHighlight>
@@ -106,6 +105,25 @@ export default class LoginPage extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        prefix: state.prefix,
+        navigation: ownProps.navigation
+    }
+}
+
+const mapDispatchToProps = (state, ownProps) =>{
+    return {
+        logIn: (customer) => dispatch({
+            type: 'LOG_IN',
+            payload: product
+        }),
+        navigation: ownProps.navigation
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
 
 const styles = StyleSheet.create({
     container: {

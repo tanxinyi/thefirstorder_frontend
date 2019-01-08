@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 const MenuIcon = (props) => (
     <TouchableOpacity onPress={()=>props.onPress()}>
-        <Icon name="menu" size={30}/>
+        <Icon name="menu" size={30} color='white'/>
     </TouchableOpacity>
 );
 

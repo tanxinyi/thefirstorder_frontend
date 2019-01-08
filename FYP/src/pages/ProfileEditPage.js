@@ -3,7 +3,7 @@ import React from "react";
 import {Header, Avatar, Input, Icon, Button} from 'react-native-elements';
 import axios from "axios";
 
-export default class ProfileEditPage extends React.Component{
+class ProfileEditPage extends React.Component{
 
     static navigationOptions = {
         header: null
@@ -125,6 +125,8 @@ export default class ProfileEditPage extends React.Component{
         );
     }
 }
+
+export default ProfileEditPage;
 
 const styles = StyleSheet.create({
     container: {

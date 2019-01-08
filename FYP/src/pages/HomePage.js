@@ -9,9 +9,15 @@ import {
 
 } from "react-native";
 
-import {Container, Header, Left, Body, Right, Title } from 'native-base'
+import {
+    Header,
+    Left,
+    Body,
+    Title
+} from 'native-base'
 import RF from "react-native-responsive-fontsize"
 import EmptyCard from "../components/EmptyCard";
+import MenuIcon from "../components/MenuIcon";
 
 class HomePage extends Component {
     render() {
@@ -19,8 +25,11 @@ class HomePage extends Component {
         return (
             <View style = {styles.backgroundContainer}>
                 <Header style = {styles.header}>
+                    <Left>
+                        <MenuIcon onPress={this.props.navigation.openDrawer}/>
+                    </Left>
                     <Body style = {styles.headerTitle}>
-                    <Title>HOMEPAGE</Title>
+                        <Title>HOMEPAGE</Title>
                     </Body>
                 </Header>
                 <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
@@ -42,7 +51,7 @@ class HomePage extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style = {styles.options}>
-                            <TouchableOpacity onPress={()=> this.props.navigation.navigate('tempCartScreen')} >
+                            <TouchableOpacity onPress={()=> this.props.navigation.navigate('Explore')} >
                                 <EmptyCard>
                                     <ImageBackground source = {require('../images/explore.jpg')} style = {styles.optionsPic}>
                                         <View style = {styles.overlayInner}>

@@ -18,7 +18,6 @@ class OrderMainPage extends Component {
         super(props)
         this.params = this.props.navigation.state.params
         this.state={
-            email: 'CUS001@makanow.com',
             seatingTable: {},
             restaurant: {},
             menu:{},
@@ -69,7 +68,7 @@ class OrderMainPage extends Component {
         });
 
         //Get OrderID and OrderSummary
-        request = this.props.prefix + "orderSummary/new/customer/" + this.state.email + "/seatingTable/" + qrCode;
+        request = this.props.prefix + "orderSummary/new/customer/" + this.props.user.email + "/seatingTable/" + qrCode;
         console.log('Request: ' + request);
         axios.get(request)
             .then(response => {
@@ -130,6 +129,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         seatingInformation: state.seatingInformation,
         prefix: state.prefix,
+        user: state.user,
         navigation: ownProps.navigation
     }
 }

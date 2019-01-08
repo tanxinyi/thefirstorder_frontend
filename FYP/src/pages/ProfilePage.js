@@ -1,5 +1,10 @@
-import {StyleSheet, View, ImageBackground, Text } from "react-native";
-import React from "react";
+import {
+    StyleSheet,
+    View,
+    ImageBackground,
+    Text
+} from "react-native";
+import React, {Component} from "react";
 import {
     Header,
     Avatar,
@@ -7,14 +12,65 @@ import {
     Icon,
     Button
  } from 'react-native-elements';
+import {connect} from 'react-redux';
+import axios from 'axios';
 
-export default class ProfilePage extends React.Component{
+class ProfilePage extends Component{
+    constructor(props){
+        super(props)
+        this.state={
+            display:[],
+            mounted: false
+        }
+    }
 
-    static navigationOptions = {
-        header: null
-    };
+    componentWillMount(){
+        var displaySummaries = this.props.user.orderSummaries.reverse().slice(0,3)
 
+        let request = this.props.prefix + "orderSummary/getRestaurantName";
+
+        var content = []
+        for(var i = 0; i < displaySummaries.length; i++){
+            content= [...content, displaySummaries[i].orderSummaryId]
+        }
+
+        console.log("REQUEST");
+        console.log(request);
+        axios.get(request, content)
+            .then(response=>{
+                var newDisplay = [];
+                for(var i = 0; i<response.data.length; i++) {
+                    var temp = {restaurantName: response.data[i], totalAmount: displaySummaries[i].totalAmount};
+                    newDisplay = [...newDisplay, temp];
+                }
+                console.log(newDisplay);
+                this.setState({
+                    display: newDisplay,
+                    mounted:true
+                });
+            }).catch(error=>{
+                console.log(error)
+        })
+    }
+
+    renderTransactions(displayTransactions){
+        return displayTransactions.map((details, i) => (
+            <View
+                key={i}
+                style={styles.section_details}>
+                <Text>{details.restaurantName}</Text>
+                <View style={styles.rightContainer}>
+                    <Text>${Number(Math.round(details.totalAmount + 'e2') + 'e-2').toFixed(2)}</Text>
+                </View>
+            </View>
+        ))
+    }
     render(){
+        console.log('ProfilePage');
+        console.log('STATE');
+        console.log(this.state);
+        console.log('PROPS');
+        console.log(this.props);
         return (
             <ImageBackground source={require('../images/Background-Splash.jpg')} style={{width: '100%', height: '100%'}}>
                 <View>
@@ -42,8 +98,9 @@ export default class ProfilePage extends React.Component{
                             />
                         </View>
                         <View style={[styles.name]}>
-                            <Text style={{fontWeight:"bold"}}>Keith Siew Guo Dong</Text>
+                            <Text style={{fontWeight:"bold"}}>{this.props.user.firstName} {this.props.user.lastName}</Text>
                             <Text>Gold Member</Text>
+                            <Text>{this.props.user.loyaltyPoint} points available</Text>
                         </View>
                     </View>
 
@@ -76,7 +133,7 @@ export default class ProfilePage extends React.Component{
                             <Button
                                 icon={
                                     <Icon
-                                        name='arrowright'
+                                        name='arrow-forward'
                                         size={15}
                                         color='black'
                                     />
@@ -92,35 +149,15 @@ export default class ProfilePage extends React.Component{
 
                     <View style={[styles.transaction_container,styles.box_shadow]}>
                         <View style={styles.section_header}>
-                            <Icon name='check' containerStyle={{marginLeft:10, marginRight:10}}/>
+                            <Icon name='check' containerStyle={{marginLeft:10, rginRight:10}}/>
                             <Text style={styles.section_header}>My Transactions</Text>
                         </View>
-                        <View style={styles.section_details}>
-                            <Text>Strangers Reunion</Text>
-                            <View style={styles.rightContainer}>
-                                <Text>$20.99</Text>
-                            </View>
-                        </View>
-                        <View style={styles.section_details}>
-                            <Text>B3</Text>
-                            <View style={styles.rightContainer}>
-                                <Text>$32.00</Text>
-                            </View>
-                        </View>
-                        <View style={styles.section_details}>
-                            <View>
-                                <Text>Saveur</Text>
-                            </View>
-                            <View style={styles.rightContainer}>
-                                <Text>$82.60</Text>
-                            </View>
-                        </View>
-
+                        {this.state.mounted ? this.renderTransactions(this.state.display):<View></View>}
                         <View>
                             <Button
                                 icon={
                                     <Icon
-                                        name='rightarrow'
+                                        name='arrow-forward'
                                         size={15}
                                         color='black'
                                     />
@@ -130,6 +167,7 @@ export default class ProfilePage extends React.Component{
                                 title='All Transactions'
                                 titleStyle={{color:"black"}}
                                 containerStyle={{alignSelf:"flex-end", paddingRight: "5%"}}
+                                onPress={()=> this.props.navigation.navigate("Transactions")}
                             />
                         </View>
                     </View>
@@ -138,6 +176,26 @@ export default class ProfilePage extends React.Component{
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        user: state.user,
+        prefix: state.prefix,
+        navigation: ownProps.navigation,
+    }
+}
+
+const mapDispatchToProps = (state, ownProps) => {
+    return {
+        changeUser: (customer) => dispatch({
+            type: 'LOG_IN',
+            payload: customer
+        }),
+        navigation: ownProps.navigation
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
 
 const styles = StyleSheet.create({
     container: {

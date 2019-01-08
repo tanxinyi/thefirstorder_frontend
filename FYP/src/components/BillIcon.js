@@ -11,7 +11,7 @@ const BillIcon = (props) => (
     <View style={styles.container}>
         <Icon
             name='payment'
-            color='#517fa4'
+            color='white'
         />
 
     </View>

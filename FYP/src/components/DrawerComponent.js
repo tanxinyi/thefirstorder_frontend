@@ -14,9 +14,8 @@ const DrawerComponent = (props) => (
     <SafeAreaView>
         <View style={styles.header}>
             <Text>
-                MAIN MENU
+                MAKANOW
             </Text>
-            <MenuIcon onPress={()=>props.navigation.closeDrawer()}/>
         </View>
         <ScrollView>
             <DrawerItems {...props}/>

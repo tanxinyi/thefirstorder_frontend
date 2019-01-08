@@ -11,12 +11,6 @@ import RF from "react-native-responsive-fontsize/index";
 import OrderHeader from "../components/OrderHeader";
 
 class BillScreen extends Component {
-    static navigationOption = ({navigation}) => {
-        return {
-            headerTitle: 'Bill'
-        }
-    }
-
     calculatePrice(items){
         let subTotal = 0.0;
         for(var i = 0; i < items.length; i++){

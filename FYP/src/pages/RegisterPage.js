@@ -1,16 +1,26 @@
-import {StyleSheet, View, ImageBackground, Text, TextInput, Image, TouchableHighlight} from "react-native";
-import React from "react";
-import {Header, Icon, Button} from 'react-native-elements';
+import React, {Component} from "react";
+import {
+    StyleSheet,
+    View,
+    ImageBackground,
+    Text,
+    TextInput,
+    Image,
+    TouchableHighlight
+} from "react-native";
+import {
+    Header,
+    Icon,
+    Button
+} from 'react-native-elements';
+import {connect} from 'react-redux';
 import axios from "axios";
 
-export default class RegisterPage extends React.Component {
-
-    static navigationOptions = {
-        header: null
-    };
+class RegisterPage extends Component {
 
     constructor(props){
         super(props);
+        this.params = this.props.navigation.state.params
         this.state={
             email: 'agogois480@gmail.com',
             firstName: 'ben',
@@ -22,23 +32,20 @@ export default class RegisterPage extends React.Component {
 
     register = () =>{
         console.log('registering');
-        let request = 'https://makanow.herokuapp.com/api/customers/add' + this.addParams();
+        let request = this.props.prefix + '/customers/add' + this.addParams();
         console.log(request);
         axios.post(request)
-            .then(res =>{
-                console.log(res.data);
-                if(!res.hasOwnProperty('error')){
-                    console.log("Error Found - here")
-                    this.props.navigation.navigate('Home');
-                }else{
-                    console.log("NO error Found - here")
-                    this.setState({loginStatus: 'Invalid email/password'})
-                }
+            .then(response =>{
+                console.log(response.data);
+                this.props.logIn(response.data);
+                this.params._signInAsync();
             }).catch(error =>{
-            console.log(error);
-        })
-            .done();
+                console.log(error);
+                this.setState({loginStatus: 'Invalid email/password'})
+            });
+
     }
+
 
     addParams(){
         var output="?";
@@ -130,6 +137,25 @@ export default class RegisterPage extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        prefix: state.prefix,
+        navigation: ownProps.navigation
+    }
+}
+
+const mapDispatchToProps = (state, ownProps) => {
+    return {
+        logIn: (customer) => dispatch({
+            type: 'LOG_IN',
+            payload: customer
+        }),
+        navigation: ownProps.navigation
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(RegisterPage);
 
 const styles = StyleSheet.create({
     container: {

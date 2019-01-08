@@ -13,12 +13,6 @@ import RF from "react-native-responsive-fontsize/index";
 import OrderHeader from "../components/OrderHeader";
 
 class CartScreen extends Component {
-    static navigationOption = ({navigation}) => {
-        return {
-            headerTitle:'Cart'
-        }
-    }
-
     constructor(props){
         super(props)
         this.params = this.props.navigation.state.params
@@ -113,25 +107,40 @@ class CartScreen extends Component {
                             onPress={this.props.removeItem}
                         />
                         <View style = {styles.bottomContainer}>
-                            <TouchableOpacity style = {styles.clearCartContainer}>
+                            <TouchableOpacity
+                                style={styles.clearCartContainer}
+                                onPress={()=> {
+                                    Alert.alert(
+                                        'Clear all cart items?',
+                                        'Action cannot be reversed',
+                                        [
+                                            {text: 'Yes', onPress: () => {
+                                                    this.clearCart();
+                                                }},
+                                            {text: 'No', style:'cancel'}
+                                        ]
+                                    )
+                                }}
+                            >
                                 <Text style = {styles.clearCartText}>CLEAR CART</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style = {styles.button}
-                                              onPress={()=> {
-                                                  Alert.alert(
-                                                      'Sent orders to kitchen?',
-                                                      'Action cannot be reversed',
-                                                      [
-                                                          {text: 'Yes', onPress: () => {
-                                                                  this.getNewOrderId();
-                                                                  this.sendToBill();
-                                                                  this.sendToBackEnd(this.props.cartItems);
-                                                                  this.clearCart();
-                                                              }},
-                                                          {text: 'No', style:'cancel'}
-                                                      ]
-                                                  )
-                                              }}
+                            <TouchableOpacity
+                                style = {styles.button}
+                                onPress={()=> {
+                                    Alert.alert(
+                                        'Sent orders to kitchen?',
+                                        'Action cannot be reversed',
+                                        [
+                                            {text: 'Yes', onPress: () => {
+                                                    this.getNewOrderId();
+                                                    this.sendToBill();
+                                                    this.sendToBackEnd(this.props.cartItems);
+                                                    this.clearCart();
+                                                }},
+                                            {text: 'No', style:'cancel'}
+                                        ]
+                                    )
+                                }}
                             >
                                 <Text>CONFIRM ORDER</Text>
                             </TouchableOpacity >

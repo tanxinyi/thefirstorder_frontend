@@ -9,7 +9,8 @@ import {
     Header,
     Left,
     Right,
-    Body
+    Body,
+    Title
 } from 'native-base';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import CartIcon from "./CartIcon";
@@ -22,7 +23,7 @@ const OrderHeader = (props) => (
             <View style={{flexDirection: 'row'}}>
                 {props.enableBack ?
                     <TouchableOpacity onPress={()=> props.onPress()}>
-                        <Icon name='arrow-back' size={30}/>
+                        <Icon name='arrow-back' size={30} color='white'/>
                     </TouchableOpacity>
                     : <Text></Text>
                 }
@@ -30,9 +31,9 @@ const OrderHeader = (props) => (
             </View>
         </Left>
         <Body style={styles.headerTitle}>
-            <Text>
+            <Title>
                 {props.title}
-            </Text>
+            </Title>
         </Body>
         <Right>
             <TouchableOpacity onPress={()=> props.navigation.navigate('Cart')}>
