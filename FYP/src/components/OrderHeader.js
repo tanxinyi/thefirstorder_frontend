@@ -4,45 +4,44 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    Alert
 } from "react-native";
-import { Header } from 'react-native-elements';
+import {
+    Header,
+    Left,
+    Right,
+    Body
+} from 'native-base';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import CartIcon from "./CartIcon";
 import BillIcon from "./BillIcon";
+import MenuIcon from "./MenuIcon";
 
 const OrderHeader = (props) => (
-    <Header>
-        <View>
-            {props.enableBack ?
-                <TouchableOpacity onPress={()=> props.onPress()}>
-                    <Icon name='arrow-back' size={30}/>
-                </TouchableOpacity>
-                : <Text></Text>
-            }
-
-            <TouchableOpacity onPress={()=> {
-                Alert.alert(
-                    'Side Menu pressed',
-                    'Function is still work-in-progress',
-                    [{ text:'Ok', style: 'cancel' }]
-                )
-            }}>
-                <Icon name='menu' size={30} />
-            </TouchableOpacity>
-
-        </View>
-        <Text>
-            {props.title}
-        </Text>
-        <View styles={{flexDirection:'row', flex:2}}>
+    <Header style={styles.container}>
+        <Left>
+            <View style={{flexDirection: 'row'}}>
+                {props.enableBack ?
+                    <TouchableOpacity onPress={()=> props.onPress()}>
+                        <Icon name='arrow-back' size={30}/>
+                    </TouchableOpacity>
+                    : <Text></Text>
+                }
+                <MenuIcon onPress={props.navigation.openDrawer}/>
+            </View>
+        </Left>
+        <Body style={styles.headerTitle}>
+            <Text>
+                {props.title}
+            </Text>
+        </Body>
+        <Right>
             <TouchableOpacity onPress={()=> props.navigation.navigate('Cart')}>
                 <CartIcon />
             </TouchableOpacity>
             <TouchableOpacity onPress={()=> props.navigation.navigate('Bill')}>
                 <BillIcon />
             </TouchableOpacity>
-        </View>
+        </Right>
     </Header>
 );
 
@@ -50,7 +49,12 @@ export default OrderHeader;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        backgroundColor: 'black',
+    },
+    headerTitle:{
+        textAlign: 'center',
+        flex:1,
+        color: 'white',
         alignItems: 'center',
         justifyContent: 'center',
     }

@@ -14,35 +14,15 @@ import RF from "react-native-responsive-fontsize"
 import EmptyCard from "../components/EmptyCard";
 
 class HomePage extends Component {
-    static headerMode = 'none'
-
-
-
-    static navigationOptions = ({navigation}) => {
-        return {
-            headerTitle:'HOMEPAGE',
-            headerStyle: styles.header,
-            headerTitleStyle: styles.headerTitle
-        }
-    }
-
-
-    /*
-    OLD HEADER
-    =======================
-
-    <Header style = {styles.header}>
-        <Body style = {styles.headerTitle}>
-        <Title>HOMEPAGE</Title>
-        </Body>
-    </Header>
-
-    =======================
-    */
     render() {
         console.log('Home Page');
         return (
             <View style = {styles.backgroundContainer}>
+                <Header style = {styles.header}>
+                    <Body style = {styles.headerTitle}>
+                    <Title>HOMEPAGE</Title>
+                    </Body>
+                </Header>
                 <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                     <View style = {styles.overlay}>
                         <View style = {styles.logoPlaceholder}>

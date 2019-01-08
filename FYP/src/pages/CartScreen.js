@@ -10,6 +10,7 @@ import CartItems from "../components/CartItems";
 import {connect} from 'react-redux';
 import axios from "axios";
 import RF from "react-native-responsive-fontsize/index";
+import OrderHeader from "../components/OrderHeader";
 
 class CartScreen extends Component {
     static navigationOption = ({navigation}) => {
@@ -99,6 +100,12 @@ class CartScreen extends Component {
         }
         return (
             <View style={styles.container}>
+                <OrderHeader
+                    navigation={this.props.navigation}
+                    title='Cart'
+                    enableBack={true}
+                    onPress={this.props.navigation.goBack}
+                />
                 {this.props.cartItems.length > 0 ?
                     <View>
                         <CartItems

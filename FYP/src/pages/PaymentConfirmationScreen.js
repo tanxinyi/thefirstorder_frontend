@@ -7,6 +7,8 @@ import {
 } from "react-native";
 import axios from 'axios';
 import {connect} from 'react-redux';
+import OrderMainPage from "./OrderMainPage";
+import OrderHeader from "../components/OrderHeader";
 
 class PaymentConfirmationScreen extends Component {
     constructor(props){
@@ -108,45 +110,52 @@ class PaymentConfirmationScreen extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text>Payment details are as follows</Text>
-                <Text> </Text>
-                <Text>Amount Payable: $ {this.params.amount}</Text>
-                <Text>Card Number: XXXX-XXXX-XXXX-{this.params.cardNumber.substring(12)}</Text>
-                <Text>Card Expiry: {this.params.cardExpMth}/{this.params.cardExpYr} </Text>
-                {!this.state.pressed ?
-                    <Button
-                        title='Confirm'
-                        onPress={()=> {
-                            this.setState({pressed: true})
-                            this.stripeTokenCall()
-                        }}
-                    />
-                    :
-                    <View>
-                        {this.state.accepted ?
-                            <View>
-                                <Text>Payment is successful</Text>
-                                <Text>Thank you for dining with us! </Text>
-                                <Button
-                                    title='Home'
-                                    onPress={() => this.props.navigation.navigate('HomePage')}
-                                />
-                            </View>
-                            :
-                            this.state.rejected ?
+            <View>
+                <OrderHeader
+                    enableBack={false}
+                    title="PAYMENT"
+                    navigation={this.props.navigation}
+                />
+                <View style={styles.container}>
+                    <Text>Payment details are as follows</Text>
+                    <Text> </Text>
+                    <Text>Amount Payable: $ {this.params.amount}</Text>
+                    <Text>Card Number: XXXX-XXXX-XXXX-{this.params.cardNumber.substring(12)}</Text>
+                    <Text>Card Expiry: {this.params.cardExpMth}/{this.params.cardExpYr} </Text>
+                    {!this.state.pressed ?
+                        <Button
+                            title='Confirm'
+                            onPress={()=> {
+                                this.setState({pressed: true})
+                                this.stripeTokenCall()
+                            }}
+                        />
+                        :
+                        <View>
+                            {this.state.accepted ?
                                 <View>
-                                    <Text>Payment is unsuccessful</Text>
+                                    <Text>Payment is successful</Text>
+                                    <Text>Thank you for dining with us! </Text>
                                     <Button
-                                        title='Try Again'
-                                        onPress={() => this.props.navigation.navigate('PaymentDetails')}
+                                        title='Home'
+                                        onPress={() => this.props.navigation.navigate('HomePage')}
                                     />
                                 </View>
                                 :
-                                <Text>Please wait...</Text>
-                        }
-                    </View>
-                }
+                                this.state.rejected ?
+                                    <View>
+                                        <Text>Payment is unsuccessful</Text>
+                                        <Button
+                                            title='Try Again'
+                                            onPress={() => this.props.navigation.navigate('PaymentDetails')}
+                                        />
+                                    </View>
+                                    :
+                                    <Text>Please wait...</Text>
+                            }
+                        </View>
+                    }
+                </View>
             </View>
         );
     }

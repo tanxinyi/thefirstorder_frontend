@@ -5,6 +5,7 @@ import {
     StyleSheet,
     Button
 } from "react-native";
+import OrderHeader from "../components/OrderHeader";
 
 class ScanningPage extends Component {
     render() {

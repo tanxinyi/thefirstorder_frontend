@@ -97,7 +97,11 @@ class Categories extends Component {
              */
             return (
                 <View style = {styles.backgroundContainer}>
-
+                    <OrderHeader
+                        navigation={this.props.navigation}
+                        title={this.props.seatingInformation.restaurant.restaurantName}
+                        enableBack={false}
+                    />
                     <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                         <View style = {styles.overlay}>
                             <View style = {styles.promotion}>

@@ -109,6 +109,12 @@ class Subcategories extends Component {
                  */
                 return (
                     <View style = {styles.backgroundContainer}>
+                        <OrderHeader
+                            navigation={this.props.navigation}
+                            title={this.props.seatingInformation.restaurant.restaurantName}
+                            enableBack={true}
+                            onPress={this.props.navigation.goBack}
+                        />
                         <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                             <View style = {styles.overlay}>
                                 <View style = {styles.topContainer}>

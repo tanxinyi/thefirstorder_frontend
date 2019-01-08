@@ -4,20 +4,19 @@ import {
     Text,
     StyleSheet
 } from "react-native";
-import {RootSwitchNav} from "./Routes";
-import {Provider} from 'react-redux';
-import orderStore from './src/store/index';
 
-
-export default class App extends Component {
+class ExploreScreen extends Component {
     render() {
         return (
-            <Provider store={orderStore}>
-                <RootSwitchNav />
-            </Provider>
+            <View style={styles.container}>
+                <Text>Explore Screen</Text>
+                <Text>This page is still under maintenance</Text>
+            </View>
         );
     }
 }
+
+export default ExploreScreen;
 
 const styles = StyleSheet.create({
     container: {

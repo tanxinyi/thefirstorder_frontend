@@ -20,6 +20,8 @@ import {connect} from 'react-redux';
 import BillIcon from "../components/BillIcon";
 import axios from "axios";
 import RF from "react-native-responsive-fontsize/index";
+import OrderMainPage from "./OrderMainPage";
+import OrderHeader from "../components/OrderHeader";
 
 class FoodCustomisationPage extends Component {
     constructor(props){
@@ -175,6 +177,12 @@ class FoodCustomisationPage extends Component {
         //containerStyle={styles.cardContainer}
         return (
             <View style={styles.container}>
+                <OrderHeader
+                    enableBack={true}
+                    title=''
+                    onPress={this.props.navigation.navigate.goBack}
+                    navigation={this.props.navigation}
+                />
                 <ScrollView>
                     <View style = {styles.imageContainer}>
                         <ImageBackground source={require('../images/dessert.jpg')} style={styles.image}>

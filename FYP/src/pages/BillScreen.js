@@ -8,6 +8,7 @@ import {
 import {connect} from "react-redux";
 import BillItems from "../components/BillItems";
 import RF from "react-native-responsive-fontsize/index";
+import OrderHeader from "../components/OrderHeader";
 
 class BillScreen extends Component {
     static navigationOption = ({navigation}) => {
@@ -43,6 +44,12 @@ class BillScreen extends Component {
         let prices = this.calculatePrice(this.props.billItems);
         return (
             <View style={styles.container}>
+                <OrderHeader
+                    navigation={this.props.navigation}
+                    title='Bill'
+                    enableBack={true}
+                    onPress={this.props.navigation.goBack}
+                />
                 {this.props.billItems.length > 0 ?
                     <View>
                             <BillItems
