@@ -93,7 +93,7 @@ class CartScreen extends Component {
             )
         }
         return (
-            <View style={styles.container}>
+            <View>
                 <OrderHeader
                     navigation={this.props.navigation}
                     title='Cart'

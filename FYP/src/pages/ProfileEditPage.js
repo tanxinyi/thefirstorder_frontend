@@ -2,29 +2,15 @@ import {StyleSheet, View, ImageBackground, Text, TextInput} from "react-native";
 import React from "react";
 import {Header, Avatar, Input, Icon, Button} from 'react-native-elements';
 import axios from "axios";
+import {connect} from 'react-redux';
 
 class ProfileEditPage extends React.Component{
 
-    static navigationOptions = {
-        header: null
-    };
-
     state = {
-        email: "",
-        firstName: "",
-        lastName: "",
+        email: this.props.user.email,
+        firstName: this.props.user.firstName,
+        lastName: this.props.user.lastName,
         creditCard: "",
-    }
-
-    componentWillMount(){
-        axios.get('http://makanow.herokuapp.com/api/customers/CUS001@makanow.com')
-            .then(response =>
-                this.setState({
-                    email: response.data.email,
-                    firstName: response.data.firstName,
-                    lastName: response.data.lastName,
-                })
-            )
     }
 
     render(){
@@ -54,7 +40,7 @@ class ProfileEditPage extends React.Component{
                         // rightComponent={{
                         // icon: 'settings',
                         // color: '#fff',
-                        // onPress: () => this.props.navigation.navigate("Home") }}
+                        // onPress: () => this.props.navigation.navigate("") }}
                     />
                 </View>
                 <View style={styles.container}>
@@ -84,13 +70,13 @@ class ProfileEditPage extends React.Component{
                             underlineColorAndroid='black'
                             value={this.state.lastName}
                         />
-                        <Text h3 style={styles.labels}>Email:</Text>
-                        <TextInput
-                            textContentType="emailAddress"
-                            underlineColorAndroid='black'
-                            value={this.state.email}
-                            keyboardType="email-address"
-                        />
+                        {/*<Text h3 style={styles.labels}>Email:</Text>*/}
+                        {/*<TextInput*/}
+                            {/*textContentType="emailAddress"*/}
+                            {/*underlineColorAndroid='black'*/}
+                            {/*value={this.state.email}*/}
+                            {/*keyboardType="email-address"*/}
+                        {/*/>*/}
                         <Text h3 style={styles.labels}>Credit Card:</Text>
                         <TextInput
                             textContentType="creditCardNumber"
@@ -126,7 +112,15 @@ class ProfileEditPage extends React.Component{
     }
 }
 
-export default ProfileEditPage;
+const mapStateToProps=(state, ownProps) => {
+    return {
+        user: state.user,
+        navigation: ownProps.navigation,
+        prefix: state.prefix
+    }
+}
+
+export default connect(mapStateToProps, null)(ProfileEditPage);
 
 const styles = StyleSheet.create({
     container: {

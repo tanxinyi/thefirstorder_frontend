@@ -37,7 +37,7 @@ class BillScreen extends Component {
     render() {
         let prices = this.calculatePrice(this.props.billItems);
         return (
-            <View style={styles.container}>
+            <View>
                 <OrderHeader
                     navigation={this.props.navigation}
                     title='Bill'

@@ -50,7 +50,7 @@ export const ExploreStackNav = createStackNavigator({
 export const ProfileStackNav = createStackNavigator({
     Profile: ProfilePage,
     EditProfile: ProfileEditPage,
-    Transaction: TransactionsPage,
+    Transactions: TransactionsPage,
     TransactionDetails: TransactionDetailPage
 },{
     headerMode: 'none',

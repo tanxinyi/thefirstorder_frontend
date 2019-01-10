@@ -14,27 +14,57 @@ import {
     Button,
     ListItem
 } from 'react-native-elements';
+import axios from "axios";
+import {connect} from 'react-redux';
 
 class TransactionsPage extends Component{
 
     constructor(props){
         super(props)
+        this.params = this.props.navigation.state.params
         this.state={
-            display:[
-                {
-                    restaurantName: 'Strangers Reunion',
-                    totalAmount: '$20.99'
-                },
-                {
-                    restaurantName: 'B3',
-                    totalAmount: '$32.00'
-                },
-                {
-                    restaurantName: 'Saveur',
-                    totalAmount: '$82.60'
-                },
-            ]
+            display:[],
+            mounted: false,
         }
+    }
+
+    componentWillMount(){
+        let request = this.props.prefix + 'customers/' + this.props.user.email;
+        console.log('Request:');
+        console.log(request);
+        axios.get(request)
+            .then(response => {
+                this.setDisplay(response.data.orderSummaries);
+            }).catch(error => console.log(error));
+    }
+
+    setDisplay(orderSummaries){
+        var displaySummaries = orderSummaries.reverse();
+
+        let request = this.props.prefix + "orderSummary/getRestaurantName";
+
+        console.log("REQUEST");
+        console.log(request);
+        console.log(displaySummaries);
+        axios.post(request, displaySummaries)
+            .then(response=>{
+                var newDisplay = [];
+                for(var i = 0; i<response.data.length; i++) {
+                    var temp = {
+                        restaurantName: response.data[i],
+                        totalAmount: displaySummaries[i].totalAmount,
+                        orderSummary: displaySummaries[i]
+                    };
+                    newDisplay = [...newDisplay, temp];
+                }
+                console.log(newDisplay);
+                this.setState({
+                    display: newDisplay,
+                    mounted:true
+                });
+            }).catch(error=>{
+            console.log(error)
+        })
     }
 
     renderTransactions(transactions){
@@ -42,12 +72,15 @@ class TransactionsPage extends Component{
             <TouchableHighlight
                 key={i}
                 onPress={()=> this.props.navigation.navigate('TransactionDetails', {
-                    restaurantName: details.restaurantName
+                    restaurantName: details.restaurantName,
+                    orderSummary: details.orderSummary,
                 })}
             >
-                <Text>{details.restaurantName}</Text>
-                <View style={styles.card_detail}>
-                    <Text>${Number(Math.round(details.totalAmount + 'e2') + 'e-2').toFixed(2)}</Text>
+                <View>
+                    <Text>{details.restaurantName}</Text>
+                    <View style={styles.card_detail}>
+                        <Text>${Number(Math.round(details.totalAmount + 'e2') + 'e-2').toFixed(2)}</Text>
+                    </View>
                 </View>
             </TouchableHighlight>
         ))
@@ -60,7 +93,7 @@ class TransactionsPage extends Component{
         console.log('PROPS');
         console.log(this.props);
         return (
-            <ImageBackground source={require('../images/Backgound_Splash.jpg')} style={{width: '100%', height: '100%'}}>
+            <ImageBackground source={require('../images/Background-Splash.jpg')} style={{width: '100%', height: '100%'}}>
                 <View>
                     <Header
                         containerStyle={{
@@ -69,7 +102,7 @@ class TransactionsPage extends Component{
                             paddingTop: 10,
                             paddingBottom: 10,
                         }}
-                        leftComponent={{ icon: 'menu', color: '#fff' }}
+                        leftComponent={{ icon: 'menu', color: '#fff', onPress: () => this.props.navigation.openDrawer() }}
                         centerComponent={{ text: 'TRANSACTIONS', style: { color: '#fff', fontSize: 20 } }}
                         rightComponent={{  icon: 'settings', color: '#fff', onPress: () => this.props.navigation.navigate("EditProfile") }}
                     />
@@ -86,7 +119,7 @@ class TransactionsPage extends Component{
                             />
                         </View>
                         <View style={[styles.name]}>
-                            <Text style={{fontWeight:"bold"}}>Keith Siew Guo Dong</Text>
+                            <Text style={{fontWeight:"bold"}}>{this.props.user.firstName} {this.props.user.lastName}</Text>
                             <Text>Gold Member</Text>
                         </View>
                     </View>
@@ -108,7 +141,15 @@ class TransactionsPage extends Component{
     }
 }
 
-export default TransactionsPage;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        user: state.user,
+        prefix: state.prefix,
+        navigation: ownProps.navigation
+    }
+}
+
+export default connect(mapStateToProps, null)(TransactionsPage);
 
 const styles = StyleSheet.create({
     container: {

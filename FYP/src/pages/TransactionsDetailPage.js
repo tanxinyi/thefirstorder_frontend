@@ -4,7 +4,7 @@ import {
     ImageBackground,
     Text,
     Image,
-    ouchableHighlight
+    TouchableHighlight
 } from "react-native";
 import React, {Component} from "react";
 import {
@@ -15,50 +15,77 @@ import {
     Button,
     ListItem
 } from 'react-native-elements';
+import axios from 'axios';
+import {connect} from 'react-redux';
 
 class TransactionDetailPage extends Component{
 
     constructor(props){
         super(props)
+        this.params = this.props.navigation.state.params
         this.state={
-            restaurant: this.props.restaurantName,
-            display: [
-                {
-                    name: 'Pepperoni',
-                    details: {
-                        quantity: 1,
-                        price: '$20.99',
-                    }
-                },
-                {
-                    name: 'Poke Bowl',
-                    details: {
-                        quantity: 2,
-                        price: '$10.99',
-                    }
-                },
-                {
-                    name: 'Mud Pie',
-                    details: {
-                        quantity: 1,
-                        price: '$5',
-                    }
-                }
-            ]
+            restaurant: this.params.restaurantName,
+            orderSummary: this.params.orderSummary,
+            display: []
         }
     }
 
+    componentWillMount(){
+        //get order
+        let request = this.props.prefix + 'orderSummary/' + this.state.orderSummary.orderSummaryId;
+        console.log('Request: ');
+        console.log(request);
+        axios.get(request)
+            .then(response => {
+                var orders = response.data.orders;
+                for(var i = 0; i < orders.length; i++){
+                    //get customer order
+                    let request = this.props.prefix + 'orders/' + orders[i].orderId;
+                    console.log('Request: ');
+                    console.log(request);
+                    axios.get(request)
+                        .then(response => {
+                            //get customisation selected
+                            let customerOrders = response.data.customerOrders;
+                            for(var j = 0; j < customerOrders.length; j++){
+                                let request = this.props.prefix + 'customerOrder/' + customerOrders[j].customerOrderId;
+                                console.log('Request: ');
+                                console.log(request);
+                                axios.get(request)
+                                    .then(response =>{
+                                        var customerOrder = response.data
+                                        let request = this.props.prefix + 'foodItems/' + customerOrder.menuFoodCatId.foodId;
+                                        console.log('Request: ');
+                                        console.log(request);
+                                        axios.get(request)
+                                            .then(response => {
+                                                var temp = {
+                                                    foodName: response.data.foodName,
+                                                    quantity: customerOrder.customerOrderQuantity,
+                                                    price: customerOrder.customerOrderPrice,
+                                                    customisations: customerOrder.customisationOptions
+                                                }
+                                                this.setState({display: [...this.state.display, temp]})
+                                            })
+                                    }).catch(error=> console.log(error));
+                            }
+                        }).catch(error=> console.log(error));
+                }
+            }).catch(error => console.log(error))
+    }
+
     renderDetails(display){
-        users.map((display, i) => {
-            return (
+        console.log('Rendering Details');
+        console.log(display);
+        return display.map((detail, i) => (
                 <View key={i} style={styles.card_detail}>
-                    <View style={styles.restaurant}><Text>{display.name}</Text></View>
-                    <View style={[styles.price]}><Text>x{display.details.quantity}</Text></View>
-                    <View style={[styles.price]}><Text>{display.details.price}</Text></View>
+                    <View style={styles.restaurant}><Text>{detail.foodName}</Text></View>
+                    <View style={[styles.price]}><Text>x{detail.quantity}</Text></View>
+                    <View style={[styles.price]}><Text>{detail.price}</Text></View>
                 </View>
 
-            );
-        })
+            )
+        )
     }
 
     render(){
@@ -68,7 +95,7 @@ class TransactionDetailPage extends Component{
         console.log('PROPS');
         console.log(this.props);
         return (
-            <ImageBackground source={require('../images/Backgound_Splash.jpg')} style={{width: '100%', height: '100%'}}>
+            <ImageBackground source={require('../images/Background-Splash.jpg')} style={{width: '100%', height: '100%'}}>
                 <View>
                     <Header
                         containerStyle={{
@@ -79,14 +106,14 @@ class TransactionDetailPage extends Component{
                         }}
                         leftComponent={{ icon: 'menu', color: '#fff' }}
                         centerComponent={{ text: () => {this.state.restaurant}, style: { color: '#fff', fontSize: 20 } }}
-                        rightComponent={{  icon: 'settings', color: '#fff', onPress: () => this.props.navigation.navigate("Home") }}
+                        rightComponent={{  icon: 'settings', color: '#fff', onPress: () => this.props.navigation.navigate("EditProfile") }}
                     />
                 </View>
                 <View style={styles.container}>
                     <View style={styles.profileImg}>
                         <View style={[styles.name]}>
-                            <Text style={{fontWeight:"bold"}}>Date of Visit: 18th Dec 2018</Text>
-                            <Text>Points Earned: 82</Text>
+                            <Text style={{fontWeight:"bold"}}>Date of Visit: {this.state.orderSummary.orderSummaryDate}</Text>
+                            <Text>Points Earned: {parseInt(this.state.orderSummary.totalAmount, 10)}</Text>
                         </View>
                     </View>
 
@@ -102,7 +129,15 @@ class TransactionDetailPage extends Component{
     }
 }
 
-export default TransactionDetailPage;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        user: state.user,
+        prefix: state.prefix,
+        navigation: ownProps.navigation
+    }
+}
+
+export default connect(mapStateToProps, null)(TransactionDetailPage);
 
 const styles = StyleSheet.create({
     container: {

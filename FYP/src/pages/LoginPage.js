@@ -24,11 +24,12 @@ class LoginPage extends Component {
     }
 
     authenticateUser = () =>{
-        let request = this.props.prefix + '/authenticate' + this.addParams();
+        let request = this.props.prefix + 'authenticate' + this.addParams();
         console.log('REQUEST');
         console.log(request);
         axios.get(request)
             .then(response =>{
+                console.log(response.data)
                 this.props.logIn(response.data);
                 this._signInAsync();
             }).catch(error=> {
@@ -109,15 +110,16 @@ class LoginPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         prefix: state.prefix,
-        navigation: ownProps.navigation
+        navigation: ownProps.navigation,
+        user: state.user
     }
 }
 
-const mapDispatchToProps = (state, ownProps) =>{
+const mapDispatchToProps = (dispatch, ownProps) =>{
     return {
         logIn: (customer) => dispatch({
             type: 'LOG_IN',
-            payload: product
+            payload: customer
         }),
         navigation: ownProps.navigation
     }

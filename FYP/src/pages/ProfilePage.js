@@ -25,18 +25,26 @@ class ProfilePage extends Component{
     }
 
     componentWillMount(){
-        var displaySummaries = this.props.user.orderSummaries.reverse().slice(0,3)
+        let request = this.props.prefix + 'customers/' + this.props.user.email;
+        console.log('Request:');
+        console.log(request);
+        axios.get(request)
+            .then(response => {
+                this.setDisplay(response.data.orderSummaries);
+            }).catch(error => console.log(error));
+    }
+
+    setDisplay(orderSummaries){
+        console.log('Setting Display');
+
+        var displaySummaries = orderSummaries.reverse().slice(0,3)
 
         let request = this.props.prefix + "orderSummary/getRestaurantName";
 
-        var content = []
-        for(var i = 0; i < displaySummaries.length; i++){
-            content= [...content, displaySummaries[i].orderSummaryId]
-        }
-
         console.log("REQUEST");
         console.log(request);
-        axios.get(request, content)
+        console.log(displaySummaries);
+        axios.post(request, displaySummaries)
             .then(response=>{
                 var newDisplay = [];
                 for(var i = 0; i<response.data.length; i++) {
@@ -49,7 +57,7 @@ class ProfilePage extends Component{
                     mounted:true
                 });
             }).catch(error=>{
-                console.log(error)
+            console.log(error)
         })
     }
 
@@ -149,7 +157,7 @@ class ProfilePage extends Component{
 
                     <View style={[styles.transaction_container,styles.box_shadow]}>
                         <View style={styles.section_header}>
-                            <Icon name='check' containerStyle={{marginLeft:10, rginRight:10}}/>
+                            <Icon name='check' containerStyle={{marginLeft:10, marginRight:10}}/>
                             <Text style={styles.section_header}>My Transactions</Text>
                         </View>
                         {this.state.mounted ? this.renderTransactions(this.state.display):<View></View>}
