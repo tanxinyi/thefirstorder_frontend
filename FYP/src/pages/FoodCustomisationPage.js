@@ -41,8 +41,6 @@ class FoodCustomisationPage extends Component {
         }
     }
 
-
-
     componentWillMount(){
         let request = this.props.prefix + "customisation/menu/" + this.params.foodPrice.menuFoodCatId.menuId
             + "/food/" + this.params.foodPrice.menuFoodCatId.foodId
@@ -95,15 +93,10 @@ class FoodCustomisationPage extends Component {
         console.log("Render Options");
         console.log(options)
         return options.map((option) => (
-            <RadioButton
-
-                key={option.customisationOptionId}
-                obj={{
-                    label: option.optionDescription + "(+ $" + option.optionPrice + ")",
-                    value: option.customisationOptionId
-                }}
+            <CheckBox
+                title={option.optionDescription + "(+ $" + option.optionPrice + ")"}
                 onPress={()=> this.onPress(index, option, name)}
-                isSelected={
+                checked={
                     this.state.selected[index] !== {} &&
                     this.state.selected[index].customisationOptionId === option.customisationOptionId
                 }
@@ -130,15 +123,13 @@ class FoodCustomisationPage extends Component {
                 key={customisation.customisationId}
             >
                 <Text>{customisation.customisationName} :</Text>
-                <RadioForm
-                    buttonColor={'#50C900'}
-                    formHorizontal={true}
-                    animation={true}
-                    labelHorixontal={false}
-                    selectedButtonColor= {'red'}
-                >
+                <View style={{
+                    flexDirection:'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
                     {this.renderOptions(customisation.customisationOptions, i, customisation.customisationName)}
-                </RadioForm>
+                </View>
             </View>
         ))
     }
@@ -192,33 +183,6 @@ class FoodCustomisationPage extends Component {
                         </ImageBackground>
 
                     </View>
-
-                    <View style={{
-                        flexDirection:'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginTop: '10%'
-                    }}>
-                        <CheckBox
-                            center
-                            title='A'
-                            checked={this.state.checked == 'A'}
-                            onPress={()=> this.setState({checked: 'A'})}
-                        />
-                        <CheckBox
-                            center
-                            title='B'
-                            checked={this.state.checked == 'B'}
-                            onPress={()=> this.setState({checked: 'B'})}
-                        />
-                        <CheckBox
-                            center
-                            title='C'
-                            checked={this.state.checked == 'C'}
-                            onPress={()=> this.setState({checked: 'C'})}
-                        />
-                    </View>
-
 
                     <Text>{this.params.foodPrice.availability ? '' : 'Sold Out'}</Text>
 
