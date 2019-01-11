@@ -4,6 +4,7 @@ import {
     Text,
     StyleSheet,
     Button,
+    ScrollView,
     Alert, Dimensions, TouchableOpacity
 } from "react-native";
 import CartItems from "../components/CartItems";
@@ -93,7 +94,7 @@ class CartScreen extends Component {
             )
         }
         return (
-            <View>
+            <View style={styles.container}>
                 <OrderHeader
                     navigation={this.props.navigation}
                     title='Cart'
@@ -101,7 +102,7 @@ class CartScreen extends Component {
                     onPress={this.props.navigation.goBack}
                 />
                 {this.props.cartItems.length > 0 ?
-                    <View>
+                    <View style={{flex:1}}>
                         <CartItems
                             cartItems={this.props.cartItems}
                             onPress={this.props.removeItem}
@@ -192,8 +193,8 @@ export default connect(mapStateToProps,mapDispatchToProps)(CartScreen);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent:'center',
+        alignItems: 'center'
     },
     button: {
         height: 45,
@@ -223,7 +224,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: '2%',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        margin: '12%',
         flex:1,
     }
 

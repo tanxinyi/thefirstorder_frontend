@@ -3,7 +3,7 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity,
+    TouchableOpacity, Dimensions,
 } from "react-native";
 import {
     Header,
@@ -35,11 +35,11 @@ const OrderHeader = (props) => (
                 {props.title}
             </Title>
         </Body>
-        <Right>
-            <TouchableOpacity onPress={()=> props.navigation.navigate('Cart')}>
+        <Right >
+            <TouchableOpacity style = {styles.cart} onPress={()=> props.navigation.navigate('Cart')}>
                 <CartIcon />
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=> props.navigation.navigate('Bill')}>
+            <TouchableOpacity style = {styles.bill}onPress={()=> props.navigation.navigate('Bill')}>
                 <BillIcon />
             </TouchableOpacity>
         </Right>
@@ -51,12 +51,27 @@ export default OrderHeader;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'black',
+        width: (Dimensions.get('window').width)
     },
     headerTitle:{
+        /*
         textAlign: 'center',
         flex:1,
         color: 'white',
         alignItems: 'center',
         justifyContent: 'center',
+        alignSelf: 'center',
+        */
+
+        marginRight: '25%',
+        marginLeft: '25%',
+    },
+    bill:{
+        marginRight: '3%',
+        marginTop: '8%',
+    },
+    cart:{
+        marginRight: '6%',
+        marginBottom: '8%',
     }
 })

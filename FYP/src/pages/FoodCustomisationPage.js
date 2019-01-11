@@ -179,7 +179,7 @@ class FoodCustomisationPage extends Component {
             <View style={styles.container}>
                 <OrderHeader
                     enableBack={true}
-                    title=''
+                    title='CUSTOMISE'
                     onPress={this.props.navigation.navigate.goBack}
                     navigation={this.props.navigation}
                 />
@@ -281,16 +281,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(FoodCustomisationPag
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'white',
     },
     floatingContainer: {
         flex:1,
-        position: 'absolute',
-        bottom: '2%',
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: Dimensions.get('window').width,
+        margin: '10%',
     },
     imageContainer: {
         width: Dimensions.get('window').width,
@@ -338,7 +336,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: (Dimensions.get('window').width)*0.28,
         borderRadius: 30,
-        bottom: '0%',
         backgroundColor: "#F67075",
     },
 
@@ -388,7 +385,6 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     cancelContainer: {
-        flexDirection: 'row',
         borderRadius: 30,
         backgroundColor: 'white',
         height: 45,

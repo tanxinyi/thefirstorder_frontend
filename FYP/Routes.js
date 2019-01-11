@@ -25,6 +25,8 @@ import ProfilePage from "./src/pages/ProfilePage";
 import ProfileEditPage from "./src/pages/ProfileEditPage";
 import TransactionsPage from "./src/pages/TransactionsPage";
 import TransactionDetailPage from "./src/pages/TransactionsDetailPage";
+import { fromLeft } from 'react-navigation-transitions';
+
 
 export const OrderStackNav = createStackNavigator({
     ScanningPage: ScanningPage,
@@ -37,7 +39,13 @@ export const OrderStackNav = createStackNavigator({
     Bill: BillScreen,
     PaymentDetails: PaymentDetailsScreen,
     Confirmation: PaymentConfirmationScreen
-},{
+},
+    {
+        initialRouteName: 'ScanningPage',
+        transitionConfig: () => fromLeft(),
+    },
+
+    {
     headerMode: 'none',
 })
 

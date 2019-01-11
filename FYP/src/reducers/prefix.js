@@ -1,5 +1,5 @@
 //https://makanow.herokuapp.com
-const prefix = (state = 'http://99dc4cef.ngrok.io/api/', action) =>{
+const prefix = (state = 'http://makanow.herokuapp.com/api/', action) =>{
     return state
 }
 

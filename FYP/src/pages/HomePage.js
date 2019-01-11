@@ -18,6 +18,8 @@ import {
 import RF from "react-native-responsive-fontsize"
 import EmptyCard from "../components/EmptyCard";
 import MenuIcon from "../components/MenuIcon";
+import * as Animatable from 'react-native-animatable';
+
 
 class HomePage extends Component {
     render() {
@@ -29,21 +31,21 @@ class HomePage extends Component {
                         <MenuIcon onPress={this.props.navigation.openDrawer}/>
                     </Left>
                     <Body style = {styles.headerTitle}>
-                        <Title>HOMEPAGE</Title>
+                        <Title >HOMEPAGE</Title>
                     </Body>
                 </Header>
                 <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                     <View style = {styles.overlay}>
                         <View style = {styles.logoPlaceholder}>
                             <Image source = {require('../images/makanow.jpg')} style = {styles.logo}/>
-                            <Text style = {styles.logoName}>MAKANOW</Text>
+                            <Animatable.Text animation="bounceInDown"  style = {styles.logoName}>MAKANOW</Animatable.Text>
                         </View>
                         <View style = {styles.options1}>
                             <TouchableOpacity onPress={()=> this.props.navigation.navigate('ScanningPage')} >
                                 <EmptyCard>
                                     <ImageBackground source = {require('../images/dineIn.jpg')} style = {styles.optionsPic}>
                                         <View style = {styles.overlayInner}>
-                                            <Text style = {styles.caption}>DINE IN</Text>
+                                            <Animatable.Text animation="bounceInDown"  style = {styles.caption}>DINE IN</Animatable.Text>
                                         </View>
                                     </ImageBackground>
 
@@ -55,7 +57,7 @@ class HomePage extends Component {
                                 <EmptyCard>
                                     <ImageBackground source = {require('../images/explore.jpg')} style = {styles.optionsPic}>
                                         <View style = {styles.overlayInner}>
-                                            <Text style = {styles.caption}>EXPLORE</Text>
+                                            <Animatable.Text animation="bounceInDown"  style = {styles.caption}>EXPLORE</Animatable.Text>
                                         </View>
                                     </ImageBackground>
                                 </EmptyCard>

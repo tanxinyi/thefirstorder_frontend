@@ -8,6 +8,8 @@ import {
     Image,
     ImageBackground
 } from "react-native";
+import * as Animatable from 'react-native-animatable';
+
 
 import GridView from 'react-native-super-grid';
 import axios from "axios";
@@ -116,7 +118,7 @@ class Categories extends Component {
                                         <View style={styles.itemContainer}>
                                             <Image source={require('../images/explore.jpg')} style={styles.image} />
                                             <View style = {styles.overlayInner}>
-                                                <Text style={styles.itemName}>{item.foodCategoryName}</Text>
+                                                <Animatable.Text animation="bounceInDown"  style={styles.itemName}>{item.foodCategoryName}</Animatable.Text>
                                             </View>
                                         </View>
                                     </TouchableOpacity>

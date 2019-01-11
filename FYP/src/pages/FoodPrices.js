@@ -15,6 +15,7 @@ import {connect} from "react-redux";
 import GridView from "react-native-super-grid";
 import OrderHeader from "../components/OrderHeader";
 import RF from "react-native-responsive-fontsize/index";
+import * as Animatable from "react-native-animatable";
 
 
 class FoodPrices extends Component {
@@ -101,7 +102,7 @@ class FoodPrices extends Component {
                             <View style = {styles.topContainer}>
                                 <ImageBackground source = {require('../images/dineIn.jpg')} style = {styles.image}>
                                     <View style = {styles.overlayInner2}>
-                                        <Text style = {styles.caption}> {this.params.categoryName} </Text>
+                                        <Animatable.Text animation="bounceInDown" style = {styles.caption}> {this.params.categoryName} </Animatable.Text>
                                     </View>
                                 </ImageBackground>
                             </View>
@@ -116,8 +117,8 @@ class FoodPrices extends Component {
                                                 <Image source={require('../images/explore.jpg')} style={styles.image} />
                                             </View>
                                             <View style = {styles.captionContainer}>
-                                                <Text style={styles.itemName}>{item.food.foodName}</Text>
-                                                <Text style={styles.itemName}>${item.foodPrice}</Text>
+                                                <Animatable.Text animation="bounceInDown" style={styles.itemName}>{item.food.foodName}</Animatable.Text>
+                                                <Animatable.Text animation="bounceInDown" style={styles.itemName}>${item.foodPrice}</Animatable.Text>
 
                                             </View>
                                         </View>

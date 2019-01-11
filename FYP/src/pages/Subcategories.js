@@ -13,6 +13,8 @@ import GridView from "react-native-super-grid";
 import OrderHeader from "../components/OrderHeader";
 import RF from "react-native-responsive-fontsize/index";
 import EmptyCard from "../components/EmptyCard";
+import * as Animatable from 'react-native-animatable';
+
 
 class Subcategories extends Component {
     constructor(props){
@@ -120,7 +122,7 @@ class Subcategories extends Component {
                                 <View style = {styles.topContainer}>
                                     <ImageBackground source = {require('../images/dineIn.jpg')} style = {styles.image}>
                                         <View style = {styles.overlayInner2}>
-                                            <Text style = {styles.caption}> {this.params.categoryName} </Text>
+                                            <Animatable.Text animation="bounceInDown" style = {styles.caption}> {this.params.categoryName} </Animatable.Text>
                                         </View>
                                     </ImageBackground>
 
@@ -134,7 +136,7 @@ class Subcategories extends Component {
                                             <View style={styles.itemContainer}>
                                                 <Image source={require('../images/explore.jpg')} style={styles.image} />
                                                 <View style = {styles.overlayInner}>
-                                                    <Text style={styles.itemName}>{item.subCategoryName}</Text>
+                                                    <Animatable.Text animation="bounceInDown" style={styles.itemName}>{item.subCategoryName}</Animatable.Text>
                                                 </View>
                                             </View>
                                         </TouchableOpacity>

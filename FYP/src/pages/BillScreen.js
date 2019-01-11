@@ -37,7 +37,7 @@ class BillScreen extends Component {
     render() {
         let prices = this.calculatePrice(this.props.billItems);
         return (
-            <View>
+            <View style={styles.container}>
                 <OrderHeader
                     navigation={this.props.navigation}
                     title='Bill'
@@ -45,7 +45,7 @@ class BillScreen extends Component {
                     onPress={this.props.navigation.goBack}
                 />
                 {this.props.billItems.length > 0 ?
-                    <View>
+                    <View style={{flex:1}}>
                             <BillItems
                                 billItems={this.props.billItems}
                                 round2DP={this.round2DP}
