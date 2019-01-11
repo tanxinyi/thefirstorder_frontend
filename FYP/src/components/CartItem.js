@@ -47,22 +47,24 @@ class CartItem extends Component {
                     <View style = {styles.itemPriceContainer}>
                         <Text style = {styles.price}> ${this.props.cartItem.customerOrderPrice} </Text>
                     </View>
-                    <Icon
-                        style = {styles.delete}
-                        name='delete'
-                        type='AntDesign'
-                        raised={false}
-                        onPress={()=> {
-                            Alert.alert(
-                                'Remove Item',
-                                'Remove ' + this.props.cartItem.name + ' from cart?',
-                                [
-                                    {text: 'Yes', onPress: () => this.props.onPress(this.props.cartItem)},
-                                    {text: 'No', style:'cancel'}
-                                ]
-                            )
-                        }}
-                    />
+                    <View style = {styles.icon}>
+                        <Icon
+                            style = {styles.delete}
+                            name='delete'
+                            type='AntDesign'
+                            raised={false}
+                            onPress={()=> {
+                                Alert.alert(
+                                    'Remove Item',
+                                    'Remove ' + this.props.cartItem.name + ' from cart?',
+                                    [
+                                        {text: 'Yes', onPress: () => this.props.onPress(this.props.cartItem)},
+                                        {text: 'No', style:'cancel'}
+                                    ]
+                                )
+                            }}
+                        />
+                    </View>
                 </View>
 
             </Card>
@@ -132,6 +134,7 @@ const styles = StyleSheet.create({
 
     itemCustomisation: {
         fontSize: RF(2),
+        textAlign: 'center',
     },
 
     delete:{
@@ -142,5 +145,11 @@ const styles = StyleSheet.create({
         fontSize: RF(2.5),
         color: 'black',
         textAlign: 'center',
-    }
+    },
+    icon:{
+        flex: 1,
+        alignItems:'center',
+        justifyContent: 'center',
+    },
+
 })

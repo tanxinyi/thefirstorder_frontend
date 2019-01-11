@@ -5,7 +5,8 @@ import {
     StyleSheet,
     SafeAreaView,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    AsyncStorage
 } from "react-native";
 import {DrawerItems} from "react-navigation";
 import MenuIcon from "./MenuIcon";
@@ -20,6 +21,16 @@ const DrawerComponent = (props) => (
         <ScrollView>
             <DrawerItems {...props}/>
         </ScrollView>
+        <TouchableOpacity
+
+            onPress={async()=>{
+                await AsyncStorage.clear();
+                props.navigation.navigate('SignIn')
+        }}>
+            <Text>
+                Logout
+            </Text>
+        </TouchableOpacity>
     </SafeAreaView>
 );
 
@@ -30,6 +41,7 @@ const styles = StyleSheet.create({
         height:150,
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row'
-    }
+        flexDirection: 'row',
+    },
+
 })

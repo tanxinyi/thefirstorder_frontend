@@ -15,7 +15,7 @@ class ScanningPage extends Component {
                 <Button
                     title='Enter Order Main Page'
                     onPress={()=>this.props.navigation.navigate('OrderMain', {
-                        qrCodeString:'T001'
+                        qrCodeString:'T005'
                     })}
                 />
             </View>

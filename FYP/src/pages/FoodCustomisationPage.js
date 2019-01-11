@@ -9,7 +9,11 @@ import {
     Alert,
     ScrollView, Dimensions, ImageBackground,
 } from "react-native";
-import {Card, Icon} from 'react-native-elements'
+import {
+    Card,
+    Icon,
+    CheckBox
+} from 'react-native-elements'
 import RadioForm, {
     RadioButton,
     RadioButtonInput,
@@ -32,7 +36,8 @@ class FoodCustomisationPage extends Component {
             mounted: false,
             quantity: 1,
             remarks: '',
-            selected: []
+            selected: [],
+            checked: false,
         }
     }
 
@@ -60,7 +65,6 @@ class FoodCustomisationPage extends Component {
 
     decreaseCount(){
         if(this.state.quantity == 1){return}
-        y
     }
 
     initialiseSelected(customisations){
@@ -169,10 +173,11 @@ class FoodCustomisationPage extends Component {
                 <OrderHeader
                     enableBack={true}
                     title='CUSTOMISE'
-                    onPress={this.props.navigation.navigate.goBack}
+                    onPress={this.props.navigation.goBack}
                     navigation={this.props.navigation}
                 />
                 <ScrollView>
+                    {/*Header Image + Card*/}
                     <View style = {styles.imageContainer}>
                         <ImageBackground source={require('../images/dessert.jpg')} style={styles.image}>
                             <View style = {styles.overlay}>
@@ -188,10 +193,41 @@ class FoodCustomisationPage extends Component {
 
                     </View>
 
+                    <View style={{
+                        flexDirection:'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginTop: '10%'
+                    }}>
+                        <CheckBox
+                            center
+                            title='A'
+                            checked={this.state.checked == 'A'}
+                            onPress={()=> this.setState({checked: 'A'})}
+                        />
+                        <CheckBox
+                            center
+                            title='B'
+                            checked={this.state.checked == 'B'}
+                            onPress={()=> this.setState({checked: 'B'})}
+                        />
+                        <CheckBox
+                            center
+                            title='C'
+                            checked={this.state.checked == 'C'}
+                            onPress={()=> this.setState({checked: 'C'})}
+                        />
+                    </View>
+
 
                     <Text>{this.params.foodPrice.availability ? '' : 'Sold Out'}</Text>
 
-                    {this.state.mounted? this.renderCustomisations(this.state.customisations) : <View style ={styles.customisations}></View>}
+                    {/* Customisation Options*/}
+                    {this.state.mounted?
+                        this.renderCustomisations(this.state.customisations) :
+                        <View style ={styles.customisations}></View>
+                    }
+                    {/* Special Remarks*/}
                     <Text style = {styles.remarksQn}> Any special remarks: </Text>
                     <TextInput
                         style = {styles.remarks}
@@ -199,6 +235,7 @@ class FoodCustomisationPage extends Component {
                         value={this.state.remark}
                     />
                 </ScrollView>
+                {/*Buttons*/}
                 <View style={styles.floatingContainer}>
                     <View style ={styles.cancelContainer}>
                         <Text style = {styles.cancelText}> CANCEL </Text>
@@ -238,7 +275,7 @@ class FoodCustomisationPage extends Component {
 
                             }}
                         >
-                            <Text style = {styles.buttonText}>ADD TO CART!</Text>
+                            <Text style = {styles.buttonText}>ADD ME!</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -277,14 +314,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: Dimensions.get('window').width,
-        marginLeft: '10%',
-        marginRight: '10%',
+        marginLeft: '8%',
+        marginRight: '0%',
         marginBottom: '0%'
     },
     imageContainer: {
         width: Dimensions.get('window').width,
         height: (Dimensions.get('window').height)*0.30,
-
+        marginBottom: '15%'
     },
     image: {
         flex: 1,
@@ -341,11 +378,14 @@ const styles = StyleSheet.create({
         width: (Dimensions.get('window').width)*0.28,
         borderWidth: 0.5,
         borderColor: 'black',
+        marginLeft: '2%',
+        marginRight: '2%',
 
 
     },
     addCart:{
         flex: 1,
+        width: ((Dimensions.get('window').width)*0.28)+10,
 
     },
     remarks: {

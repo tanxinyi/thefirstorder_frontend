@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         bottom: '0%',
         backgroundColor: "#F67075",
+        marginLeft: '2%',
     },
     clearCartContainer:{
         flexDirection: 'row',
@@ -218,6 +219,7 @@ const styles = StyleSheet.create({
         width: (Dimensions.get('window').width)*0.40,
         borderWidth: 0.5,
         borderColor: 'black',
+        marginRight: '2%',
     },
     clearCartText:{
         fontSize: RF(2.5),
