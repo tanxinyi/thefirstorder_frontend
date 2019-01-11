@@ -113,7 +113,7 @@ class Subcategories extends Component {
                     <View style = {styles.backgroundContainer}>
                         <OrderHeader
                             navigation={this.props.navigation}
-                            title={this.props.seatingInformation.restaurant.restaurantName}
+                            title='MENU'
                             enableBack={true}
                             onPress={this.props.navigation.goBack}
                         />

@@ -19,7 +19,7 @@ import MenuIcon from "./MenuIcon";
 
 const OrderHeader = (props) => (
     <Header style={styles.container}>
-        <Left>
+        <Left style={{flex: 1}}>
             <View style={{flexDirection: 'row'}}>
                 {props.enableBack ?
                     <TouchableOpacity onPress={()=> props.onPress()}>
@@ -35,7 +35,7 @@ const OrderHeader = (props) => (
                 {props.title}
             </Title>
         </Body>
-        <Right >
+        <Right style={{flex:1}}>
             <TouchableOpacity style = {styles.cart} onPress={()=> props.navigation.navigate('Cart')}>
                 <CartIcon />
             </TouchableOpacity>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center',
         */
-
+        flex:1,
         marginRight: '25%',
         marginLeft: '25%',
     },

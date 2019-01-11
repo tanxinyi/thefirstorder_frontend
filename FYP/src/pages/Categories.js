@@ -29,36 +29,6 @@ class Categories extends Component {
         }
     }
 
-    static navigationOptions = ({navigation}) => {
-        return {
-            headerTitle: 'Categories',
-            headerLeft:
-                <TouchableOpacity
-                    onPress={()=>{
-                        Alert.alert(
-                            'Confirm exit Dine-in?',
-                            'Cart and bill information will not be retained',
-                            [
-                                {text: 'Exit', onPress: () => navigation.navigate('ScanningPage')},
-                                {text:'Cancel', style:'cancel'}
-                            ]
-                        )
-                    }}
-                >
-                    <Icon name='cross' size={30}/>
-                </TouchableOpacity>,
-            headerRight:
-                <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
-                        <CartIcon />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Bill')}>
-                        <BillIcon />
-                    </TouchableOpacity>
-                </View>
-        }
-    }
-
     componentWillMount(){
         let request = this.props.prefix + "menu/" + this.props.seatingInformation.menu.menuId + "/categories";
         console.log('Request: ' + request);
@@ -101,7 +71,7 @@ class Categories extends Component {
                 <View style = {styles.backgroundContainer}>
                     <OrderHeader
                         navigation={this.props.navigation}
-                        title={this.props.seatingInformation.restaurant.restaurantName}
+                        title='MENU'
                         enableBack={false}
                     />
                     <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >

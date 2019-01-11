@@ -36,20 +36,7 @@ class FoodCustomisationPage extends Component {
         }
     }
 
-    static navigationOptions = ({navigation}) => {
-        return {
-            headerTitle: 'Food Customisation Page',
-            headerRight:
-                <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
-                        <CartIcon />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Bill')}>
-                        <BillIcon />
-                    </TouchableOpacity>
-                </View>
-        }
-    }
+
 
     componentWillMount(){
         let request = this.props.prefix + "customisation/menu/" + this.params.foodPrice.menuFoodCatId.menuId
@@ -105,6 +92,7 @@ class FoodCustomisationPage extends Component {
         console.log(options)
         return options.map((option) => (
             <RadioButton
+
                 key={option.customisationOptionId}
                 obj={{
                     label: option.optionDescription + "(+ $" + option.optionPrice + ")",
@@ -139,6 +127,7 @@ class FoodCustomisationPage extends Component {
             >
                 <Text>{customisation.customisationName} :</Text>
                 <RadioForm
+                    buttonColor={'#50C900'}
                     formHorizontal={true}
                     animation={true}
                     labelHorixontal={false}
@@ -288,7 +277,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: Dimensions.get('window').width,
-        margin: '10%',
+        marginLeft: '10%',
+        marginRight: '10%',
+        marginBottom: '0%'
     },
     imageContainer: {
         width: Dimensions.get('window').width,

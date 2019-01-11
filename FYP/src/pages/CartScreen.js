@@ -96,6 +96,7 @@ class CartScreen extends Component {
         return (
             <View style={styles.container}>
                 <OrderHeader
+                    style = {styles.header}
                     navigation={this.props.navigation}
                     title='Cart'
                     enableBack={true}
@@ -148,7 +149,9 @@ class CartScreen extends Component {
                         </View>
                     </View>
                     :
-                    <Text>No items in your cart</Text>
+                    <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+                        <Text>No items in your cart</Text>
+                    </View>
                 }
 
             </View>
@@ -226,6 +229,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         margin: '12%',
         flex:1,
+    },
+    header:{
+        position: 'absolute',
+        top:0,
     }
 
 });

@@ -21,10 +21,6 @@ class PaymentDetailsScreen extends Component {
         }
     }
 
-    static navigationOptions = {
-        headerTitle:"Payment"
-    }
-
     render() {
         return (
             <View>

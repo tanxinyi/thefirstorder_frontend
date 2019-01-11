@@ -39,14 +39,10 @@ export const OrderStackNav = createStackNavigator({
     Bill: BillScreen,
     PaymentDetails: PaymentDetailsScreen,
     Confirmation: PaymentConfirmationScreen
-},
-    {
-        initialRouteName: 'ScanningPage',
-        transitionConfig: () => fromLeft(),
-    },
-
-    {
+},{
     headerMode: 'none',
+    initialRouteName: 'ScanningPage',
+    transitionConfig: () => fromLeft(),
 })
 
 export const ExploreStackNav = createStackNavigator({

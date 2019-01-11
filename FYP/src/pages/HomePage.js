@@ -13,7 +13,8 @@ import {
     Header,
     Left,
     Body,
-    Title
+    Title,
+    Right
 } from 'native-base'
 import RF from "react-native-responsive-fontsize"
 import EmptyCard from "../components/EmptyCard";
@@ -27,12 +28,15 @@ class HomePage extends Component {
         return (
             <View style = {styles.backgroundContainer}>
                 <Header style = {styles.header}>
-                    <Left>
+                    <Left style={{flex:1}}>
                         <MenuIcon onPress={this.props.navigation.openDrawer}/>
                     </Left>
-                    <Body style = {styles.headerTitle}>
+                    <Body style={styles.headerTitle}>
                         <Title >HOMEPAGE</Title>
                     </Body>
+                    <Right style={{flex:1}}>
+                        <View/>
+                    </Right>
                 </Header>
                 <ImageBackground source={require('../images/background.jpg')} style={styles.backgroundImage} >
                     <View style = {styles.overlay}>

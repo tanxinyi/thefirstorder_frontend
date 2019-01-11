@@ -66,7 +66,9 @@ class BillScreen extends Component {
                         </TouchableOpacity>
                     </View>
                     :
-                    <Text>No items in your bill</Text>
+                    <View style={styles.container}>
+                        <Text>No items in your bill</Text>
+                    </View>
                 }
             </View>
         );

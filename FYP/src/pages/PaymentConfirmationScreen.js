@@ -24,10 +24,6 @@ class PaymentConfirmationScreen extends Component {
         }
     }
 
-    static navigationOptions = {
-        headerTitle:"Payment"
-    }
-
     stripeTokenCall(){
         let request = "https://api.stripe.com/v1/" + "tokens?" + this.addTokenParams();
         console.log('REQUEST:');

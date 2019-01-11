@@ -29,21 +29,6 @@ class FoodPrices extends Component {
         }
     }
 
-    static navigationOptions = ({navigation}) => {
-        return {
-            headerTitle: 'FoodPrices',
-            headerRight:
-                <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Cart')}>
-                        <CartIcon />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Bill')}>
-                        <BillIcon />
-                    </TouchableOpacity>
-                </View>
-        }
-    }
-
     componentWillMount(){
         console.log(this.params);
         let request = this.props.prefix + "foodPrices/menu/" + this.props.seatingInformation.menu.menuId + "/category/" + this.params.categoryId;
@@ -93,7 +78,7 @@ class FoodPrices extends Component {
                 <View style = {styles.backgroundContainer}>
                     <OrderHeader
                         navigation={this.props.navigation}
-                        title={this.props.seatingInformation.restaurant.restaurantName}
+                        title='MENU'
                         enableBack={true}
                         onPress={this.onPress.bind(this)}
                     />
